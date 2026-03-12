@@ -1,3 +1,24 @@
+<script setup>
+import { Head, Link } from '@inertiajs/vue3';
+
+defineProps({
+    canLogin: {
+        type: Boolean,
+    },
+    canRegister: {
+        type: Boolean,
+    },
+    laravelVersion: {
+        type: String,
+        required: true,
+    },
+    phpVersion: {
+        type: String,
+        required: true,
+    },
+});
+</script>
+
 <template>
     <Head title="Bienvenido a Canal360" />
     <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 min-h-screen flex flex-col justify-center items-center selection:bg-[#FF2D20] selection:text-white relative overflow-hidden">
@@ -27,6 +48,13 @@
                             class="rounded-md px-4 py-2 text-black ring-1 ring-gray-300 font-semibold transition hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-800"
                         >
                             Iniciar Sesión
+                        </Link>
+                        <Link
+                            v-if="canRegister"
+                            :href="route('register')"
+                            class="rounded-md px-4 py-2 bg-gray-800 text-white font-semibold transition hover:bg-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100"
+                        >
+                            Registrarse
                         </Link>
                     </template>
                 </nav>
