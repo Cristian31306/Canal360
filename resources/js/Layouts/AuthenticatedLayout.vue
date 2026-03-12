@@ -54,12 +54,10 @@ const isActiveMenu = (itemRouteName) => {
 
             <div
                 class="h-16 flex items-center justify-center border-b border-slate-800 bg-slate-950 px-4 transition-all duration-300">
-                <Link :href="route('dashboard')" class="flex items-center gap-2 w-full justify-center"
-                    :class="{ 'px-0': isSidebarCollapsed }">
-                    <img src="/logo.png" alt="Canal360" :class="isSidebarCollapsed ? 'h-8' : 'h-8'"
-                        class="w-auto flex-shrink-0 transition-all duration-300" />
-                    <span class="font-bold text-xl tracking-wide truncate transition-all duration-300"
-                        v-show="!isSidebarCollapsed">Canal360</span>
+                <Link :href="route('dashboard')" class="flex items-center h-full w-full px-4"
+                    :class="{ 'justify-center px-0': isSidebarCollapsed }">
+                    <span v-show="!isSidebarCollapsed" class="font-black text-2xl tracking-tighter text-white truncate">Canal<span class="text-blue-500"> Asesores</span></span>
+                    <span v-show="isSidebarCollapsed" class="font-black text-2xl text-blue-500">C<span class="text-white">A</span></span>
                 </Link>
             </div>
 
@@ -131,7 +129,7 @@ const isActiveMenu = (itemRouteName) => {
                                 d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <img src="/logo.png" alt="Canal360" class="h-6 w-auto ml-3" />
+                    <span class="text-xl font-black tracking-tighter text-slate-900 dark:text-white ml-3">Canal<span class="text-blue-600"> Asesores</span></span>
                 </div>
 
                 <!-- Header Title slot (desktop) -->
