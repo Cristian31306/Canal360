@@ -6,20 +6,42 @@ import { Head, Link, router } from '@inertiajs/vue3';
 const props = defineProps({
     polizas: Object,
     filters: Object,
+    aseguradoras: Array,
+    ramos: Array,
+    clientes: Array,
 });
 
 const searchQuery = ref(props.filters?.search || '');
+const showFilters = ref(false);
+
+const advancedFilters = ref({
+    aseguradora_id: props.filters?.aseguradora_id || '',
+    ramo_id: props.filters?.ramo_id || '',
+    cliente_id: props.filters?.cliente_id || '',
+    anio: props.filters?.anio || '',
+    fecha_tipo: props.filters?.fecha_tipo || 'inicio_vigencia',
+});
 
 const handleSearch = () => {
     router.get(
         route('polizas.index'),
-        { search: searchQuery.value },
+        { 
+            search: searchQuery.value,
+            ...advancedFilters.value
+        },
         { preserveState: true, replace: true }
     );
 };
 
 const clearSearch = () => {
     searchQuery.value = '';
+    advancedFilters.value = {
+        aseguradora_id: '',
+        ramo_id: '',
+        cliente_id: '',
+        anio: '',
+        fecha_tipo: 'inicio_vigencia',
+    };
     handleSearch();
 };
 
@@ -93,7 +115,7 @@ const formatDate = (dateString) => {
                                 class="inline-flex items-center justify-center rounded-md bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 dark:bg-gray-700 dark:text-white dark:ring-gray-600 dark:hover:bg-gray-600 transition-colors">
                                 Buscar
                             </button>
-                            <button v-if="filters?.search" type="button" @click="clearSearch"
+                             <button v-if="filters?.search || filters?.aseguradora_id || filters?.ramo_id || filters?.cliente_id || filters?.anio" type="button" @click="clearSearch"
                                 class="inline-flex items-center justify-center rounded-md bg-white px-3 py-2.5 text-sm font-semibold text-red-600 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-red-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 dark:bg-gray-700 dark:ring-gray-600 dark:hover:bg-gray-600 transition-colors"
                                 title="Limpiar búsqueda">
                                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -102,7 +124,61 @@ const formatDate = (dateString) => {
                                         clip-rule="evenodd" />
                                 </svg>
                             </button>
+                            <button type="button" @click="showFilters = !showFilters"
+                                :class="[showFilters ? 'bg-emerald-50 text-emerald-700 ring-emerald-600/20' : 'bg-white text-gray-700 ring-gray-300 hover:bg-gray-50']"
+                                class="inline-flex items-center justify-center rounded-md px-4 py-2.5 text-sm font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 dark:bg-gray-700 dark:text-white dark:ring-gray-600 transition-colors">
+                                <svg class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M2.628 1.601C5.028 1.206 7.49 1 10 1s4.972.206 7.372.601a.75.75 0 01.628.74v2.288a2.25 2.25 0 01-.659 1.59l-4.682 4.683a2.25 2.25 0 00-.659 1.59v3.037c0 .684-.31 1.33-.844 1.757l-1.937 1.55a.75.75 0 01-1.219-.585V11.75a2.25 2.25 0 00-.659-1.59l-4.682-4.683a2.25 2.25 0 01-.659-1.59V2.34a.75.75 0 01.628-.74z" clip-rule="evenodd" />
+                                </svg>
+                                Filtros
+                            </button>
                         </form>
+                    </div>
+                </div>
+
+                <!-- Advanced Filters Panel -->
+                <div v-show="showFilters" class="border-b border-gray-200 bg-gray-50/50 px-4 py-4 sm:px-6 dark:border-gray-700 dark:bg-gray-800/30">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <!-- Aseguradora -->
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Aseguradora</label>
+                            <select v-model="advancedFilters.aseguradora_id" @change="handleSearch"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm dark:bg-gray-700 dark:text-white dark:ring-gray-600">
+                                <option value="">Todas</option>
+                                <option v-for="aseg in aseguradoras" :key="aseg.id" :value="aseg.id">{{ aseg.nombre }}</option>
+                            </select>
+                        </div>
+                        <!-- Ramo -->
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Ramo</label>
+                            <select v-model="advancedFilters.ramo_id" @change="handleSearch"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm dark:bg-gray-700 dark:text-white dark:ring-gray-600">
+                                <option value="">Todos</option>
+                                <option v-for="ramo in ramos" :key="ramo.id" :value="ramo.id">{{ ramo.nombre }}</option>
+                            </select>
+                        </div>
+                        <!-- Cliente -->
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Cliente</label>
+                            <select v-model="advancedFilters.cliente_id" @change="handleSearch"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm dark:bg-gray-700 dark:text-white dark:ring-gray-600">
+                                <option value="">Todos</option>
+                                <option v-for="cli in clientes" :key="cli.id" :value="cli.id">{{ cli.nombre_razon_social }}</option>
+                            </select>
+                        </div>
+                        <!-- Año y Tipo Fecha -->
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Año e Historial</label>
+                            <div class="flex gap-2">
+                                <input type="number" v-model="advancedFilters.anio" @change="handleSearch" placeholder="Año (Ej: 2024)"
+                                    class="block w-24 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm dark:bg-gray-700 dark:text-white dark:ring-gray-600">
+                                <select v-model="advancedFilters.fecha_tipo" @change="handleSearch"
+                                    class="block flex-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm dark:bg-gray-700 dark:text-white dark:ring-gray-600">
+                                    <option value="inicio_vigencia">Vigencia</option>
+                                    <option value="expedicion_fecha">Expedición</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

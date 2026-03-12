@@ -17,23 +17,52 @@ class PolizaController extends Controller
     {
         $query = Poliza::with(['aseguradora', 'ramo', 'riesgo', 'clientes']);
 
+        // Filtro de búsqueda general
         if ($request->has('search')) {
             $search = $request->get('search');
-            $query->where('numero_poliza', 'like', "%{$search}%")
-                  ->orWhereHas('aseguradora', function($q) use ($search) {
-                      $q->where('nombre', 'like', "%{$search}%");
+            $query->where(function($q) use ($search) {
+                $q->where('numero_poliza', 'like', "%{$search}%")
+                  ->orWhereHas('aseguradora', function($sq) use ($search) {
+                      $sq->where('nombre', 'like', "%{$search}%");
                   })
-                  ->orWhereHas('clientes', function($q) use ($search) {
-                      $q->where('nombre_razon_social', 'like', "%{$search}%")
+                  ->orWhereHas('clientes', function($sq) use ($search) {
+                      $sq->where('nombre_razon_social', 'like', "%{$search}%")
                         ->orWhere('numero_documento', 'like', "%{$search}%");
                   });
+            });
         }
 
-        $polizas = $query->latest()->paginate(10);
+        // Filtro por Aseguradora
+        if ($request->filled('aseguradora_id')) {
+            $query->where('aseguradora_id', $request->aseguradora_id);
+        }
+
+        // Filtro por Ramo
+        if ($request->filled('ramo_id')) {
+            $query->where('ramo_id', $request->ramo_id);
+        }
+
+        // Filtro por Cliente
+        if ($request->filled('cliente_id')) {
+            $query->whereHas('clientes', function($q) use ($request) {
+                $q->where('clientes.id', $request->cliente_id);
+            });
+        }
+
+        // Filtro por Año (Vigencia o Expedición)
+        if ($request->filled('anio')) {
+            $column = $request->get('fecha_tipo', 'inicio_vigencia'); // Default a inicio_vigencia si no se especifica
+            $query->whereYear($column, $request->anio);
+        }
+
+        $polizas = $query->latest()->paginate(10)->withQueryString();
 
         return Inertia::render('Polizas/Index', [
             'polizas' => $polizas,
-            'filters' => $request->only('search')
+            'filters' => $request->all(['search', 'aseguradora_id', 'ramo_id', 'cliente_id', 'anio', 'fecha_tipo']),
+            'aseguradoras' => Aseguradora::orderBy('nombre')->get(['id', 'nombre']),
+            'ramos' => Ramo::orderBy('nombre')->get(['id', 'nombre']),
+            'clientes' => Cliente::orderBy('nombre_razon_social')->get(['id', 'nombre_razon_social']),
         ]);
     }
 
