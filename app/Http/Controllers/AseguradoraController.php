@@ -1,0 +1,170 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Aseguradora;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+class AseguradoraController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $query = Aseguradora::query();
+        
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('nombre', 'like', "%{$search}%")
+                  ->orWhere('nit', 'like', "%{$search}%")
+                  ->orWhereHas('contactos', function($q) use ($search) {
+                      $q->where('nombre', 'like', "%{$search}%");
+                  });
+        }
+        
+        $aseguradoras = $query->with('contactos')->latest()->paginate(10);
+        return Inertia::render('Aseguradoras/Index', [
+            'aseguradoras' => $aseguradoras,
+            'filters' => $request->only('search')
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return Inertia::render('Aseguradoras/Create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'nit' => 'required|string|max:50|unique:aseguradoras,nit',
+            'contactos' => 'nullable|array',
+            'contactos.*.rol' => 'required|string|max:255',
+            'contactos.*.nombre' => 'required|string|max:255',
+            'contactos.*.telefono' => 'nullable|string|max:50',
+            'contactos.*.email' => 'nullable|email|max:255',
+            'logo' => 'nullable|image|max:2048',
+        ]);
+
+        $data = [
+            'nombre' => $validated['nombre'],
+            'nit' => $validated['nit']
+        ];
+
+        if ($request->hasFile('logo')) {
+            $data['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
+        $aseguradora = Aseguradora::create($data);
+
+        if (!empty($validated['contactos'])) {
+            $aseguradora->contactos()->createMany($validated['contactos']);
+        }
+
+        return redirect()->route('aseguradoras.index')->with('success', 'Aseguradora registrada exitosamente.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $aseguradora = Aseguradora::with('contactos')->findOrFail($id);
+        return Inertia::render('Aseguradoras/Show', [
+            'aseguradora' => $aseguradora
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $aseguradora = Aseguradora::with('contactos')->findOrFail($id);
+        return Inertia::render('Aseguradoras/Edit', [
+            'aseguradora' => $aseguradora
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $aseguradora = Aseguradora::findOrFail($id);
+
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'nit' => 'required|string|max:50|unique:aseguradoras,nit,'.$aseguradora->id,
+            'contactos' => 'nullable|array',
+            'contactos.*.id' => 'nullable|integer|exists:contacto_aseguradoras,id',
+            'contactos.*.rol' => 'required|string|max:255',
+            'contactos.*.nombre' => 'required|string|max:255',
+            'contactos.*.telefono' => 'nullable|string|max:50',
+            'contactos.*.email' => 'nullable|email|max:255',
+            'logo' => 'nullable|image|max:2048',
+        ]);
+
+        $data = [
+            'nombre' => $validated['nombre'],
+            'nit' => $validated['nit']
+        ];
+
+        if ($request->hasFile('logo')) {
+            if ($aseguradora->logo) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($aseguradora->logo);
+            }
+            $data['logo'] = $request->file('logo')->store('logos', 'public');
+        } elseif ($request->boolean('remove_logo')) {
+            if ($aseguradora->logo) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($aseguradora->logo);
+            }
+            $data['logo'] = null;
+        }
+
+        $aseguradora->update($data);
+
+        if (isset($validated['contactos']) && is_array($validated['contactos'])) {
+            $contactosExistentesIds = [];
+
+            foreach ($validated['contactos'] as $contactoData) {
+                if (!empty($contactoData['id'])) {
+                    $contacto = $aseguradora->contactos()->find($contactoData['id']);
+                    if ($contacto) {
+                        $contacto->update($contactoData);
+                        $contactosExistentesIds[] = $contacto->id;
+                    }
+                } else {
+                    $nuevoContacto = $aseguradora->contactos()->create($contactoData);
+                    $contactosExistentesIds[] = $nuevoContacto->id;
+                }
+            }
+            // Eliminar contactos que ya no estén en la lista
+            $aseguradora->contactos()->whereNotIn('id', $contactosExistentesIds)->delete();
+        } else {
+            $aseguradora->contactos()->delete();
+        }
+
+        return redirect()->route('aseguradoras.index')->with('success', 'Aseguradora actualizada exitosamente.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $aseguradora = Aseguradora::findOrFail($id);
+        $aseguradora->delete();
+
+        return redirect()->route('aseguradoras.index')->with('success', 'Aseguradora eliminada exitosamente.');
+    }
+}
