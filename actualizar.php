@@ -36,6 +36,7 @@ ejecutar('git pull origin main', 'Bajando últimos cambios de Git');
 
 // 2. Comandos Vitales de Laravel
 $pasos = [
+    ['cmd' => 'composer install --no-dev --optimize-autoloader', 'desc' => 'Instalando dependencias de PHP (Composer)'],
     ['cmd' => 'php artisan key:generate --force', 'desc' => 'Generando llave de seguridad'],
     ['cmd' => 'php artisan migrate --force', 'desc' => 'Actualizando tablas de base de datos'],
     ['cmd' => 'php artisan db:seed --class=SettingSeeder --force', 'desc' => 'Cargando configuraciones de Landing Page'],
