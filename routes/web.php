@@ -10,6 +10,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\LandingPageSettingsController;
 use App\Models\Setting;
 use App\Models\Aseguradora;
+use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
     $settings = Setting::where('group', 'like', 'landing_%')->get()->pluck('value', 'key');
@@ -50,6 +51,12 @@ Route::middleware('auth')->group(function () {
     // CMS Landing Page
     Route::get('/settings/landing', [LandingPageSettingsController::class, 'index'])->name('settings.landing.index');
     Route::post('/settings/landing', [LandingPageSettingsController::class, 'update'])->name('settings.landing.update');
+
+    // Administración de Usuarios
+    Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
+    Route::put('/admin/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+    Route::post('/admin/users/{user}/password-reset', [UserController::class, 'sendPasswordResetLink'])->name('admin.users.password.reset');
 });
 
 require __DIR__.'/auth.php';

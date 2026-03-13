@@ -218,6 +218,7 @@ const toggleGroup = (groupId) => {
 
                         <template #content>
                             <DropdownLink :href="route('profile.edit')" class="font-bold text-xs uppercase tracking-tight">Perfil de Usuario</DropdownLink>
+                            <DropdownLink v-if="$page.props.auth.user.is_admin" :href="route('admin.users.index')" class="font-bold text-xs uppercase tracking-tight">Administración de Usuarios</DropdownLink>
                             <div class="border-t border-gray-100 dark:border-gray-700"></div>
                             <DropdownLink :href="route('logout')" method="post" as="button" class="font-black text-xs uppercase tracking-widest text-red-600">Cerrar Sesión</DropdownLink>
                         </template>
