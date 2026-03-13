@@ -78,9 +78,29 @@ class AseguradoraController extends Controller
      */
     public function show(string $id)
     {
-        $aseguradora = Aseguradora::with('contactos')->findOrFail($id);
+        $aseguradora = Aseguradora::with(['contactos', 'ramos'])->findOrFail($id);
+        
+        // Ramos únicos que tienen pólizas con esta aseguradora
+        $ramosCount = \App\Models\Poliza::where('aseguradora_id', $aseguradora->id)
+            ->join('ramos', 'polizas.ramo_id', '=', 'ramos.id')
+            ->select('ramos.nombre', \DB::raw('count(*) as total'))
+            ->groupBy('ramos.nombre')
+            ->get();
+
+        $driver = \DB::getDriverName();
+        $yearExpr = $driver === 'sqlite' ? "strftime('%Y', inicio_vigencia)" : "YEAR(inicio_vigencia)";
+
+        // Estadísticas por año (Año de inicio de vigencia)
+        $statsAnuales = \App\Models\Poliza::where('aseguradora_id', $aseguradora->id)
+            ->select(\DB::raw("$yearExpr as anio"), \DB::raw('count(*) as total'))
+            ->groupBy('anio')
+            ->orderBy('anio', 'desc')
+            ->get();
+
         return Inertia::render('Aseguradoras/Show', [
-            'aseguradora' => $aseguradora
+            'aseguradora' => $aseguradora,
+            'ramosCount' => $ramosCount,
+            'statsAnuales' => $statsAnuales
         ]);
     }
 

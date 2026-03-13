@@ -137,7 +137,7 @@ const getStatusClass = (estado) => {
                     <div class="bg-white dark:bg-gray-800 ring-1 ring-gray-900/5 rounded-2xl overflow-hidden shadow-sm">
                         <div class="p-6 border-b border-gray-100 dark:border-gray-700">
                             <h3 class="text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest">
-                                Liquidación
+                                Liquidación Técnica
                             </h3>
                         </div>
                         <div class="p-6 space-y-4">
@@ -148,6 +148,10 @@ const getStatusClass = (estado) => {
                                 }}</span>
                             </div>
                             <div class="flex justify-between items-center text-xs">
+                                <span class="text-gray-500 font-bold uppercase tracking-tighter">Tasa Aplicada</span>
+                                <span class="font-black text-blue-600 dark:text-blue-400">{{ Number(poliza.tasa).toFixed(1) }}%</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
                                 <span class="text-gray-500 font-bold uppercase tracking-tighter">Prima Neta</span>
                                 <span class="font-black text-gray-900 dark:text-white">{{
                                     formatCurrency(poliza.prima_antes_iva)
@@ -155,9 +159,8 @@ const getStatusClass = (estado) => {
                             </div>
                             <div
                                 class="pt-4 border-t border-gray-50 dark:border-gray-700 flex justify-between items-center">
-                                <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Gran
-                                    Total</span>
-                                <span class="text-lg font-black text-emerald-600">{{ formatCurrency(poliza.prima_total)
+                                <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Total Prima Anual</span>
+                                <span class="text-xl font-black text-emerald-600">{{ formatCurrency(poliza.prima_total)
                                 }}</span>
                             </div>
                         </div>
@@ -275,7 +278,7 @@ const getStatusClass = (estado) => {
                     <span>Actualizado: <span class="text-gray-600 dark:text-gray-400">{{ new
                         Date(poliza.updated_at).toLocaleDateString() }}</span></span>
                 </div>
-                <span>Tasa registrada: {{ poliza.tasa || '0.00' }}%</span>
+                <span>Tasa registrada: {{ Number(poliza.tasa).toFixed(1) }}%</span>
             </div>
 
         </div>

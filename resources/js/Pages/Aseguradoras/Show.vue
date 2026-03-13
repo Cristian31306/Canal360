@@ -4,6 +4,8 @@ import { Head, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     aseguradora: Object,
+    ramosCount: Array,
+    statsAnuales: Array,
 });
 
 const getInitials = (name) => {
@@ -40,90 +42,112 @@ const getInitials = (name) => {
             </div>
         </template>
 
-        <div class="max-w-5xl mx-auto py-6 space-y-6">
+        <div class="max-w-5xl mx-auto py-6 space-y-8">
             
+            <!-- INFORMACIÓN PRINCIPAL -->
             <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl dark:bg-gray-800 dark:ring-gray-700 overflow-hidden">
-                <div class="px-4 py-6 sm:px-8 border-b border-gray-200 dark:border-gray-700">
+                <div class="px-4 py-6 sm:px-8 border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/20">
                     <div class="flex items-center gap-6">
-                        <div class="h-20 w-20 flex-shrink-0">
-                            <div v-if="aseguradora.logo_url" class="h-20 w-20 rounded-xl bg-white border border-gray-200 flex items-center justify-center p-1 overflow-hidden shadow-sm dark:border-gray-700">
+                        <div class="h-24 w-24 flex-shrink-0">
+                            <div v-if="aseguradora.logo_url" class="h-24 w-24 rounded-2xl bg-white border border-gray-200 flex items-center justify-center p-2 overflow-hidden shadow-md dark:border-gray-700">
                                 <img :src="aseguradora.logo_url" alt="" class="h-full w-full object-contain" />
                             </div>
-                            <div v-else class="h-20 w-20 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-3xl shadow-sm border border-indigo-200 dark:bg-indigo-900/40 dark:border-indigo-800">
+                            <div v-else class="h-24 w-24 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-4xl shadow-md border border-indigo-700">
                                 {{ getInitials(aseguradora.nombre) }}
                             </div>
                         </div>
                         <div>
-                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ aseguradora.nombre }}</h1>
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
-                                <span class="font-medium text-gray-700 dark:text-gray-300">NIT:</span> {{ aseguradora.nit }}
-                            </p>
+                            <h1 class="text-3xl font-black text-gray-900 dark:text-white tracking-tight">{{ aseguradora.nombre }}</h1>
+                            <div class="mt-2 flex flex-wrap gap-4">
+                                <p class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2 font-bold">
+                                    <span class="text-[10px] uppercase tracking-widest text-gray-400">NIT:</span> {{ aseguradora.nit }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="px-4 py-6 sm:px-8">
-                    <h3 class="text-lg font-semibold leading-7 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-6">Contactos Especializados</h3>
-                    
-                    <div v-if="aseguradora.contactos && aseguradora.contactos.length > 0" class="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl dark:bg-gray-900/50 dark:ring-gray-700">
-                        <ul role="list" class="divide-y divide-gray-100 dark:divide-gray-800/60">
-                            <li v-for="contacto in aseguradora.contactos" :key="contacto.id" class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-x-6 py-5 px-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                                <div class="flex min-w-0 gap-x-4 items-center">
-                                    <div class="h-12 w-12 flex-none rounded-full bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-semibold ring-1 ring-inset ring-indigo-600/20 text-lg shadow-sm">
-                                        {{ getInitials(contacto.nombre) }}
-                                    </div>
-                                    <div class="min-w-0 flex-auto">
-                                        <p class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">{{ contacto.nombre }}</p>
-                                        <div class="mt-1 flex items-center gap-2">
-                                            <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-900/30 dark:text-green-400 dark:ring-green-500/20 shadow-sm">{{ contacto.rol }}</span>
-                                        </div>
-                                    </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-gray-200 dark:divide-gray-700">
+                    <!-- Sección de Contactos -->
+                    <div class="px-4 py-8 sm:px-8">
+                        <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-6">Contactos Directos</h3>
+                        
+                        <div v-if="aseguradora.contactos && aseguradora.contactos.length > 0" class="space-y-4">
+                            <div v-for="contacto in aseguradora.contactos" :key="contacto.id" class="flex items-center gap-4 p-4 rounded-xl border border-gray-100 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-900/30 transition-colors group">
+                                <div class="h-10 w-10 flex-none rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold ring-1 ring-indigo-200 dark:ring-indigo-700/50 group-hover:scale-110 transition-transform">
+                                    {{ getInitials(contacto.nombre) }}
                                 </div>
-                                <div class="mt-4 sm:mt-0 flex flex-col sm:items-end space-y-2">
-                                    <a v-if="contacto.email" :href="'mailto:' + contacto.email" class="text-sm leading-6 text-gray-600 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 transition-colors flex items-center gap-2 bg-gray-50 dark:bg-gray-800/80 px-3 py-1.5 rounded-md ring-1 ring-gray-200 dark:ring-gray-700 w-full sm:w-auto overflow-hidden">
-                                        <svg class="h-4 w-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                                        <span class="truncate">{{ contacto.email }}</span>
+                                <div class="flex-auto min-w-0">
+                                    <p class="text-sm font-bold text-gray-900 dark:text-white truncate">{{ contacto.nombre }}</p>
+                                    <p class="text-[10px] font-black uppercase text-emerald-600 tracking-tighter">{{ contacto.rol }}</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <a v-if="contacto.email" :href="'mailto:' + contacto.email" class="p-2 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" title="Enviar correo">
+                                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                                     </a>
-                                    <a v-if="contacto.telefono" :href="'tel:' + contacto.telefono" class="text-sm leading-6 text-gray-600 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 transition-colors flex items-center gap-2 bg-gray-50 dark:bg-gray-800/80 px-3 py-1.5 rounded-md ring-1 ring-gray-200 dark:ring-gray-700 w-full sm:w-auto">
-                                        <svg class="h-4 w-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                                        {{ contacto.telefono }}
+                                    <a v-if="contacto.telefono" :href="'tel:' + contacto.telefono" class="p-2 text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" title="Llamar">
+                                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                                     </a>
                                 </div>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
+                        <p v-else class="text-sm text-gray-500 italic">Sin contactos registrados.</p>
                     </div>
-                    
-                    <div v-else class="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg border border-dashed border-gray-300 dark:border-gray-700">
-                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                        <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-white">Sin contactos</h3>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Esta aseguradora no tiene especialistas registrados.</p>
-                        <div class="mt-6">
-                            <Link :href="route('aseguradoras.edit', aseguradora.id)" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-indigo-400 dark:ring-gray-700 dark:hover:bg-gray-700">
-                                Agregar Contactos
-                            </Link>
+
+                    <!-- Sección de Ramos Configuradores -->
+                    <div class="px-4 py-8 sm:px-8 bg-gray-50/30 dark:bg-gray-900/10">
+                        <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-6">Ramos Autorizados</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span v-for="ramo in aseguradora.ramos" :key="ramo.id" class="inline-flex items-center rounded-lg bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700 ring-1 ring-inset ring-emerald-600/20 dark:bg-emerald-900/30 dark:text-emerald-400">
+                                {{ ramo.nombre }}
+                            </span>
+                            <p v-if="!aseguradora.ramos.length" class="text-sm text-gray-500 italic">No se han configurado ramos específicos.</p>
                         </div>
                     </div>
                 </div>
-
             </div>
             
-            <!-- Cards decorativas proximo modulo (Ramos/Polizas) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl dark:bg-gray-800 dark:ring-gray-700 p-6 flex flex-col justify-center items-center text-center opacity-60">
-                    <svg class="h-10 w-10 text-gray-400 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
-                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">Estadísticas de Pólizas</h4>
-                    <p class="text-xs text-gray-500 mt-1">Próximamente verás cuántas pólizas tienes con esta compañía.</p>
+            <!-- ESTADÍSTICAS Y PRODUCCIÓN -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Producción por Año -->
+                <div class="bg-white shadow-xl shadow-gray-200/50 ring-1 ring-gray-900/5 rounded-2xl overflow-hidden dark:bg-gray-800 dark:ring-gray-700 dark:shadow-none">
+                    <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                        <h4 class="text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest">Producción Histórica</h4>
+                        <svg class="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                    </div>
+                    <div class="p-0">
+                        <div v-if="statsAnuales && statsAnuales.length > 0" class="divide-y divide-gray-50 dark:divide-gray-700/50">
+                            <div v-for="stat in statsAnuales" :key="stat.anio" class="flex justify-between items-center p-4 hover:bg-gray-50/80 dark:hover:bg-gray-900/20 transition-colors">
+                                <span class="text-lg font-black text-gray-900 dark:text-white">{{ stat.anio }}</span>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-sm font-bold text-gray-400">Pólizas:</span>
+                                    <span class="px-3 py-1 bg-indigo-600 text-white rounded-lg font-black text-sm shadow-sm">{{ stat.total }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else class="p-12 text-center">
+                            <p class="text-sm text-gray-500 uppercase font-bold tracking-widest">Sin producción aún</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl dark:bg-gray-800 dark:ring-gray-700 p-6 flex flex-col justify-center items-center text-center opacity-60">
-                    <svg class="h-10 w-10 text-gray-400 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                    </svg>
-                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">Ramos Configurados</h4>
-                    <p class="text-xs text-gray-500 mt-1">Próximamente listaremos los ramos que puedes comercializar aquí.</p>
+
+                <!-- Distribución por Ramos -->
+                <div class="bg-white shadow-xl shadow-gray-200/50 ring-1 ring-gray-900/5 rounded-2xl overflow-hidden dark:bg-gray-800 dark:ring-gray-700 dark:shadow-none">
+                    <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                        <h4 class="text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest">Cartera por Ramos</h4>
+                        <svg class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                    </div>
+                    <div class="p-0">
+                        <div v-if="ramosCount && ramosCount.length > 0" class="divide-y divide-gray-50 dark:divide-gray-700/50">
+                            <div v-for="ramo in ramosCount" :key="ramo.nombre" class="flex justify-between items-center p-4 hover:bg-gray-50/80 dark:hover:bg-gray-900/20 transition-colors">
+                                <span class="text-sm font-black text-gray-700 dark:text-gray-300 uppercase tracking-tight">{{ ramo.nombre }}</span>
+                                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-md font-black text-[10px] uppercase shadow-sm">{{ ramo.total }} pólizas</span>
+                            </div>
+                        </div>
+                        <div v-else class="p-12 text-center">
+                            <p class="text-sm text-gray-500 uppercase font-bold tracking-widest">Sin pólizas emitidas</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 

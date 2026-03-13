@@ -96,6 +96,9 @@ const submit = () => {
                                         </div>
                                         <div>
                                             <input type="file" @change="handleLogoChange" accept="image/jpeg, image/png, image/webp" class="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 dark:file:bg-indigo-900/40 dark:file:text-indigo-400" />
+                                            <p class="mt-2 text-[10px] text-indigo-600 font-bold uppercase tracking-wider">
+                                                Recomendado: 400x200px (o relación 2:1) • PNG Transparente • Máx 500KB
+                                            </p>
                                         </div>
                                     </div>
                                     <p class="mt-1 text-xs text-red-500" v-if="form.errors.logo">{{ form.errors.logo }}</p>

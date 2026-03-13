@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\CarteraController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,9 +25,9 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,7 +38,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('aseguradoras', App\Http\Controllers\AseguradoraController::class);
     Route::resource('ramos', App\Http\Controllers\RamoController::class)->except(['show']);
     Route::resource('riesgos', App\Http\Controllers\RiesgoController::class);
+    Route::get('/polizas/export', [App\Http\Controllers\PolizaController::class, 'export'])->name('polizas.export');
     Route::resource('polizas', App\Http\Controllers\PolizaController::class);
+    
+    // Cartera y Abonos
+    Route::get('/cartera/export', [CarteraController::class, 'export'])->name('cartera.export');
+    Route::get('/cartera', [CarteraController::class, 'index'])->name('cartera.index');
+    Route::get('/cartera/{id}', [CarteraController::class, 'show'])->name('cartera.show');
+    Route::post('/cartera/{id}/abonos', [CarteraController::class, 'storeAbono'])->name('cartera.abonos.store');
 
     // CMS Landing Page
     Route::get('/settings/landing', [LandingPageSettingsController::class, 'index'])->name('settings.landing.index');

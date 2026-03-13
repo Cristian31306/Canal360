@@ -132,14 +132,72 @@ const formatDate = (dateString) => {
                         </div>
                     </div>
 
-                    <!-- Módulo de Pólizas (Placeholder para el futuro) -->
-                    <div class="bg-slate-50 dark:bg-slate-800/50 shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl dark:ring-gray-700 overflow-hidden border border-dashed border-gray-300 dark:border-gray-600">
-                        <div class="px-4 py-8 sm:p-10 text-center">
-                            <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    <!-- Gestión de Riesgos y Pólizas Protegidas -->
+                    <div class="space-y-6">
+                        <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest pl-1">Auditoría de Riesgos y Pólizas</h3>
+                        
+                        <div v-if="cliente.riesgos && cliente.riesgos.length > 0" class="space-y-4">
+                            <div v-for="riesgo in cliente.riesgos" :key="riesgo.id" class="bg-white dark:bg-gray-800 ring-1 ring-gray-900/5 sm:rounded-xl overflow-hidden shadow-sm">
+                                <!-- Cabecera del Riesgo -->
+                                <div class="px-6 py-4 bg-gray-50 dark:bg-gray-900/40 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center rotate-hover transition-all">
+                                    <div class="flex items-center gap-4">
+                                        <div class="h-10 w-10 bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 rounded-lg flex items-center justify-center font-black text-xs ring-1 ring-blue-200">
+                                            R-{{ riesgo.id }}
+                                        </div>
+                                        <div>
+                                            <Link :href="route('riesgos.show', riesgo.id)" class="text-sm font-black text-gray-900 dark:text-white hover:text-blue-600 transition-colors">
+                                                {{ riesgo.tipo_riesgo }}
+                                            </Link>
+                                            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-tighter">{{ riesgo.identificador || 'Sin ID' }}</p>
+                                        </div>
+                                    </div>
+                                    <Link :href="route('riesgos.show', riesgo.id)" class="text-xs font-black text-blue-600 uppercase tracking-widest hover:underline">Ver Detalle</Link>
+                                </div>
+                                
+                                <!-- Pólizas Vinculadas al Riesgo -->
+                                <div class="px-6 py-4">
+                                    <div v-if="riesgo.polizas && riesgo.polizas.length > 0" class="space-y-4">
+                                        <div v-for="poliza in riesgo.polizas" :key="poliza.id" class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-emerald-50/30 dark:bg-emerald-900/10 rounded-xl border border-emerald-100 dark:border-emerald-800/50 gap-4 group hover:ring-2 hover:ring-emerald-400 transition-all">
+                                            <div class="flex items-center gap-4">
+                                                <div class="h-10 w-10 flex-shrink-0 bg-white ring-1 ring-gray-200 rounded-lg p-1 dark:bg-gray-700">
+                                                    <img v-if="poliza.aseguradora.logo" :src="'/storage/' + poliza.aseguradora.logo" alt="" class="h-full w-full object-contain">
+                                                    <span v-else class="h-full w-full flex items-center justify-center text-[10px] font-black uppercase text-gray-400">{{ poliza.aseguradora.nombre.substring(0,2) }}</span>
+                                                </div>
+                                                <div>
+                                                    <Link :href="route('polizas.show', poliza.id)" class="text-xs font-black text-gray-900 dark:text-white group-hover:text-emerald-600 transition-colors uppercase">
+                                                        {{ poliza.ramo.nombre }} #{{ poliza.numero_poliza }}
+                                                    </Link>
+                                                    <p class="text-[10px] font-bold text-gray-500 uppercase tracking-tighter">{{ poliza.aseguradora.nombre }} | Vigencia: {{ formatDate(poliza.fin_vigencia) }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center gap-4 justify-between sm:justify-end">
+                                                <span class="inline-flex items-center rounded-md bg-white px-2 py-1 text-[10px] font-black uppercase tracking-widest text-emerald-700 ring-1 ring-inset ring-emerald-600/20 dark:bg-gray-900 shadow-sm">
+                                                    {{ poliza.estado }}
+                                                </span>
+                                                <Link :href="route('polizas.show', poliza.id)" class="p-2 text-emerald-600 hover:bg-emerald-100 rounded-lg dark:hover:bg-emerald-900/50 transition-colors">
+                                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-else class="py-4 text-center border-2 border-dashed border-gray-100 dark:border-gray-700 rounded-xl">
+                                        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Este riesgo no posee pólizas activas vinculadas</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div v-else class="bg-white p-12 text-center rounded-2xl ring-1 ring-gray-200 dark:bg-gray-800/30 dark:ring-gray-700 border-2 border-dashed border-gray-100 dark:border-gray-700">
+                            <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
-                            <h3 class="mt-4 text-sm font-semibold text-gray-900 dark:text-white">Pólizas del Cliente</h3>
-                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">El módulo de pólizas está en construcción. Próximamente verás aquí las pólizas asociadas a este cliente.</p>
+                            <h3 class="mt-2 text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest">Sin Riesgos Registrados</h3>
+                            <p class="mt-1 text-xs text-gray-500">Este cliente aún no tiene activos o riesgos vinculados en la base de datos.</p>
+                            <div class="mt-6">
+                                <Link :href="route('riesgos.create')" class="inline-flex items-center rounded-xl bg-blue-600 px-4 py-2 text-xs font-black text-white shadow-sm hover:bg-blue-500 transition-all uppercase tracking-widest">
+                                    Registrar Primer Riesgo
+                                </Link>
+                            </div>
                         </div>
                     </div>
 

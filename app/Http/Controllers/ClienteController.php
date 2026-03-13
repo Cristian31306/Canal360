@@ -70,10 +70,7 @@ class ClienteController extends Controller
      */
     public function show(string $id)
     {
-        $cliente = Cliente::findOrFail($id);
-        
-        // Cargar las relaciones cuando existan:
-        // $cliente->load(['riesgos', 'polizas']);
+        $cliente = Cliente::with(['riesgos.polizas.aseguradora', 'riesgos.polizas.ramo', 'polizas.aseguradora', 'polizas.ramo'])->findOrFail($id);
 
         return Inertia::render('Clientes/Show', [
             'cliente' => $cliente

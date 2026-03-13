@@ -89,8 +89,13 @@ const handleImageUpload = (e, index) => {
                                             
                                             <!-- Image Upload -->
                                             <div v-if="setting.type === 'image'" class="space-y-4">
-                                                <div v-if="typeof setting.value === 'string' || setting.preview" class="w-32 h-20 rounded-lg overflow-hidden border border-gray-200">
-                                                    <img :src="setting.preview || setting.value" class="w-full h-full object-cover">
+                                                <div v-if="typeof setting.value === 'string' || setting.preview" class="space-y-2">
+                                                    <div class="w-48 h-28 rounded-lg overflow-hidden border border-gray-200 shadow-sm bg-gray-100">
+                                                        <img :src="setting.preview || setting.value" class="w-full h-full object-cover">
+                                                    </div>
+                                                    <p class="text-[10px] text-blue-500 font-bold uppercase tracking-wider">
+                                                        Recomendado: 1920x1080px (o relación 16:9) • Máx 2MB
+                                                    </p>
                                                 </div>
                                                 <input
                                                     type="file"
@@ -108,7 +113,7 @@ const handleImageUpload = (e, index) => {
                                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-700 placeholder-gray-400"
                                             ></textarea>
                                             
-                                            <input v-else
+                                            <input v-else-if="setting.type !== 'image'"
                                                 v-model="form.settings[index].value"
                                                 :id="setting.key"
                                                 :type="setting.type"

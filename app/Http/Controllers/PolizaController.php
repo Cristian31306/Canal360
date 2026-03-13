@@ -7,9 +7,12 @@ use App\Models\Aseguradora;
 use App\Models\Ramo;
 use App\Models\Riesgo;
 use App\Models\Cliente;
+use App\Models\Cartera;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
+use App\Exports\PolizasExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PolizaController extends Controller
 {
@@ -99,11 +102,20 @@ class PolizaController extends Controller
         ]);
 
         DB::transaction(function () use ($validated) {
+            $validated['iva'] = 0; // Se establece en 0 por defecto
             $poliza = Poliza::create($validated);
-
+ 
             foreach ($validated['clientes'] as $clienteData) {
                 $poliza->clientes()->attach($clienteData['id'], ['rol' => $clienteData['rol']]);
             }
+
+            // Crear registro en Cartera automáticamente
+            Cartera::create([
+                'poliza_id' => $poliza->id,
+                'valor_a_pagar' => $poliza->prima_total,
+                'fecha_limite' => $poliza->expedicion_fecha->addDays(30), // Por defecto 30 días
+                'estado' => 'pendiente'
+            ]);
         });
 
         return redirect()->route('polizas.index')->with('success', 'Póliza registrada exitosamente.');
@@ -174,5 +186,10 @@ class PolizaController extends Controller
         $poliza->delete();
 
         return redirect()->route('polizas.index')->with('success', 'Póliza eliminada exitosamente.');
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new PolizasExport($request->all()), 'reporte_polizas_' . now()->format('Ymd_His') . '.xlsx');
     }
 }

@@ -114,7 +114,7 @@ const onInputPrimaTotal = (e) => {
 // --- CÁLCULOS FINANCIEROS ---
 watch([() => form.prima_antes_iva, () => form.valor_asegurado], ([neta, valor]) => {
     if (valor > 0) {
-        form.tasa = parseFloat(((neta / valor) * 100).toFixed(6));
+        form.tasa = parseFloat(((neta / valor) * 100).toFixed(1));
     } else {
         form.tasa = 0;
     }
@@ -315,7 +315,7 @@ const submit = () => {
                                 </div>
                                 
                                 <div class="sm:col-span-6">
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">Tasa Calculada (Neta / Asegurado): <span class="font-bold text-gray-900 dark:text-white">{{ form.tasa }} %</span></p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-sans uppercase font-black tracking-widest">Tasa Calculada (Neta / Asegurado): <span class="text-emerald-600 dark:text-emerald-400">{{ form.tasa }}%</span></p>
                                 </div>
                             </div>
                         </div>
