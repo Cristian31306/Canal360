@@ -9,9 +9,10 @@ class Poliza extends Model
     use \Illuminate\Database\Eloquent\SoftDeletes;
 
     protected $fillable = [
-        'numero_poliza', 'aseguradora_id', 'ramo_id', 'riesgo_id',
+        'numero_poliza', 'anexo', 'aseguradora_id', 'ramo_id', 'riesgo_id',
         'expedicion_fecha', 'inicio_vigencia', 'fin_vigencia',
-        'valor_asegurado', 'prima_antes_iva', 'iva', 'prima_total', 'tasa', 'estado'
+        'valor_asegurado', 'prima_antes_iva', 'iva', 'prima_total', 'tasa', 
+        'estado', 'liquidacion', 'poliza_anterior_id'
     ];
 
     protected $casts = [
@@ -23,6 +24,7 @@ class Poliza extends Model
         'iva' => 'decimal:2',
         'prima_total' => 'decimal:2',
         'tasa' => 'decimal:6',
+        'anexo' => 'integer',
     ];
 
     public function aseguradora()
@@ -50,5 +52,15 @@ class Poliza extends Model
         return $this->belongsToMany(Cliente::class, 'cliente_poliza')
                     ->withPivot('rol')
                     ->withTimestamps();
+    }
+
+    public function polizaAnterior()
+    {
+        return $this->belongsTo(Poliza::class, 'poliza_anterior_id');
+    }
+
+    public function polizaSiguiente()
+    {
+        return $this->hasOne(Poliza::class, 'poliza_anterior_id');
     }
 }

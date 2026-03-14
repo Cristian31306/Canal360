@@ -51,6 +51,7 @@ const navigation = [
         id: 'operaciones',
         children: [
             { name: 'Pólizas', route: 'polizas.index', routeName: 'polizas' },
+            { name: 'Renovaciones', route: 'polizas.renewals', routeName: 'polizas.renewals' },
             { name: 'Cartera', route: 'cartera.index', routeName: 'cartera' },
         ]
     },

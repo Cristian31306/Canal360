@@ -25,6 +25,7 @@ const form = useForm({
     prima_total: 0,
     tasa: 0,
     estado: 'vigente',
+    liquidacion: '',
     clientes: [] // Array de { id, rol, nombre }
 });
 
@@ -205,8 +206,20 @@ const submit = () => {
                                     <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Estado</label>
                                     <div class="mt-2">
                                         <select v-model="form.estado" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:ring-gray-600 capitalize">
-                                            <option v-for="st in ['vigente', 'vencida', 'renovada', 'cancelada']" :key="st" :value="st">{{ st }}</option>
+                                            <option v-for="st in ['vigente', 'vencida', 'renovada', 'cancelada', 'liquidada', 'en_proceso']" :key="st" :value="st">{{ st }}</option>
                                         </select>
+                                    </div>
+                                    <div class="mt-2 text-right">
+                                        <label class="inline-flex items-center text-[10px] font-black uppercase text-blue-600 cursor-help" title="Esta es la guía de cálculo para este año">
+                                            ¿Qué es la liquidación?
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="sm:col-span-6">
+                                    <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Guía de Liquidación / Notas de Renovación</label>
+                                    <div class="mt-2">
+                                        <textarea v-model="form.liquidacion" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:ring-gray-600" placeholder="Escriba aquí la guía para la renovación..."></textarea>
                                     </div>
                                 </div>
 

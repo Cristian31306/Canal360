@@ -99,6 +99,8 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->back()->with('success', 'Usuario actualizado correctamente.');
+    }
+
     /**
      * Send a password reset link to the given user.
      */

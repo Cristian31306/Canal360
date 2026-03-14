@@ -41,6 +41,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('riesgos', App\Http\Controllers\RiesgoController::class);
     Route::get('/polizas/export', [App\Http\Controllers\PolizaController::class, 'export'])->name('polizas.export');
     Route::resource('polizas', App\Http\Controllers\PolizaController::class);
+    Route::get('/renovaciones', [App\Http\Controllers\PolizaController::class, 'renewals'])->name('polizas.renewals');
+    Route::post('/polizas/{poliza}/liquidar', [App\Http\Controllers\PolizaController::class, 'liquidate'])->name('polizas.liquidate');
+    Route::post('/polizas/{poliza}/enviar', [App\Http\Controllers\PolizaController::class, 'sendToInsurance'])->name('polizas.send-to-insurance');
+    Route::post('/polizas/{poliza}/finalizar-renovacion', [App\Http\Controllers\PolizaController::class, 'finalizeRenewal'])->name('polizas.finalize-renewal');
+    Route::delete('/polizas/{poliza}/cancelar', [App\Http\Controllers\PolizaController::class, 'cancelRenewal'])->name('polizas.cancel-renewal');
     
     // Cartera y Abonos
     Route::get('/cartera/export', [CarteraController::class, 'export'])->name('cartera.export');
