@@ -43,7 +43,25 @@ const serviceCategories = computed(() => [
 
 <template>
 
-    <Head title="Canal Asesores - Seguros & Protección Inteligente" />
+    <Head>
+        <title>Canal Asesores - Seguros & Protección Inteligente en Colombia</title>
+        <meta name="description" content="Protege lo que más quieres con Canal Asesores. Expertos en seguros de autos, vida, hogar, salud y empresariales en Colombia. Consultoría personalizada y respaldo garantizado." />
+        <meta name="keywords" content="seguros colombia, agencia de seguros, seguros de autos, seguros de vida, soat, seguros de hogar, protección financiera, canal asesores" />
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Canal Asesores - Seguros & Protección Inteligente" />
+        <meta property="og:description" content="Soluciones integrales de protección para ti, tu familia y tu empresa. Compara y asegura con los mejores." />
+        <meta property="og:image" :content="settings.landing_hero_image" />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content="Canal Asesores - Seguros & Protección Inteligente" />
+        <meta property="twitter:description" content="Soluciones integrales de protección para ti, tu familia y tu empresa." />
+        <meta property="twitter:image" :content="settings.landing_hero_image" />
+        
+        <link rel="canonical" href="https://canalasesores.com" />
+    </Head>
 
     <div
         class="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
@@ -114,15 +132,15 @@ const serviceCategories = computed(() => [
                             <div class="flex items-center gap-12 animate-scroll hover:pause">
                                 <!-- Render logos multiple times for infinite effect -->
                                 <div v-for="n in 3" :key="n" class="flex items-center gap-12 flex-shrink-0">
-                                    <div v-for="aseguradora in aseguradoras" :key="aseguradora.id + '-' + n" 
-                                        class="flex items-center justify-center w-20 h-20 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                                        <img :src="'/storage/' + aseguradora.logo" 
-                                            :alt="aseguradora.nombre"
-                                            class="max-w-full max-h-full object-contain" />
+                                    <div v-for="aseguradora in aseguradoras" :key="aseguradora.id + '-' + n"
+                                        class="flex items-center justify-center w-24 h-24 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 transform hover:scale-110">
+                                        <img :src="'/storage/' + aseguradora.logo" :alt="'Aseguradora aliada ' + aseguradora.nombre + ' en Canal Asesores'"
+                                            class="max-w-full max-h-full object-contain p-2" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-4 text-xs text-slate-400 font-bold uppercase tracking-widest text-center md:text-left">
+                            <div
+                                class="mt-4 text-xs text-slate-400 font-bold uppercase tracking-widest text-center md:text-left">
                                 Aliados Estratégicos que respaldan tu seguridad
                             </div>
                         </div>
@@ -134,8 +152,8 @@ const serviceCategories = computed(() => [
                             class="absolute -inset-4 bg-gradient-to-tr from-blue-100 to-indigo-100 rounded-[2.5rem] blur-2xl opacity-40 group-hover:opacity-60 transition duration-1000">
                         </div>
                         <div class="relative rounded-[2rem] overflow-hidden shadow-2xl border border-white/50">
-                            <img :src="settings.landing_hero_image" alt="Canal Asesores Seguros"
-                                class="w-full h-auto object-cover transform transition duration-700 group-hover:scale-105" />
+                            <img :src="settings.landing_hero_image" alt="Asesoría integral en seguros y protección - Canal Asesores"
+                                class="w-full h-auto object-cover transform transition duration-1000 group-hover:scale-105" />
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
 
                             <!-- Floating Card -->
@@ -165,8 +183,8 @@ const serviceCategories = computed(() => [
         <section id="servicios" class="py-24 bg-slate-50">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-20">
-                    <h2 class="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4">Nuestras Coberturas</h2>
-                    <p class="text-4xl font-bold text-slate-900 mb-6">Soluciones diseñadas para cada tipo de riesgo</p>
+                    <h2 class="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4">Nuestras Coberturas Integrales</h2>
+                    <p class="text-4xl font-bold text-slate-900 mb-6">Protección especializada para cada área de tu vida</p>
                     <div class="h-1.5 w-20 bg-blue-500 mx-auto rounded-full"></div>
                 </div>
 
@@ -179,7 +197,9 @@ const serviceCategories = computed(() => [
                                 <path :d="category.icon" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">{{ settings['landing_service_cat_' + (index + 1) + '_title'] }}</h3>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">{{ settings['landing_service_cat_' + (index +
+1) + '_title'] }}</h3>
+                        <p class="text-slate-500 text-xs mb-4 leading-relaxed line-clamp-2">Protección personalizada basada en las mejores coberturas del mercado nacional.</p>
                         <ul class="space-y-3">
                             <li v-for="item in category.items" :key="item"
                                 class="flex items-center gap-2 text-slate-500 text-sm font-medium">
@@ -202,16 +222,16 @@ const serviceCategories = computed(() => [
 
                     <div class="grid lg:grid-cols-2 gap-16 items-center relative z-10">
                         <div>
-                            <h2 class="text-3xl lg:text-5xl font-bold text-white mb-8 leading-tight">
+                             <h2 class="text-3xl lg:text-5xl font-bold text-white mb-8 leading-tight tracking-tight">
                                 {{ settings.landing_tech_title }}
                             </h2>
                             <p class="text-slate-400 text-lg mb-10 leading-relaxed">
                                 {{ settings.landing_tech_description }}
                             </p>
- 
+
                             <ul class="space-y-6">
-                                <li v-for="item in (settings.landing_tech_features || '').split(',')"
-                                    :key="item" class="flex items-center gap-4 text-white font-medium">
+                                <li v-for="item in (settings.landing_tech_features || '').split(',')" :key="item"
+                                    class="flex items-center gap-4 text-white font-medium">
                                     <div
                                         class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
                                         <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor"
@@ -282,23 +302,27 @@ const serviceCategories = computed(() => [
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Soporte</h4>
-                        <ul class="space-y-4 text-sm text-slate-500">
-                            <li><a :href="'https://wa.me/' + settings.landing_whatsapp_number + '?text=Hola,%20necesito%20soporte%20con%20Canal%20Asesores'" target="_blank" class="hover:text-blue-600 transition-colors">Centro de Ayuda</a></li>
-                            <li><a href="#inicio" class="hover:text-blue-600 transition-colors">Privacidad</a></li>
-                            <li><a href="#inicio" class="hover:text-blue-600 transition-colors">Términos</a></li>
-                        </ul>
-                    </div>
-                    <div>
                         <h4 class="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Contacto</h4>
                         <div class="text-sm text-slate-500 leading-relaxed space-y-3">
-                            <a :href="'https://wa.me/57' + settings.contact_person_1_phone?.replace(/\s+/g, '')" target="_blank" class="flex items-center gap-2 hover:text-green-600 transition-colors">
-                                <span class="p-1 bg-green-100 rounded-full"><svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.485 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.886.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.894 4.44-9.899 9.891 0 2.15.546 3.707 1.554 5.437l-1.01 3.691 3.955-1.037zm12.633-6.432c-.327-.164-1.93-.953-2.229-1.063-.3-.109-.517-.164-.735.164-.216.328-.842 1.063-1.032 1.281-.19.219-.381.246-.708.082-.327-.164-1.38-.508-2.628-1.622-.971-.867-1.626-1.938-1.817-2.265-.19-.328-.02-.505.143-.668.148-.146.327-.382.49-.573.163-.19.218-.327.327-.546.109-.219.054-.41-.028-.573-.081-.164-.735-1.771-1.007-2.427-.265-.64-.537-.554-.735-.563-.19-.01-.408-.012-.627-.012s-.573.082-.871.41c-.299.327-1.144 1.119-1.144 2.73 0 1.611 1.171 3.166 1.334 3.385.163.218 2.304 3.518 5.581 4.938.779.336 1.388.538 1.861.689.782.248 1.494.213 2.056.129.626-.093 1.93-.789 2.199-1.551.274-.762.274-1.416.192-1.551-.082-.137-.294-.218-.621-.382z"/></svg></span>
-                                <strong>{{ settings.contact_person_1_name }}:</strong> {{ settings.contact_person_1_phone }}
+                            <a :href="'https://wa.me/57' + settings.contact_person_1_phone?.replace(/\s+/g, '')"
+                                target="_blank" class="flex items-center gap-2 hover:text-green-600 transition-colors">
+                                <span class="p-1 bg-green-100 rounded-full"><svg class="w-3 h-3 text-green-600"
+                                        fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.485 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.886.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.894 4.44-9.899 9.891 0 2.15.546 3.707 1.554 5.437l-1.01 3.691 3.955-1.037zm12.633-6.432c-.327-.164-1.93-.953-2.229-1.063-.3-.109-.517-.164-.735.164-.216.328-.842 1.063-1.032 1.281-.19.219-.381.246-.708.082-.327-.164-1.38-.508-2.628-1.622-.971-.867-1.626-1.938-1.817-2.265-.19-.328-.02-.505.143-.668.148-.146.327-.382.49-.573.163-.19.218-.327.327-.546.109-.219.054-.41-.028-.573-.081-.164-.735-1.771-1.007-2.427-.265-.64-.537-.554-.735-.563-.19-.01-.408-.012-.627-.012s-.573.082-.871.41c-.299.327-1.144 1.119-1.144 2.73 0 1.611 1.171 3.166 1.334 3.385.163.218 2.304 3.518 5.581 4.938.779.336 1.388.538 1.861.689.782.248 1.494.213 2.056.129.626-.093 1.93-.789 2.199-1.551.274-.762.274-1.416.192-1.551-.082-.137-.294-.218-.621-.382z" />
+                                    </svg></span>
+                                <strong>{{ settings.contact_person_1_name }}:</strong> {{
+                                settings.contact_person_1_phone }}
                             </a>
-                            <a :href="'https://wa.me/57' + settings.contact_person_2_phone?.replace(/\s+/g, '')" target="_blank" class="flex items-center gap-2 hover:text-green-600 transition-colors">
-                                <span class="p-1 bg-green-100 rounded-full"><svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.485 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.886.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.894 4.44-9.899 9.891 0 2.15.546 3.707 1.554 5.437l-1.01 3.691 3.955-1.037zm12.633-6.432c-.327-.164-1.93-.953-2.229-1.063-.3-.109-.517-.164-.735.164-.216.328-.842 1.063-1.032 1.281-.19.219-.381.246-.708.082-.327-.164-1.38-.508-2.628-1.622-.971-.867-1.626-1.938-1.817-2.265-.19-.328-.02-.505.143-.668.148-.146.327-.382.49-.573.163-.19.218-.327.327-.546.109-.219.054-.41-.028-.573-.081-.164-.735-1.771-1.007-2.427-.265-.64-.537-.554-.735-.563-.19-.01-.408-.012-.627-.012s-.573.082-.871.41c-.299.327-1.144 1.119-1.144 2.73 0 1.611 1.171 3.166 1.334 3.385.163.218 2.304 3.518 5.581 4.938.779.336 1.388.538 1.861.689.782.248 1.494.213 2.056.129.626-.093 1.93-.789 2.199-1.551.274-.762.274-1.416.192-1.551-.082-.137-.294-.218-.621-.382z"/></svg></span>
-                                <strong>{{ settings.contact_person_2_name }}:</strong> {{ settings.contact_person_2_phone }}
+                            <a :href="'https://wa.me/57' + settings.contact_person_2_phone?.replace(/\s+/g, '')"
+                                target="_blank" class="flex items-center gap-2 hover:text-green-600 transition-colors">
+                                <span class="p-1 bg-green-100 rounded-full"><svg class="w-3 h-3 text-green-600"
+                                        fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.485 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.886.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.894 4.44-9.899 9.891 0 2.15.546 3.707 1.554 5.437l-1.01 3.691 3.955-1.037zm12.633-6.432c-.327-.164-1.93-.953-2.229-1.063-.3-.109-.517-.164-.735.164-.216.328-.842 1.063-1.032 1.281-.19.219-.381.246-.708.082-.327-.164-1.38-.508-2.628-1.622-.971-.867-1.626-1.938-1.817-2.265-.19-.328-.02-.505.143-.668.148-.146.327-.382.49-.573.163-.19.218-.327.327-.546.109-.219.054-.41-.028-.573-.081-.164-.735-1.771-1.007-2.427-.265-.64-.537-.554-.735-.563-.19-.01-.408-.012-.627-.012s-.573.082-.871.41c-.299.327-1.144 1.119-1.144 2.73 0 1.611 1.171 3.166 1.334 3.385.163.218 2.304 3.518 5.581 4.938.779.336 1.388.538 1.861.689.782.248 1.494.213 2.056.129.626-.093 1.93-.789 2.199-1.551.274-.762.274-1.416.192-1.551-.082-.137-.294-.218-.621-.382z" />
+                                    </svg></span>
+                                <strong>{{ settings.contact_person_2_name }}:</strong> {{
+                                settings.contact_person_2_phone }}
                             </a>
                             <span class="block pt-2">{{ settings.contact_email }}</span>
                         </div>
@@ -320,10 +344,14 @@ const serviceCategories = computed(() => [
             </div>
         </footer>
         <!-- Floating WhatsApp Button -->
-        <a :href="'https://wa.me/' + settings.landing_whatsapp_number?.replace(/\s+/g, '')" target="_blank" 
-           class="fixed bottom-8 right-8 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all hover:scale-110 group animate-bounce-subtle">
-            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.485 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.886.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.894 4.44-9.899 9.891 0 2.15.546 3.707 1.554 5.437l-1.01 3.691 3.955-1.037zm12.633-6.432c-.327-.164-1.93-.953-2.229-1.063-.3-.109-.517-.164-.735.164-.216.328-.842 1.063-1.032 1.281-.19.219-.381.246-.708.082-.327-.164-1.38-.508-2.628-1.622-.971-.867-1.626-1.938-1.817-2.265-.19-.328-.02-.505.143-.668.148-.146.327-.382.49-.573.163-.19.218-.327.327-.546.109-.219.054-.41-.028-.573-.081-.164-.735-1.771-1.007-2.427-.265-.64-.537-.554-.735-.563-.19-.01-.408-.012-.627-.012s-.573.082-.871.41c-.299.327-1.144 1.119-1.144 2.73 0 1.611 1.171 3.166 1.334 3.385.163.218 2.304 3.518 5.581 4.938.779.336 1.388.538 1.861.689.782.248 1.494.213 2.056.129.626-.093 1.93-.789 2.199-1.551.274-.762.274-1.416.192-1.551-.082-.137-.294-.218-.621-.382z"/></svg>
-            <span class="absolute right-full mr-4 bg-white text-slate-900 px-4 py-2 rounded-xl text-xs font-bold shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-slate-100">
+        <a :href="'https://wa.me/' + settings.landing_whatsapp_number?.replace(/\s+/g, '')" target="_blank"
+            class="fixed bottom-8 right-8 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all hover:scale-110 group animate-bounce-subtle">
+            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.485 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.886.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.894 4.44-9.899 9.891 0 2.15.546 3.707 1.554 5.437l-1.01 3.691 3.955-1.037zm12.633-6.432c-.327-.164-1.93-.953-2.229-1.063-.3-.109-.517-.164-.735.164-.216.328-.842 1.063-1.032 1.281-.19.219-.381.246-.708.082-.327-.164-1.38-.508-2.628-1.622-.971-.867-1.626-1.938-1.817-2.265-.19-.328-.02-.505.143-.668.148-.146.327-.382.49-.573.163-.19.218-.327.327-.546.109-.219.054-.41-.028-.573-.081-.164-.735-1.771-1.007-2.427-.265-.64-.537-.554-.735-.563-.19-.01-.408-.012-.627-.012s-.573.082-.871.41c-.299.327-1.144 1.119-1.144 2.73 0 1.611 1.171 3.166 1.334 3.385.163.218 2.304 3.518 5.581 4.938.779.336 1.388.538 1.861.689.782.248 1.494.213 2.056.129.626-.093 1.93-.789 2.199-1.551.274-.762.274-1.416.192-1.551-.082-.137-.294-.218-.621-.382z" />
+            </svg>
+            <span
+                class="absolute right-full mr-4 bg-white text-slate-900 px-4 py-2 rounded-xl text-xs font-bold shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-slate-100">
                 ¿En qué podemos ayudarte?
             </span>
         </a>
@@ -382,8 +410,15 @@ const serviceCategories = computed(() => [
 }
 
 @keyframes bounce-subtle {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 .animate-bounce-subtle {
