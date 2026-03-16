@@ -39,7 +39,7 @@ $pasos = [
     ['cmd' => 'composer install --no-dev --optimize-autoloader', 'desc' => 'Instalando dependencias de PHP (Composer)'],
     ['cmd' => 'php artisan key:generate --force', 'desc' => 'Generando llave de seguridad'],
     ['cmd' => 'php artisan migrate --force', 'desc' => 'Actualizando tablas de base de datos'],
-    ['cmd' => 'php artisan db:seed --class=SettingSeeder --force', 'desc' => 'Cargando configuraciones de Landing Page'],
+    ['cmd' => 'php artisan db:seed --class=LandingPageAgenciaSeeder --force', 'desc' => 'Sincronizando textos comerciales de la Agencia de Seguros'],
     ['cmd' => 'php artisan storage:link', 'desc' => 'Activando enlace de fotos/archivos'],
     ['cmd' => 'php artisan config:cache', 'desc' => 'Limpiando y optimizando configuración'],
     ['cmd' => 'php artisan route:cache', 'desc' => 'Optimizando rutas'],
