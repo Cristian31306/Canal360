@@ -21,8 +21,26 @@ const form = useForm({
     rep_legal_nombre: props.cliente.rep_legal_nombre || '',
     rep_legal_documento: props.cliente.rep_legal_documento || '',
     rep_legal_telefono: props.cliente.rep_legal_telefono || '',
-    rep_legal_email: props.cliente.rep_legal_email || ''
+    rep_legal_email: props.cliente.rep_legal_email || '',
+    anna_credentials: props.cliente.anna_credentials || [],
+    payment_credentials: props.cliente.payment_credentials || []
 });
+
+const addAnnaCredential = () => {
+    form.anna_credentials.push({ usuario: '', password: '', observaciones: '' });
+};
+
+const removeAnnaCredential = (index) => {
+    form.anna_credentials.splice(index, 1);
+};
+
+const addPaymentCredential = () => {
+    form.payment_credentials.push({ aseguradora_id: '', usuario: '', password: '', observaciones: '' });
+};
+
+const removePaymentCredential = (index) => {
+    form.payment_credentials.splice(index, 1);
+};
 
 const submit = () => {
     form.put(route('clientes.update', props.cliente.id), {
@@ -162,20 +180,100 @@ const submit = () => {
                             </div>
                         </div>
 
-                        <!-- CRM Observaciones -->
-                        <div>
-                            <h3 class="text-base font-semibold leading-7 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">Información Adicional (CRM)</h3>
-                            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-                                <div>
-                                    <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Fecha de Primer Contacto</label>
-                                    <div class="mt-2">
-                                        <input type="date" v-model="form.fecha_contacto" class="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:ring-gray-600">
+                        <!-- Credenciales ANNA (Especial para Minero/Otros específicos) -->
+                        <div class="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+                            <div class="flex items-center justify-between border-b border-blue-200 dark:border-blue-800 pb-2 mb-4">
+                                <h3 class="text-base font-semibold leading-7 text-blue-900 dark:text-blue-100 flex items-center gap-2">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                                    </svg>
+                                    Usuarios Plataforma ANNA
+                                </h3>
+                                <button type="button" @click="addAnnaCredential" class="text-xs font-bold text-blue-600 hover:text-blue-500 flex items-center gap-1 uppercase tracking-wider">
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                    Agregar Usuario
+                                </button>
+                            </div>
+                            
+                            <div v-if="form.anna_credentials.length === 0" class="text-center py-4">
+                                <p class="text-sm text-blue-500 italic">No hay usuarios de ANNA registrados para este cliente.</p>
+                            </div>
+                            
+                            <div v-else class="space-y-4">
+                                <div v-for="(cred, index) in form.anna_credentials" :key="index" class="grid grid-cols-1 md:grid-cols-3 gap-4 relative bg-white dark:bg-gray-800 p-3 rounded shadow-sm border border-blue-100 dark:border-gray-700">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-400 uppercase">Usuario</label>
+                                        <input type="text" v-model="cred.usuario" class="mt-1 block w-full rounded-md border-gray-200 py-1 text-sm dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-400 uppercase">Contraseña</label>
+                                        <input type="text" v-model="cred.password" class="mt-1 block w-full rounded-md border-gray-200 py-1 text-sm dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <div class="flex-1">
+                                            <label class="block text-[10px] font-bold text-gray-400 uppercase">Notas</label>
+                                            <input type="text" v-model="cred.observaciones" placeholder="Opcional" class="mt-1 block w-full rounded-md border-gray-200 py-1 text-sm dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                        </div>
+                                        <button type="button" @click="removeAnnaCredential(index)" class="mt-5 text-red-500 hover:text-red-700">
+                                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="col-span-1 md:col-span-2">
-                                    <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Observaciones</label>
-                                    <div class="mt-2">
-                                        <textarea v-model="form.observaciones" rows="3" class="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:ring-gray-600"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Credenciales de Portales de Pago -->
+                        <div class="bg-emerald-50 dark:bg-emerald-900/10 p-4 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                            <div class="flex items-center justify-between border-b border-emerald-200 dark:border-emerald-800 pb-2 mb-4">
+                                <h3 class="text-base font-semibold leading-7 text-emerald-900 dark:text-emerald-100 flex items-center gap-2">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                                    </svg>
+                                    Portales de Pago Aseguradoras
+                                </h3>
+                                <button type="button" @click="addPaymentCredential" class="text-xs font-bold text-emerald-600 hover:text-emerald-500 flex items-center gap-1 uppercase tracking-wider">
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                    Agregar Portal
+                                </button>
+                            </div>
+
+                            <div v-if="form.payment_credentials.length === 0" class="text-center py-4">
+                                <p class="text-sm text-emerald-500 italic">No hay credenciales de portales de pago para este cliente.</p>
+                            </div>
+
+                            <div v-else class="space-y-4">
+                                <div v-for="(cred, index) in form.payment_credentials" :key="index" class="grid grid-cols-1 md:grid-cols-4 gap-4 relative bg-white dark:bg-gray-800 p-3 rounded shadow-sm border border-emerald-100 dark:border-gray-700">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-400 uppercase">Aseguradora</label>
+                                        <select v-model="cred.aseguradora_id" class="mt-1 block w-full rounded-md border-gray-200 py-1 text-sm dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                            <option value="">Seleccione...</option>
+                                            <option v-for="aseg in $page.props.aseguradoras" :key="aseg.id" :value="aseg.id">{{ aseg.nombre }}</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-400 uppercase">Usuario</label>
+                                        <input type="text" v-model="cred.usuario" class="mt-1 block w-full rounded-md border-gray-200 py-1 text-sm dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-400 uppercase">Contraseña</label>
+                                        <input type="text" v-model="cred.password" class="mt-1 block w-full rounded-md border-gray-200 py-1 text-sm dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <div class="flex-1">
+                                            <label class="block text-[10px] font-bold text-gray-400 uppercase">Notas</label>
+                                            <input type="text" v-model="cred.observaciones" placeholder="Opcional" class="mt-1 block w-full rounded-md border-gray-200 py-1 text-sm dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                        </div>
+                                        <button type="button" @click="removePaymentCredential(index)" class="mt-5 text-red-500 hover:text-red-700">
+                                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

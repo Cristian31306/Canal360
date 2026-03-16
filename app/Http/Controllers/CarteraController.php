@@ -13,8 +13,11 @@ use Illuminate\Support\Facades\DB;
 use App\Exports\CarteraExport;
 use Maatwebsite\Excel\Facades\Excel;
  
+use App\Traits\AuditoriaHelper;
+
 class CarteraController extends Controller
 {
+    use AuditoriaHelper;
     public function index(Request $request)
     {
         $query = Cartera::with(['poliza.aseguradora', 'poliza.ramo', 'poliza.clientes']);
@@ -125,9 +128,45 @@ class CarteraController extends Controller
             } elseif ($cartera->estado === 'pendiente' && $cartera->total_abonado > 0) {
                 $cartera->update(['estado' => 'acuerdo_pago']);
             }
+
+            $this->registrarAuditoria('Registrar Abono', 'Cartera', $cartera->id, $validated);
         });
  
         return redirect()->back()->with('success', 'Abono registrado exitosamente.');
+    }
+
+    public function destroy(string $id)
+    {
+        $cartera = Cartera::findOrFail($id);
+
+        if ($cartera->abonos()->count() > 0) {
+            return redirect()->back()->with('error', 'No se puede eliminar el registro de cartera porque ya tiene abonos realizados.');
+        }
+
+        $this->registrarAuditoria('Eliminar Registro Cartera', 'Cartera', $cartera->id, $cartera->toArray());
+
+        $cartera->delete();
+
+        return redirect()->route('cartera.index')->with('success', 'Registro de cartera eliminado exitosamente.');
+    }
+
+    public function destroyAbono(string $id)
+    {
+        $abono = AbonoCartera::findOrFail($id);
+        $cartera = $abono->cartera;
+        
+        $abono->delete();
+
+        // Recalcular estado de la cartera
+        if ($cartera->total_abonado <= 0) {
+            $cartera->update(['estado' => 'pendiente']);
+        } elseif ($cartera->saldo_pendiente > 0) {
+            $cartera->update(['estado' => 'acuerdo_pago']);
+        }
+
+        $this->registrarAuditoria('Eliminar Abono', 'Cartera', $cartera->id, ['abono_id' => $id]);
+
+        return redirect()->back()->with('success', 'Abono eliminado exitosamente.');
     }
 
     public function export(Request $request)

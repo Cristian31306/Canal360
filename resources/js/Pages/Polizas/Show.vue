@@ -1,10 +1,55 @@
 <script setup>
+import { ref, watch, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import ConfirmationModal from '@/Components/ConfirmationModal.vue';
 
 const props = defineProps({
     poliza: Object,
 });
+
+const confirmation = ref({
+    show: false,
+    title: '',
+    message: '',
+    type: 'danger',
+    confirmLabel: 'Confirmar',
+    callback: null
+});
+
+const page = usePage();
+
+onMounted(() => {
+    if (page.props.flash?.error) showAlert('Alerta', page.props.flash.error, 'danger');
+    if (page.props.flash?.success) showAlert('Éxito', page.props.flash.success, 'success');
+});
+
+watch(() => page.props.flash, (flash) => {
+    if (flash?.error) showAlert('Alerta', flash.error, 'danger');
+    if (flash?.success) showAlert('Éxito', flash.success, 'success');
+}, { deep: true });
+
+const showAlert = (title, message, type = 'danger') => {
+    confirmation.value = {
+        show: true,
+        title,
+        message: message.includes('No se puede eliminar') ? `Alerta: ${message}` : message,
+        type,
+        confirmLabel: 'Entendido',
+        callback: null
+    };
+};
+
+const deletePoliza = () => {
+    confirmation.value = {
+        show: true,
+        title: 'Eliminar Póliza',
+        message: '¿Estás seguro de que deseas eliminar esta póliza? Esta acción borrará también sus registros de cartera si no tienen abonos.',
+        type: 'danger',
+        confirmLabel: 'Eliminar',
+        callback: () => router.delete(route('polizas.destroy', props.poliza.id))
+    };
+};
 
 const formatCurrency = (value) => {
     return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(value);
@@ -56,6 +101,13 @@ const getStatusClass = (estado) => {
                             </svg>
                             Editar Expediente
                         </Link>
+                        <button @click="deletePoliza"
+                            class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-sm font-bold text-red-600 shadow-sm ring-1 ring-inset ring-red-300 hover:bg-red-50 dark:bg-gray-700 dark:text-red-400 dark:ring-red-900/50 transition-all">
+                            <svg class="-ml-0.5 mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Eliminar Póliza
+                        </button>
                     </div>
                 </div>
             </div>
@@ -200,6 +252,66 @@ const getStatusClass = (estado) => {
                                         {{ cliente.pivot.rol }}
                                     </span>
                                 </li>
+                                <!-- Credenciales de Portales de Pago para esta Aseguradora -->
+                                <li v-for="cliente in poliza.clientes" :key="'pay-' + cliente.id">
+                                    <template v-if="cliente.payment_credentials && cliente.payment_credentials.some(c => c.aseguradora_id === poliza.aseguradora_id)">
+                                        <div v-for="cred in cliente.payment_credentials.filter(c => c.aseguradora_id === poliza.aseguradora_id)" :key="cred.id" class="p-6 bg-emerald-50/20 dark:bg-emerald-900/10 border-t border-emerald-100 dark:border-emerald-800/50">
+                                            <div class="flex items-center justify-between gap-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="h-8 w-8 bg-emerald-100 dark:bg-emerald-900/40 rounded flex items-center justify-center">
+                                                        <svg class="h-4 w-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-[10px] font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-widest">Portal de Pagos {{ poliza.aseguradora.nombre }}</p>
+                                                        <p class="text-[9px] text-gray-500 font-bold uppercase">{{ cliente.nombre_razon_social }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex gap-6">
+                                                    <div>
+                                                        <p class="text-[9px] font-bold text-gray-400 uppercase">Usuario</p>
+                                                        <p class="text-xs font-mono font-bold text-gray-900 dark:text-white">{{ cred.usuario }}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-[9px] font-bold text-gray-400 uppercase">Contraseña</p>
+                                                        <p class="text-xs font-mono font-bold text-gray-900 dark:text-white">{{ cred.password }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </li>
+                                <!-- Credenciales ANNA (Si aplica) -->
+                                <li v-for="cliente in poliza.clientes" :key="'anna-' + cliente.id">
+                                    <template v-if="cliente.anna_credentials && cliente.anna_credentials.length > 0">
+                                        <div v-for="cred in cliente.anna_credentials" :key="cred.id" class="p-6 bg-blue-50/20 dark:bg-blue-900/10 border-t border-blue-100 dark:border-blue-800/50">
+                                            <div class="flex items-center justify-between gap-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="h-8 w-8 bg-blue-100 dark:bg-blue-900/40 rounded flex items-center justify-center">
+                                                        <svg class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-[10px] font-black text-blue-700 dark:text-blue-400 uppercase tracking-widest">Plataforma ANNA</p>
+                                                        <p class="text-[9px] text-gray-500 font-bold uppercase">{{ cliente.nombre_razon_social }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex gap-6">
+                                                    <div>
+                                                        <p class="text-[9px] font-bold text-gray-400 uppercase">Usuario</p>
+                                                        <p class="text-xs font-mono font-bold text-gray-900 dark:text-white">{{ cred.usuario }}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-[9px] font-bold text-gray-400 uppercase">Contraseña</p>
+                                                        <p class="text-xs font-mono font-bold text-gray-900 dark:text-white">{{ cred.password }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -283,4 +395,17 @@ const getStatusClass = (estado) => {
 
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmationModal
+        :show="confirmation.show"
+        :title="confirmation.title"
+        :message="confirmation.message"
+        :type="confirmation.type"
+        :confirm-label="confirmation.confirmLabel"
+        @close="confirmation.show = false"
+        @confirm="() => {
+            confirmation.show = false;
+            if (confirmation.callback) confirmation.callback();
+        }"
+    />
 </template>

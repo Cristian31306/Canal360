@@ -1,7 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import ConfirmationModal from '@/Components/ConfirmationModal.vue';
 
 const props = defineProps({
     cartera: Object
@@ -48,6 +49,37 @@ const getStatusClass = (status) => {
         default: return 'bg-gray-100 text-gray-800 ring-gray-600/20';
     }
 };
+
+const confirmation = ref({
+    show: false,
+    title: '',
+    message: '',
+    type: 'danger',
+    confirmLabel: 'Confirmar',
+    callback: null
+});
+
+const deleteCartera = () => {
+    confirmation.value = {
+        show: true,
+        title: 'Eliminar Registro de Cartera',
+        message: '¿Estás seguro de que deseas eliminar este registro de cartera? Esta acción solo es posible si no hay abonos registrados.',
+        type: 'danger',
+        confirmLabel: 'Eliminar',
+        callback: () => router.delete(route('cartera.destroy', props.cartera.id))
+    };
+};
+
+const deleteAbono = (id) => {
+    confirmation.value = {
+        show: true,
+        title: 'Eliminar Abono',
+        message: '¿Estás seguro de que deseas eliminar este abono? El saldo de la cartera se actualizará automáticamente.',
+        type: 'danger',
+        confirmLabel: 'Eliminar',
+        callback: () => router.delete(route('cartera.abonos.destroy', id))
+    };
+};
 </script>
 
 <template>
@@ -62,6 +94,12 @@ const getStatusClass = (status) => {
                 <h2 class="text-xl font-black text-gray-900 border-l-4 border-blue-600 pl-3 dark:text-gray-100 uppercase tracking-widest">
                     Gestión de Cobro: #{{ cartera.poliza.numero_poliza }}
                 </h2>
+                <div class="ml-auto" v-if="cartera.abonos.length === 0">
+                    <button @click="deleteCartera" class="inline-flex items-center gap-2 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-xs font-black uppercase tracking-widest hover:bg-red-100 transition-colors">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        Eliminar Registro
+                    </button>
+                </div>
             </div>
         </template>
 
@@ -139,6 +177,7 @@ const getStatusClass = (status) => {
                                 <th class="px-8 py-4 text-left text-[10px] font-black text-gray-500 uppercase tracking-widest">Método</th>
                                 <th class="px-8 py-4 text-left text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">Monto</th>
                                 <th class="px-8 py-4 text-left text-[10px] font-black text-gray-500 uppercase tracking-widest">Referencia / Observación</th>
+                                <th class="px-8 py-4 text-center text-[10px] font-black text-gray-500 uppercase tracking-widest">Acciones</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
@@ -149,6 +188,11 @@ const getStatusClass = (status) => {
                                 <td class="px-8 py-4 text-xs text-gray-500 dark:text-gray-400 italic">
                                     {{ abono.referencia || 'N/A' }}
                                     <p v-if="abono.observaciones" class="mt-1 opacity-70">{{ abono.observaciones }}</p>
+                                </td>
+                                <td class="px-8 py-4 text-center">
+                                    <button @click="deleteAbono(abono.id)" class="text-gray-400 hover:text-red-500 transition-colors">
+                                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                    </button>
                                 </td>
                             </tr>
                             <tr v-if="cartera.abonos.length === 0">
@@ -226,4 +270,17 @@ const getStatusClass = (status) => {
 
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmationModal
+        :show="confirmation.show"
+        :title="confirmation.title"
+        :message="confirmation.message"
+        :type="confirmation.type"
+        :confirm-label="confirmation.confirmLabel"
+        @close="confirmation.show = false"
+        @confirm="() => {
+            confirmation.show = false;
+            if (confirmation.callback) confirmation.callback();
+        }"
+    />
 </template>

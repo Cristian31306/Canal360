@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\DB;
 use App\Exports\PolizasExport;
 use Maatwebsite\Excel\Facades\Excel;
 
+use App\Traits\AuditoriaHelper;
+
 class PolizaController extends Controller
 {
+    use AuditoriaHelper;
     public function index(Request $request)
     {
         $query = Poliza::with(['aseguradora', 'ramo', 'riesgo', 'clientes']);
@@ -86,32 +89,62 @@ class PolizaController extends Controller
         $query = Poliza::with(['aseguradora', 'ramo', 'riesgo', 'clientes', 'polizaAnterior:id,liquidacion']);
 
         if ($tab === 'upcoming') {
-            // Pólizas vigentes o vencidas que vencen en los próximos 91 días o vencieron hace máximo 30 días
-            // Y que NO tienen ya un trámite de renovación iniciado
             $query->whereIn('estado', ['vigente', 'vencida'])
                   ->whereBetween('fin_vigencia', [now()->subDays(30), now()->addDays(91)])
                   ->whereDoesntHave('polizaSiguiente');
         } elseif ($tab === 'liquidated') {
-            // Pólizas clonadas esperando ser enviadas
             $query->where('estado', 'liquidada');
         } elseif ($tab === 'processing') {
-            // Pólizas en la aseguradora
             $query->where('estado', 'en_proceso');
         } elseif ($tab === 'lost') {
-            // Pólizas vencidas hace más de 30 días y que no han sido marcadas como renovadas
             $query->where('estado', 'vencida')
                   ->where('fin_vigencia', '<', now()->subDays(30));
         }
 
-        // Aplicar los mismos filtros que en index si se desea
-        if ($request->filled('aseguradora_id')) $query->where('aseguradora_id', $request->aseguradora_id);
-        if ($request->filled('ramo_id')) $query->where('ramo_id', $request->ramo_id);
+        // Filtro de búsqueda general
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where(function($q) use ($search) {
+                $q->where('numero_poliza', 'like', "%{$search}%")
+                  ->orWhereHas('aseguradora', function($sq) use ($search) {
+                      $sq->where('nombre', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('clientes', function($sq) use ($search) {
+                      $sq->where('nombre_razon_social', 'like', "%{$search}%")
+                        ->orWhere('numero_documento', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        // Filtro por Aseguradora
+        if ($request->filled('aseguradora_id')) {
+            $query->where('aseguradora_id', $request->aseguradora_id);
+        }
+
+        // Filtro por Ramo
+        if ($request->filled('ramo_id')) {
+            $query->where('ramo_id', $request->ramo_id);
+        }
+
+        // Filtro por Cliente
+        if ($request->filled('cliente_id')) {
+            $query->whereHas('clientes', function($q) use ($request) {
+                $q->where('clientes.id', $request->cliente_id);
+            });
+        }
+
+        // Filtro por Año
+        if ($request->filled('anio')) {
+            $fechaTipo = $request->get('fecha_tipo', 'fin_vigencia');
+            $query->whereYear($fechaTipo, $request->anio);
+        }
 
         return Inertia::render('Polizas/Renewals/Index', [
             'polizas' => $query->latest()->paginate(10)->withQueryString(),
-            'filters' => $request->all(['tab', 'aseguradora_id', 'ramo_id']),
+            'filters' => $request->all(['tab', 'search', 'aseguradora_id', 'ramo_id', 'cliente_id', 'anio', 'fecha_tipo']),
             'aseguradoras' => Aseguradora::orderBy('nombre')->get(['id', 'nombre']),
             'ramos' => Ramo::orderBy('nombre')->get(['id', 'nombre']),
+            'clientes' => Cliente::orderBy('nombre_razon_social')->get(['id', 'nombre_razon_social']),
         ]);
     }
 
@@ -160,6 +193,11 @@ class PolizaController extends Controller
                 ]);
             }
 
+            $this->registrarAuditoria('Liquidar Póliza', 'Póliza', $newPoliza->id, [
+                'poliza_anterior_id' => $poliza->id,
+                'liquidacion' => $request->liquidacion
+            ]);
+
             return redirect()->back()->with('success', 'Póliza liquidada y preparada para trámite.');
         });
     }
@@ -186,6 +224,7 @@ class PolizaController extends Controller
             'fin_vigencia' => 'required|date|after:inicio_vigencia',
             'valor_asegurado' => 'required|numeric|min:0',
             'prima_antes_iva' => 'required|numeric|min:0',
+            'iva' => 'required|numeric|min:0',
             'prima_total' => 'required|numeric|min:0',
             'tasa' => 'nullable|numeric|min:0',
         ]);
@@ -193,8 +232,7 @@ class PolizaController extends Controller
         return DB::transaction(function () use ($poliza, $validated) {
             // Aseguramos que IVA sea 0 si no se usa
             $data = array_merge($validated, [
-                'estado' => 'vigente',
-                'iva' => 0
+                'estado' => 'vigente'
             ]);
 
             // Actualizar la nueva póliza a vigente con todos los datos finales
@@ -214,6 +252,8 @@ class PolizaController extends Controller
                     'estado' => 'pendiente'
                 ]
             );
+
+            $this->registrarAuditoria('Finalizar Renovación', 'Póliza', $poliza->id, $data);
 
             return redirect()->back()->with('success', 'Renovación finalizada exitosamente. La póliza ahora está vigente.');
         });
@@ -268,7 +308,6 @@ class PolizaController extends Controller
         ]);
 
         DB::transaction(function () use ($validated) {
-            $validated['iva'] = 0; // Se establece en 0 por defecto
             $poliza = Poliza::create($validated);
  
             foreach ($validated['clientes'] as $clienteData) {
@@ -282,6 +321,8 @@ class PolizaController extends Controller
                 'fecha_limite' => $poliza->expedicion_fecha->addDays(30), // Por defecto 30 días
                 'estado' => 'pendiente'
             ]);
+
+            $this->registrarAuditoria('Crear Póliza', 'Póliza', $poliza->id, $validated);
         });
 
         return redirect()->route('polizas.index')->with('success', 'Póliza registrada exitosamente.');
@@ -289,7 +330,14 @@ class PolizaController extends Controller
 
     public function show(string $id)
     {
-        $poliza = Poliza::with(['aseguradora', 'ramo', 'riesgo', 'clientes', 'cartera'])->findOrFail($id);
+        $poliza = Poliza::with([
+            'aseguradora', 
+            'ramo', 
+            'riesgo', 
+            'clientes.paymentCredentials.aseguradora', 
+            'clientes.annaCredentials',
+            'cartera'
+        ])->findOrFail($id);
 
         return Inertia::render('Polizas/Show', [
             'poliza' => $poliza
@@ -336,6 +384,7 @@ class PolizaController extends Controller
         ]);
 
         DB::transaction(function () use ($poliza, $validated) {
+            $antes = $poliza->toArray();
             $poliza->update($validated);
 
             $syncData = [];
@@ -343,6 +392,8 @@ class PolizaController extends Controller
                 $syncData[$clienteData['id']] = ['rol' => $clienteData['rol']];
             }
             $poliza->clientes()->sync($syncData);
+
+            $this->registrarAuditoria('Editar Póliza', 'Póliza', $poliza->id, $validated, $antes);
         });
 
         return redirect()->route('polizas.index')->with('success', 'Póliza actualizada exitosamente.');
@@ -350,7 +401,21 @@ class PolizaController extends Controller
 
     public function destroy(string $id)
     {
-        $poliza = Poliza::findOrFail($id);
+        $poliza = Poliza::with(['cartera.abonos', 'polizaSiguiente'])->findOrFail($id);
+
+        // Verificar si tiene abonos en cualquiera de sus registros de cartera
+        foreach ($poliza->cartera as $cartera) {
+            if ($cartera->abonos()->count() > 0) {
+                return redirect()->back()->with('error', 'No se puede eliminar la póliza porque tiene abonos registrados en cartera.');
+            }
+        }
+
+        if ($poliza->polizaSiguiente()->exists()) {
+            return redirect()->back()->with('error', 'No se puede eliminar la póliza porque tiene un trámite de renovación posterior.');
+        }
+
+        $this->registrarAuditoria('Eliminar Póliza', 'Póliza', $poliza->id, $poliza->toArray());
+
         $poliza->delete();
 
         return redirect()->route('polizas.index')->with('success', 'Póliza eliminada exitosamente.');

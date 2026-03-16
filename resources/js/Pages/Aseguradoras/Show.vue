@@ -1,12 +1,57 @@
 <script setup>
+import { ref, watch, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import ConfirmationModal from '@/Components/ConfirmationModal.vue';
 
 const props = defineProps({
     aseguradora: Object,
     ramosCount: Array,
     statsAnuales: Array,
 });
+
+const confirmation = ref({
+    show: false,
+    title: '',
+    message: '',
+    type: 'danger',
+    confirmLabel: 'Confirmar',
+    callback: null
+});
+
+const page = usePage();
+
+onMounted(() => {
+    if (page.props.flash?.error) showAlert('Alerta', page.props.flash.error, 'danger');
+    if (page.props.flash?.success) showAlert('Éxito', page.props.flash.success, 'success');
+});
+
+watch(() => page.props.flash, (flash) => {
+    if (flash?.error) showAlert('Alerta', flash.error, 'danger');
+    if (flash?.success) showAlert('Éxito', flash.success, 'success');
+}, { deep: true });
+
+const showAlert = (title, message, type = 'danger') => {
+    confirmation.value = {
+        show: true,
+        title,
+        message: message.includes('No se puede eliminar') ? `Alerta: ${message}` : message,
+        type,
+        confirmLabel: 'Entendido',
+        callback: null
+    };
+};
+
+const deleteAseguradora = () => {
+    confirmation.value = {
+        show: true,
+        title: 'Eliminar Aseguradora',
+        message: '¿Estás seguro de que deseas eliminar esta aseguradora? Esta acción no se puede deshacer si tiene pólizas vinculadas.',
+        type: 'danger',
+        confirmLabel: 'Eliminar',
+        callback: () => router.delete(route('aseguradoras.destroy', props.aseguradora.id))
+    };
+};
 
 const getInitials = (name) => {
     if (!name) return '?';
@@ -29,15 +74,24 @@ const getInitials = (name) => {
                     <h2 class="text-2xl font-bold leading-tight text-gray-900 border-l-4 border-indigo-600 pl-3 dark:text-gray-100 flex items-center gap-3">
                         <span class="truncate">{{ aseguradora.nombre }}</span>
                     </h2>
-                    <Link
-                        :href="route('aseguradoras.edit', aseguradora.id)"
-                        class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-white dark:ring-gray-600 dark:hover:bg-gray-600 transition-colors"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                        </svg>
-                        Editar Aseguradora
-                    </Link>
+                    <div class="flex items-center gap-3">
+                        <Link
+                            :href="route('aseguradoras.edit', aseguradora.id)"
+                            class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-white dark:ring-gray-600 dark:hover:bg-gray-600 transition-colors"
+                        >
+                            <svg class="-ml-0.5 mr-1.5 h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                            </svg>
+                            Editar Aseguradora
+                        </Link>
+                        <button @click="deleteAseguradora"
+                            class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-sm font-bold text-red-600 shadow-sm ring-1 ring-inset ring-red-300 hover:bg-red-50 dark:bg-gray-700 dark:text-red-400 dark:ring-red-900/50 transition-all">
+                            <svg class="-ml-0.5 mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Eliminar
+                        </button>
+                    </div>
                 </div>
             </div>
         </template>
@@ -153,4 +207,17 @@ const getInitials = (name) => {
 
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmationModal
+        :show="confirmation.show"
+        :title="confirmation.title"
+        :message="confirmation.message"
+        :type="confirmation.type"
+        :confirm-label="confirmation.confirmLabel"
+        @close="confirmation.show = false"
+        @confirm="() => {
+            confirmation.show = false;
+            if (confirmation.callback) confirmation.callback();
+        }"
+    />
 </template>

@@ -11,8 +11,11 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Password;
 
+use App\Traits\AuditoriaHelper;
+
 class UserController extends Controller
 {
+    use AuditoriaHelper;
     /**
      * Check if the authenticated user is an admin.
      */
@@ -31,7 +34,7 @@ class UserController extends Controller
         $this->authorizeAdmin();
 
         return Inertia::render('Admin/Users', [
-            'users' => User::select('id', 'name', 'email', 'is_admin', 'is_active', 'created_at')
+            'users' => User::select('id', 'name', 'email', 'is_admin', 'is_active', 'permisos', 'created_at')
                 ->latest()
                 ->get(),
         ]);
@@ -49,15 +52,19 @@ class UserController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'is_admin' => 'boolean',
+            'permisos' => 'nullable|array',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'is_admin' => $request->is_admin ?? false,
             'is_active' => true,
+            'permisos' => $request->permisos ?? [],
         ]);
+
+        $this->registrarAuditoria('Crear Usuario', 'Usuario', $user->id, $request->except(['password', 'password_confirmation']));
 
         return redirect()->back()->with('success', 'Usuario creado correctamente.');
     }
@@ -74,6 +81,7 @@ class UserController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:users,email,'.$user->id,
             'is_admin' => 'boolean',
             'is_active' => 'boolean',
+            'permisos' => 'nullable|array',
         ];
 
         if ($request->filled('password') && $request->password !== '') {
@@ -84,6 +92,7 @@ class UserController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->permisos = $request->permisos ?? [];
         
         // Only update password if provided
         if ($request->filled('password')) {
@@ -96,7 +105,10 @@ class UserController extends Controller
             $user->is_active = $request->is_active;
         }
 
+        $antes = $user->toArray();
         $user->save();
+
+        $this->registrarAuditoria('Editar Usuario', 'Usuario', $user->id, $request->except(['password', 'password_confirmation']), $antes);
 
         return redirect()->back()->with('success', 'Usuario actualizado correctamente.');
     }

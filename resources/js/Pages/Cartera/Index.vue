@@ -1,8 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { ref, watch, onMounted } from 'vue';
 import Pagination from '../../Components/Pagination.vue';
+import ConfirmationModal from '@/Components/ConfirmationModal.vue';
 
 // Función debounce local para evitar dependencias externas problemáticas en el build
 const debounce = (fn, wait) => {
@@ -81,6 +82,49 @@ const getStatusClass = (status) => {
         case 'acuerdo_pago': return 'bg-blue-100 text-blue-800 ring-blue-600/20';
         default: return 'bg-gray-100 text-gray-800 ring-gray-600/20';
     }
+};
+
+const confirmation = ref({
+    show: false,
+    title: '',
+    message: '',
+    type: 'danger',
+    confirmLabel: 'Confirmar',
+    callback: null
+});
+
+const page = usePage();
+
+onMounted(() => {
+    if (page.props.flash?.error) showAlert('Alerta', page.props.flash.error, 'danger');
+    if (page.props.flash?.success) showAlert('Éxito', page.props.flash.success, 'success');
+});
+
+watch(() => page.props.flash, (flash) => {
+    if (flash?.error) showAlert('Alerta', flash.error, 'danger');
+    if (flash?.success) showAlert('Éxito', flash.success, 'success');
+}, { deep: true });
+
+const showAlert = (title, message, type = 'danger') => {
+    confirmation.value = {
+        show: true,
+        title,
+        message: message.includes('No se puede eliminar') ? `Alerta: ${message}` : message,
+        type,
+        confirmLabel: 'Entendido',
+        callback: null
+    };
+};
+
+const deleteCartera = (id) => {
+    confirmation.value = {
+        show: true,
+        title: 'Eliminar Registro de Cartera',
+        message: '¿Estás seguro de que deseas eliminar este registro de cartera? Esta acción solo es posible si no hay abonos registrados.',
+        type: 'danger',
+        confirmLabel: 'Eliminar',
+        callback: () => router.delete(route('cartera.destroy', id))
+    };
 };
 </script>
 
@@ -238,10 +282,17 @@ const getStatusClass = (status) => {
                                     </span>
                                 </td>
                                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 font-sans">
-                                    <Link :href="route('cartera.show', cartera.id)" class="text-blue-600 hover:text-blue-900 font-black uppercase text-[10px] tracking-widest flex items-center justify-end gap-1 group">
-                                        Gestionar
-                                        <svg class="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                                    </Link>
+                                    <div class="flex items-center justify-end gap-3">
+                                        <Link :href="route('cartera.show', cartera.id)" class="text-blue-600 hover:text-blue-900 font-black uppercase text-[10px] tracking-widest flex items-center gap-1 group">
+                                            Gestionar
+                                            <svg class="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                                        </Link>
+                                        <button v-if="cartera.total_abonado <= 0" @click="deleteCartera(cartera.id)" class="text-gray-400 hover:text-red-500 transition-colors" title="Eliminar">
+                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             <tr v-if="carteras.data.length === 0">
@@ -261,4 +312,16 @@ const getStatusClass = (status) => {
             </div>
         </div>
     </AuthenticatedLayout>
+    <ConfirmationModal
+        :show="confirmation.show"
+        :title="confirmation.title"
+        :message="confirmation.message"
+        :type="confirmation.type"
+        :confirm-label="confirmation.confirmLabel"
+        @close="confirmation.show = false"
+        @confirm="() => {
+            confirmation.show = false;
+            if (confirmation.callback) confirmation.callback();
+        }"
+    />
 </template>

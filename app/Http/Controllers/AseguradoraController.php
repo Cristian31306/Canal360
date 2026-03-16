@@ -6,8 +6,11 @@ use App\Models\Aseguradora;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use App\Traits\AuditoriaHelper;
+
 class AseguradoraController extends Controller
 {
+    use AuditoriaHelper;
     /**
      * Display a listing of the resource.
      */
@@ -46,7 +49,12 @@ class AseguradoraController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
-            'nit' => 'required|string|max:50|unique:aseguradoras,nit',
+            'nit' => [
+                'required', 
+                'string', 
+                'max:50', 
+                \Illuminate\Validation\Rule::unique('aseguradoras')->whereNull('deleted_at')
+            ],
             'contactos' => 'nullable|array',
             'contactos.*.rol' => 'required|string|max:255',
             'contactos.*.nombre' => 'required|string|max:255',
@@ -69,6 +77,8 @@ class AseguradoraController extends Controller
         if (!empty($validated['contactos'])) {
             $aseguradora->contactos()->createMany($validated['contactos']);
         }
+
+        $this->registrarAuditoria('Crear Aseguradora', 'Aseguradora', $aseguradora->id, $validated);
 
         return redirect()->route('aseguradoras.index')->with('success', 'Aseguradora registrada exitosamente.');
     }
@@ -124,7 +134,12 @@ class AseguradoraController extends Controller
 
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
-            'nit' => 'required|string|max:50|unique:aseguradoras,nit,'.$aseguradora->id,
+            'nit' => [
+                'required', 
+                'string', 
+                'max:50', 
+                \Illuminate\Validation\Rule::unique('aseguradoras')->ignore($aseguradora->id)->whereNull('deleted_at')
+            ],
             'contactos' => 'nullable|array',
             'contactos.*.id' => 'nullable|integer|exists:contacto_aseguradoras,id',
             'contactos.*.rol' => 'required|string|max:255',
@@ -151,6 +166,7 @@ class AseguradoraController extends Controller
             $data['logo'] = null;
         }
 
+        $antes = $aseguradora->toArray();
         $aseguradora->update($data);
 
         if (isset($validated['contactos']) && is_array($validated['contactos'])) {
@@ -174,6 +190,8 @@ class AseguradoraController extends Controller
             $aseguradora->contactos()->delete();
         }
 
+        $this->registrarAuditoria('Editar Aseguradora', 'Aseguradora', $aseguradora->id, $validated, $antes);
+
         return redirect()->route('aseguradoras.index')->with('success', 'Aseguradora actualizada exitosamente.');
     }
 
@@ -183,6 +201,17 @@ class AseguradoraController extends Controller
     public function destroy(string $id)
     {
         $aseguradora = Aseguradora::findOrFail($id);
+
+        if ($aseguradora->polizas()->exists()) {
+            return redirect()->back()->with('error', 'No se puede eliminar la aseguradora porque tiene pólizas asociadas.');
+        }
+
+        if ($aseguradora->contactos()->exists()) {
+            return redirect()->back()->with('error', 'No se puede eliminar la aseguradora porque tiene contactos registrados.');
+        }
+
+        $this->registrarAuditoria('Eliminar Aseguradora', 'Aseguradora', $aseguradora->id, $aseguradora->toArray());
+
         $aseguradora->delete();
 
         return redirect()->route('aseguradoras.index')->with('success', 'Aseguradora eliminada exitosamente.');

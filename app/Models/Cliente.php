@@ -25,4 +25,14 @@ class Cliente extends Model
                     ->withPivot('rol')
                     ->withTimestamps();
     }
+
+    public function annaCredentials()
+    {
+        return $this->hasMany(ClienteCredencialAnna::class);
+    }
+
+    public function paymentCredentials()
+    {
+        return $this->hasMany(ClienteCredencialPago::class);
+    }
 }

@@ -1,10 +1,55 @@
 <script setup>
+import { ref, watch, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import ConfirmationModal from '@/Components/ConfirmationModal.vue';
 
-defineProps({
+const props = defineProps({
     cliente: Object,
 });
+
+const confirmation = ref({
+    show: false,
+    title: '',
+    message: '',
+    type: 'danger',
+    confirmLabel: 'Confirmar',
+    callback: null
+});
+
+const page = usePage();
+
+onMounted(() => {
+    if (page.props.flash?.error) showAlert('Alerta', page.props.flash.error, 'danger');
+    if (page.props.flash?.success) showAlert('Éxito', page.props.flash.success, 'success');
+});
+
+watch(() => page.props.flash, (flash) => {
+    if (flash?.error) showAlert('Alerta', flash.error, 'danger');
+    if (flash?.success) showAlert('Éxito', flash.success, 'success');
+}, { deep: true });
+
+const showAlert = (title, message, type = 'danger') => {
+    confirmation.value = {
+        show: true,
+        title,
+        message: message.includes('No se puede eliminar') ? `Alerta: ${message}` : message,
+        type,
+        confirmLabel: 'Entendido',
+        callback: null
+    };
+};
+
+const deleteCliente = () => {
+    confirmation.value = {
+        show: true,
+        title: 'Eliminar Cliente',
+        message: '¿Estás seguro de que deseas eliminar este cliente? Esta acción no se puede deshacer si tiene pólizas o riesgos asociados.',
+        type: 'danger',
+        confirmLabel: 'Eliminar',
+        callback: () => router.delete(route('clientes.destroy', props.cliente.id))
+    };
+};
 
 const formatDate = (dateString) => {
     if (!dateString) return '-';
@@ -41,6 +86,13 @@ const formatDate = (dateString) => {
                         </svg>
                         Editar Cliente
                     </Link>
+                    <button @click="deleteCliente"
+                        class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-sm font-bold text-red-600 shadow-sm ring-1 ring-inset ring-red-300 hover:bg-red-50 dark:bg-gray-700 dark:text-red-400 dark:ring-red-900/50 transition-all">
+                        <svg class="-ml-0.5 mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Eliminar
+                    </button>
                 </div>
             </div>
         </template>
@@ -132,6 +184,71 @@ const formatDate = (dateString) => {
                         </div>
                     </div>
 
+                    <!-- Credenciales ANNA -->
+                    <div v-if="cliente.anna_credentials && cliente.anna_credentials.length > 0" class="bg-blue-50/50 dark:bg-blue-900/10 shadow-sm ring-1 ring-blue-200 sm:rounded-xl dark:ring-blue-800 overflow-hidden">
+                        <div class="px-4 py-5 sm:p-6">
+                            <h3 class="text-lg font-semibold leading-6 text-blue-900 dark:text-blue-100 mb-4 flex items-center gap-2">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                                </svg>
+                                Usuarios ANNA (Ramo Minero)
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div v-for="cred in cliente.anna_credentials" :key="cred.id" class="bg-white dark:bg-gray-800 p-3 rounded-lg border border-blue-100 dark:border-gray-700">
+                                    <div class="flex justify-between items-start">
+                                        <div class="space-y-1">
+                                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Usuario</p>
+                                            <p class="text-sm font-mono text-blue-600 dark:text-blue-400">{{ cred.usuario }}</p>
+                                        </div>
+                                        <div class="space-y-1 text-right">
+                                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Contraseña</p>
+                                            <p class="text-sm font-mono text-gray-900 dark:text-gray-100">{{ cred.password }}</p>
+                                        </div>
+                                    </div>
+                                    <div v-if="cred.observaciones" class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+                                        <p class="text-[10px] text-gray-500 italic">{{ cred.observaciones }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portales de Pago -->
+                    <div v-if="cliente.payment_credentials && cliente.payment_credentials.length > 0" class="bg-emerald-50/50 dark:bg-emerald-900/10 shadow-sm ring-1 ring-emerald-200 sm:rounded-xl dark:ring-emerald-800 overflow-hidden">
+                        <div class="px-4 py-5 sm:p-6">
+                            <h3 class="text-lg font-semibold leading-6 text-emerald-900 dark:text-emerald-100 mb-4 flex items-center gap-2">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                                </svg>
+                                Portales de Pago de Aseguradoras
+                            </h3>
+                            <div class="space-y-3">
+                                <div v-for="cred in cliente.payment_credentials" :key="cred.id" class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white dark:bg-gray-800 p-4 rounded-lg border border-emerald-100 dark:border-gray-700 gap-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="h-8 w-8 bg-emerald-100 dark:bg-emerald-900/40 rounded flex items-center justify-center">
+                                            <img v-if="cred.aseguradora.logo" :src="'/storage/' + cred.aseguradora.logo" alt="" class="h-6 w-6 object-contain">
+                                            <span v-else class="text-[10px] font-bold">{{ cred.aseguradora.nombre.substring(0,2) }}</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-bold text-gray-900 dark:text-white">{{ cred.aseguradora.nombre }}</p>
+                                            <p v-if="cred.observaciones" class="text-[10px] text-gray-500">{{ cred.observaciones }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-6 w-full sm:w-auto">
+                                        <div class="flex-1 sm:flex-initial">
+                                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Usuario</p>
+                                            <p class="text-sm font-mono text-emerald-600 dark:text-emerald-400">{{ cred.usuario }}</p>
+                                        </div>
+                                        <div class="flex-1 sm:flex-initial">
+                                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Contraseña</p>
+                                            <p class="text-sm font-mono text-gray-900 dark:text-gray-100">{{ cred.password }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Gestión de Riesgos y Pólizas Protegidas -->
                     <div class="space-y-6">
                         <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest pl-1">Auditoría de Riesgos y Pólizas</h3>
@@ -205,4 +322,17 @@ const formatDate = (dateString) => {
             </div>
         </div>
     </AuthenticatedLayout>
+
+    <ConfirmationModal
+        :show="confirmation.show"
+        :title="confirmation.title"
+        :message="confirmation.message"
+        :type="confirmation.type"
+        :confirm-label="confirmation.confirmLabel"
+        @close="confirmation.show = false"
+        @confirm="() => {
+            confirmation.show = false;
+            if (confirmation.callback) confirmation.callback();
+        }"
+    />
 </template>

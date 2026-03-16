@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, Link } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -14,6 +14,19 @@ const props = defineProps({
     users: Array,
 });
 
+const modulosDisponibles = [
+    { id: 'clientes', nombre: 'Clientes', icon: 'M17 20h5V4H2v16h5m8 0v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5m8 0H7' },
+    { id: 'aseguradoras', nombre: 'Aseguradoras', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
+    { id: 'ramos', nombre: 'Ramos', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
+    { id: 'riesgos', nombre: 'Riesgos', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+    { id: 'polizas', nombre: 'Pólizas', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+    { id: 'renovaciones', nombre: 'Renovaciones', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15' },
+    { id: 'cartera', nombre: 'Cartera', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+    { id: 'portales', nombre: 'Portales', icon: 'M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z' },
+    { id: 'minerales', nombre: 'Minerales', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+    { id: 'auditoria', nombre: 'Auditoría', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01' },
+];
+
 const userToEdit = ref(null);
 const creatingUser = ref(false);
 const editingUser = ref(false);
@@ -25,6 +38,7 @@ const form = useForm({
     password_confirmation: '',
     is_admin: false,
     is_active: true,
+    permisos: [],
 });
 
 const openCreateModal = () => {
@@ -46,6 +60,7 @@ const openEditModal = (user) => {
     form.email = user.email;
     form.is_admin = !!user.is_admin;
     form.is_active = !!user.is_active;
+    form.permisos = Array.isArray(user.permisos) ? user.permisos : [];
     form.password = '';
     form.password_confirmation = '';
 };
@@ -114,12 +129,20 @@ const formatDate = (dateString) => {
                         </h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400">Gestiona roles y estados de cuenta para el personal del sistema.</p>
                     </div>
-                    <PrimaryButton @click="openCreateModal" class="rounded-xl px-6 py-3 font-black tracking-widest bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-100 active:scale-95 transition-all">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                        Nuevo Acceso
-                    </PrimaryButton>
+                    <div class="flex gap-2">
+                        <Link :href="route('admin.auditoria.index')" class="inline-flex items-center rounded-xl px-5 py-3 font-black tracking-widest bg-slate-100 text-slate-700 hover:bg-slate-200 shadow-sm active:scale-95 transition-all text-xs uppercase">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                            Auditoría
+                        </Link>
+                        <PrimaryButton @click="openCreateModal" class="rounded-xl px-6 py-3 font-black tracking-widest bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-100 active:scale-95 transition-all text-xs">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            Nuevo Acceso
+                        </PrimaryButton>
+                    </div>
                 </div>
 
                 <!-- Users Table -->
@@ -267,6 +290,22 @@ const formatDate = (dateString) => {
                         </label>
                     </div>
 
+                    <div v-if="!form.is_admin" class="space-y-4">
+                        <InputLabel value="Permisos de Módulos" class="font-black text-[10px] uppercase tracking-widest text-gray-400 mb-2" />
+                        <div class="grid grid-cols-2 gap-3">
+                            <div v-for="modulo in modulosDisponibles" :key="modulo.id" 
+                                class="flex items-center p-3 rounded-xl border border-gray-100 bg-white hover:border-blue-100 transition-colors">
+                                <Checkbox :id="'perm_create_'+modulo.id" v-model:checked="form.permisos" :value="modulo.id" class="w-5 h-5 rounded-md border-gray-300 text-blue-600" />
+                                <label :for="'perm_create_'+modulo.id" class="ms-3 flex items-center gap-2 cursor-pointer">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="modulo.icon" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-gray-700">{{ modulo.nombre }}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="flex justify-end gap-3 pt-6 border-t border-gray-100">
                         <SecondaryButton @click="closeCreateModal" class="rounded-xl font-black uppercase text-[10px] tracking-widest border-gray-200 px-6">Cancelar</SecondaryButton>
                         <PrimaryButton class="rounded-xl px-8 bg-blue-600 hover:bg-blue-700 shadow-xl shadow-blue-100 active:scale-95 transition-all font-black uppercase text-[10px] tracking-widest" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
@@ -339,7 +378,23 @@ const formatDate = (dateString) => {
                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                            </svg>
-                           <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">No puedes modificar tus propios permisos de acceso.</p>
+                           <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">No puedes modificar tus propios privilegios.</p>
+                        </div>
+                    </div>
+
+                    <div v-if="!form.is_admin" class="space-y-4 border-t border-gray-100 pt-6">
+                        <InputLabel value="Permisos de Módulos" class="font-black text-[10px] uppercase tracking-widest text-gray-400 mb-2" />
+                        <div class="grid grid-cols-2 gap-3">
+                            <div v-for="modulo in modulosDisponibles" :key="modulo.id" 
+                                class="flex items-center p-3 rounded-xl border border-gray-100 bg-white hover:border-blue-100 transition-colors">
+                                <Checkbox :id="'perm_edit_'+modulo.id" v-model:checked="form.permisos" :value="modulo.id" class="w-5 h-5 rounded-md border-gray-300 text-blue-600" />
+                                <label :for="'perm_edit_'+modulo.id" class="ms-3 flex items-center gap-2 cursor-pointer">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="modulo.icon" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-gray-700">{{ modulo.nombre }}</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
 

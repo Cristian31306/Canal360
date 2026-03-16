@@ -13,6 +13,14 @@ const openGroups = ref({
     operaciones: false
 });
 
+const page = usePage();
+const user = computed(() => page.props.auth.user);
+
+const hasPermission = (moduleName) => {
+    if (user.value.is_admin) return true;
+    return user.value.permisos?.includes(moduleName);
+};
+
 onMounted(() => {
     const savedState = localStorage.getItem('sidebarCollapsed');
     if (savedState) {
@@ -20,7 +28,7 @@ onMounted(() => {
     }
     
     // Auto-abrir grupos si una ruta hija está activa
-    if (isActiveGroup(['aseguradoras', 'ramos', 'riesgos'])) openGroups.value.configuracion = true;
+    if (isActiveGroup(['aseguradoras', 'ramos', 'riesgos', 'portales'])) openGroups.value.configuracion = true;
     if (isActiveGroup(['polizas', 'cartera'])) openGroups.value.operaciones = true;
 });
 
@@ -28,40 +36,61 @@ watch(isSidebarCollapsed, (newVal) => {
     localStorage.setItem('sidebarCollapsed', newVal);
 });
 
-const navigation = [
-    { 
-        name: 'Clientes', 
-        route: 'clientes.index', 
-        icon: 'M17 20h5V4H2v16h5m8 0v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5m8 0H7', 
-        routeName: 'clientes' 
-    },
-    { 
-        name: 'Configuración', 
-        icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z', 
-        id: 'configuracion',
-        children: [
-            { name: 'Aseguradoras', route: 'aseguradoras.index', routeName: 'aseguradoras' },
-            { name: 'Ramos', route: 'ramos.index', routeName: 'ramos' },
-            { name: 'Riesgos', route: 'riesgos.index', routeName: 'riesgos' },
-        ]
-    },
-    { 
-        name: 'Operaciones', 
-        icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01', 
-        id: 'operaciones',
-        children: [
-            { name: 'Pólizas', route: 'polizas.index', routeName: 'polizas' },
-            { name: 'Renovaciones', route: 'polizas.renewals', routeName: 'polizas.renewals' },
-            { name: 'Cartera', route: 'cartera.index', routeName: 'cartera' },
-        ]
-    },
-    { 
-        name: 'Landing Page', 
-        route: 'settings.landing.index', 
-        icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2zM7 8h4v4H7V8z', 
-        routeName: 'settings.landing' 
-    },
-];
+const navigation = computed(() => {
+    const items = [
+        { 
+            name: 'Clientes', 
+            route: 'clientes.index', 
+            icon: 'M17 20h5V4H2v16h5m8 0v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5m8 0H7', 
+            routeName: 'clientes',
+            module: 'clientes'
+        },
+        { 
+            name: 'Configuración', 
+            icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z', 
+            id: 'configuracion',
+            children: [
+                { name: 'Aseguradoras', route: 'aseguradoras.index', routeName: 'aseguradoras', module: 'aseguradoras' },
+                { name: 'Ramos', route: 'ramos.index', routeName: 'ramos', module: 'ramos' },
+                { name: 'Riesgos', route: 'riesgos.index', routeName: 'riesgos', module: 'riesgos' },
+                { name: 'Portales Internos', route: 'portales.index', routeName: 'portales', module: 'portales' },
+            ]
+        },
+        { 
+            name: 'Operaciones', 
+            icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01', 
+            id: 'operaciones',
+            children: [
+                { name: 'Pólizas', route: 'polizas.index', routeName: 'polizas', module: 'polizas' },
+                { name: 'Renovaciones', route: 'polizas.renewals', routeName: 'polizas.renewals', module: 'renovaciones' },
+                { name: 'Cartera', route: 'cartera.index', routeName: 'cartera', module: 'cartera' },
+            ]
+        },
+        { 
+            name: 'Precio Minerales', 
+            route: 'minerales.index', 
+            icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z', 
+            routeName: 'minerales',
+            module: 'minerales'
+        },
+        { 
+            name: 'Landing Page', 
+            route: 'settings.landing.index', 
+            icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2zM7 8h4v4H7V8z', 
+            routeName: 'settings.landing',
+            adminOnly: true
+        },
+    ];
+
+    return items.filter(item => {
+        if (item.adminOnly) return user.value.is_admin;
+        if (item.children) {
+            item.children = item.children.filter(child => hasPermission(child.module));
+            return item.children.length > 0;
+        }
+        return hasPermission(item.module);
+    });
+});
 
 const isActiveMenu = (itemRouteName) => {
     if (!itemRouteName) return false;

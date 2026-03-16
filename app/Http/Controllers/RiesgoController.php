@@ -8,8 +8,11 @@ use App\Models\Ramo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use App\Traits\AuditoriaHelper;
+
 class RiesgoController extends Controller
 {
+    use AuditoriaHelper;
     public function index(Request $request)
     {
         $query = Riesgo::with('clientes');
@@ -65,12 +68,19 @@ class RiesgoController extends Controller
 
         $riesgo->clientes()->attach($validated['cliente_ids']);
 
+        $this->registrarAuditoria('Crear Riesgo', 'Riesgo', $riesgo->id, $validated);
+
         return redirect()->route('riesgos.index')->with('success', 'Riesgo registrado exitosamente.');
     }
 
     public function show(string $id)
     {
-        $riesgo = Riesgo::with(['clientes', 'polizas.aseguradora', 'polizas.ramo'])->findOrFail($id);
+        $riesgo = Riesgo::with([
+            'clientes.annaCredentials', 
+            'clientes.paymentCredentials.aseguradora',
+            'polizas.aseguradora', 
+            'polizas.ramo'
+        ])->findOrFail($id);
 
         return Inertia::render('Riesgos/Show', [
             'riesgo' => $riesgo
@@ -108,6 +118,7 @@ class RiesgoController extends Controller
             'numero_nad' => 'nullable|required_if:es_nad,true|string|max:100',
         ]);
 
+        $antes = $riesgo->toArray();
         $riesgo->update([
             'tipo_riesgo' => $validated['tipo_riesgo'],
             'identificador' => $validated['identificador'],
@@ -118,12 +129,21 @@ class RiesgoController extends Controller
 
         $riesgo->clientes()->sync($validated['cliente_ids']);
 
+        $this->registrarAuditoria('Editar Riesgo', 'Riesgo', $riesgo->id, $validated, $antes);
+
         return redirect()->route('riesgos.index')->with('success', 'Riesgo actualizado exitosamente.');
     }
 
     public function destroy(string $id)
     {
-        $riesgo = Riesgo::findOrFail($id);
+        $riesgo = Riesgo::withCount('polizas')->findOrFail($id);
+
+        if ($riesgo->polizas_count > 0) {
+            return redirect()->back()->with('error', 'No se puede eliminar el riesgo porque tiene pólizas asociadas.');
+        }
+
+        $this->registrarAuditoria('Eliminar Riesgo', 'Riesgo', $riesgo->id, $riesgo->toArray());
+
         $riesgo->delete();
 
         return redirect()->route('riesgos.index')->with('success', 'Riesgo eliminado exitosamente.');

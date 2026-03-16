@@ -35,23 +35,27 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('clientes', ClienteController::class);
-    Route::resource('aseguradoras', App\Http\Controllers\AseguradoraController::class);
-    Route::resource('ramos', App\Http\Controllers\RamoController::class)->except(['show']);
-    Route::resource('riesgos', App\Http\Controllers\RiesgoController::class);
-    Route::get('/polizas/export', [App\Http\Controllers\PolizaController::class, 'export'])->name('polizas.export');
-    Route::resource('polizas', App\Http\Controllers\PolizaController::class);
-    Route::get('/renovaciones', [App\Http\Controllers\PolizaController::class, 'renewals'])->name('polizas.renewals');
-    Route::post('/polizas/{poliza}/liquidar', [App\Http\Controllers\PolizaController::class, 'liquidate'])->name('polizas.liquidate');
-    Route::post('/polizas/{poliza}/enviar', [App\Http\Controllers\PolizaController::class, 'sendToInsurance'])->name('polizas.send-to-insurance');
-    Route::post('/polizas/{poliza}/finalizar-renovacion', [App\Http\Controllers\PolizaController::class, 'finalizeRenewal'])->name('polizas.finalize-renewal');
-    Route::delete('/polizas/{poliza}/cancelar', [App\Http\Controllers\PolizaController::class, 'cancelRenewal'])->name('polizas.cancel-renewal');
+    Route::resource('clientes', ClienteController::class)->middleware('can.access:clientes');
+    Route::resource('aseguradoras', App\Http\Controllers\AseguradoraController::class)->middleware('can.access:aseguradoras');
+    Route::resource('ramos', App\Http\Controllers\RamoController::class)->except(['show'])->middleware('can.access:ramos');
+    Route::resource('riesgos', App\Http\Controllers\RiesgoController::class)->middleware('can.access:riesgos');
+    Route::get('/polizas/export', [App\Http\Controllers\PolizaController::class, 'export'])->name('polizas.export')->middleware('can.access:polizas');
+    Route::resource('polizas', App\Http\Controllers\PolizaController::class)->middleware('can.access:polizas');
+    Route::get('/renovaciones', [App\Http\Controllers\PolizaController::class, 'renewals'])->name('polizas.renewals')->middleware('can.access:renovaciones');
+    Route::post('/polizas/{poliza}/liquidar', [App\Http\Controllers\PolizaController::class, 'liquidate'])->name('polizas.liquidate')->middleware('can.access:renovaciones');
+    Route::post('/polizas/{poliza}/enviar', [App\Http\Controllers\PolizaController::class, 'sendToInsurance'])->name('polizas.send-to-insurance')->middleware('can.access:polizas');
+    Route::post('/polizas/{poliza}/finalizar-renovacion', [App\Http\Controllers\PolizaController::class, 'finalizeRenewal'])->name('polizas.finalize-renewal')->middleware('can.access:renovaciones');
+    Route::delete('/polizas/{poliza}/cancelar', [App\Http\Controllers\PolizaController::class, 'cancelRenewal'])->name('polizas.cancel-renewal')->middleware('can.access:renovaciones');
     
     // Cartera y Abonos
-    Route::get('/cartera/export', [CarteraController::class, 'export'])->name('cartera.export');
-    Route::get('/cartera', [CarteraController::class, 'index'])->name('cartera.index');
-    Route::get('/cartera/{id}', [CarteraController::class, 'show'])->name('cartera.show');
-    Route::post('/cartera/{id}/abonos', [CarteraController::class, 'storeAbono'])->name('cartera.abonos.store');
+    Route::group(['middleware' => 'can.access:cartera'], function() {
+        Route::get('/cartera/export', [CarteraController::class, 'export'])->name('cartera.export');
+        Route::get('/cartera', [CarteraController::class, 'index'])->name('cartera.index');
+        Route::get('/cartera/{id}', [CarteraController::class, 'show'])->name('cartera.show');
+        Route::delete('/cartera/{id}', [CarteraController::class, 'destroy'])->name('cartera.destroy');
+        Route::post('/cartera/{id}/abonos', [CarteraController::class, 'storeAbono'])->name('cartera.abonos.store');
+        Route::delete('/cartera/abonos/{id}', [CarteraController::class, 'destroyAbono'])->name('cartera.abonos.destroy');
+    });
 
     // CMS Landing Page
     Route::get('/settings/landing', [LandingPageSettingsController::class, 'index'])->name('settings.landing.index');
@@ -62,6 +66,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
     Route::put('/admin/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
     Route::post('/admin/users/{user}/password-reset', [UserController::class, 'sendPasswordResetLink'])->name('admin.users.password.reset');
+
+    // Módulos Nuevos: Portales y Minerales
+    Route::resource('portales', App\Http\Controllers\PortalAgenciaController::class)->middleware('can.access:portales');
+    Route::resource('minerales', App\Http\Controllers\PrecioMineralController::class)->names('minerales')->middleware('can.access:minerales');
+
+    // Administración de Auditoría
+    Route::get('/admin/auditoria', [App\Http\Controllers\Admin\AuditoriaController::class, 'index'])
+        ->middleware('can.access:auditoria')
+        ->name('admin.auditoria.index');
 });
 
 require __DIR__.'/auth.php';

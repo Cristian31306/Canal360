@@ -6,8 +6,11 @@ use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use App\Traits\AuditoriaHelper;
+
 class ClienteController extends Controller
 {
+    use AuditoriaHelper;
     /**
      * Display a listing of the resource.
      */
@@ -45,7 +48,12 @@ class ClienteController extends Controller
         $validated = $request->validate([
             'tipo_persona' => 'required|in:natural,juridica',
             'tipo_documento' => 'required|string|max:10',
-            'numero_documento' => 'required|string|max:50|unique:clientes,numero_documento',
+            'numero_documento' => [
+                'required', 
+                'string', 
+                'max:50', 
+                \Illuminate\Validation\Rule::unique('clientes')->whereNull('deleted_at')
+            ],
             'nombre_razon_social' => 'required|string|max:255',
             'telefono' => 'required|string|max:50',
             'email' => 'required|email|max:255',
@@ -60,7 +68,9 @@ class ClienteController extends Controller
             'rep_legal_email' => 'nullable|email|max:255',
         ]);
 
-        Cliente::create($validated);
+        $cliente = Cliente::create($validated);
+
+        $this->registrarAuditoria('Crear Cliente', 'Cliente', $cliente->id, $validated);
 
         return redirect()->route('clientes.index')->with('success', 'Cliente registrado exitosamente.');
     }
@@ -70,7 +80,14 @@ class ClienteController extends Controller
      */
     public function show(string $id)
     {
-        $cliente = Cliente::with(['riesgos.polizas.aseguradora', 'riesgos.polizas.ramo', 'polizas.aseguradora', 'polizas.ramo'])->findOrFail($id);
+        $cliente = Cliente::with([
+            'riesgos.polizas.aseguradora', 
+            'riesgos.polizas.ramo', 
+            'polizas.aseguradora', 
+            'polizas.ramo',
+            'annaCredentials',
+            'paymentCredentials.aseguradora'
+        ])->findOrFail($id);
 
         return Inertia::render('Clientes/Show', [
             'cliente' => $cliente
@@ -82,9 +99,12 @@ class ClienteController extends Controller
      */
     public function edit(string $id)
     {
-        $cliente = Cliente::findOrFail($id);
+        $cliente = Cliente::with(['annaCredentials', 'paymentCredentials.aseguradora'])->findOrFail($id);
+        $aseguradoras = \App\Models\Aseguradora::orderBy('nombre')->get(['id', 'nombre']);
+        
         return Inertia::render('Clientes/Edit', [
-            'cliente' => $cliente
+            'cliente' => $cliente,
+            'aseguradoras' => $aseguradoras
         ]);
     }
 
@@ -98,7 +118,12 @@ class ClienteController extends Controller
         $validated = $request->validate([
             'tipo_persona' => 'required|in:natural,juridica',
             'tipo_documento' => 'required|string|max:10',
-            'numero_documento' => 'required|string|max:50|unique:clientes,numero_documento,'.$cliente->id,
+            'numero_documento' => [
+                'required', 
+                'string', 
+                'max:50', 
+                \Illuminate\Validation\Rule::unique('clientes')->ignore($cliente->id)->whereNull('deleted_at')
+            ],
             'nombre_razon_social' => 'required|string|max:255',
             'telefono' => 'required|string|max:50',
             'email' => 'required|email|max:255',
@@ -113,7 +138,30 @@ class ClienteController extends Controller
             'rep_legal_email' => 'nullable|email|max:255',
         ]);
 
+        $antes = $cliente->toArray();
         $cliente->update($validated);
+
+        $this->registrarAuditoria('Editar Cliente', 'Cliente', $cliente->id, $validated, $antes);
+
+        // Actualizar Credenciales ANNA
+        $cliente->annaCredentials()->delete();
+        if ($request->has('anna_credentials')) {
+            foreach ($request->input('anna_credentials') as $cred) {
+                if (!empty($cred['usuario']) && !empty($cred['password'])) {
+                    $cliente->annaCredentials()->create($cred);
+                }
+            }
+        }
+
+        // Actualizar Credenciales de Pagos
+        $cliente->paymentCredentials()->delete();
+        if ($request->has('payment_credentials')) {
+            foreach ($request->input('payment_credentials') as $cred) {
+                if (!empty($cred['aseguradora_id']) && !empty($cred['usuario']) && !empty($cred['password'])) {
+                    $cliente->paymentCredentials()->create($cred);
+                }
+            }
+        }
 
         return redirect()->route('clientes.index')->with('success', 'Cliente actualizado exitosamente.');
     }
@@ -124,6 +172,17 @@ class ClienteController extends Controller
     public function destroy(string $id)
     {
         $cliente = Cliente::findOrFail($id);
+
+        if ($cliente->polizas()->exists()) {
+            return redirect()->back()->with('error', 'No se puede eliminar el cliente porque tiene pólizas asociadas.');
+        }
+
+        if ($cliente->riesgos()->exists()) {
+            return redirect()->back()->with('error', 'No se puede eliminar el cliente porque tiene riesgos asociados.');
+        }
+
+        $this->registrarAuditoria('Eliminar Cliente', 'Cliente', $cliente->id, $cliente->toArray());
+
         $cliente->delete();
 
         return redirect()->route('clientes.index')->with('success', 'Cliente eliminado exitosamente.');

@@ -1,10 +1,55 @@
 <script setup>
+import { ref, watch, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import ConfirmationModal from '@/Components/ConfirmationModal.vue';
 
 const props = defineProps({
     riesgo: Object,
 });
+
+const confirmation = ref({
+    show: false,
+    title: '',
+    message: '',
+    type: 'danger',
+    confirmLabel: 'Confirmar',
+    callback: null
+});
+
+const page = usePage();
+
+onMounted(() => {
+    if (page.props.flash?.error) showAlert('Alerta', page.props.flash.error, 'danger');
+    if (page.props.flash?.success) showAlert('Éxito', page.props.flash.success, 'success');
+});
+
+watch(() => page.props.flash, (flash) => {
+    if (flash?.error) showAlert('Alerta', flash.error, 'danger');
+    if (flash?.success) showAlert('Éxito', flash.success, 'success');
+}, { deep: true });
+
+const showAlert = (title, message, type = 'danger') => {
+    confirmation.value = {
+        show: true,
+        title,
+        message: message.includes('No se puede eliminar') ? `Alerta: ${message}` : message,
+        type,
+        confirmLabel: 'Entendido',
+        callback: null
+    };
+};
+
+const deleteRiesgo = () => {
+    confirmation.value = {
+        show: true,
+        title: 'Eliminar Riesgo',
+        message: '¿Estás seguro de que deseas eliminar este riesgo? Esta acción no se puede deshacer si tiene pólizas vinculadas.',
+        type: 'danger',
+        confirmLabel: 'Eliminar',
+        callback: () => router.delete(route('riesgos.destroy', props.riesgo.id))
+    };
+};
 
 const formatDate = (dateString) => {
     if (!dateString) return '-';
@@ -35,10 +80,19 @@ const formatDate = (dateString) => {
                         {{ riesgo.tipo_riesgo }}
                     </h2>
 
-                    <Link :href="route('riesgos.edit', riesgo.id)"
-                        class="inline-flex items-center rounded-md bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500">
-                        Editar Riesgo
-                    </Link>
+                    <div class="flex items-center gap-3">
+                        <Link :href="route('riesgos.edit', riesgo.id)"
+                            class="inline-flex items-center rounded-md bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500">
+                            Editar Riesgo
+                        </Link>
+                        <button @click="deleteRiesgo"
+                            class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-sm font-bold text-red-600 shadow-sm ring-1 ring-inset ring-red-300 hover:bg-red-50 dark:bg-gray-700 dark:text-red-400 dark:ring-red-900/50 transition-all">
+                            <svg class="-ml-0.5 mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Eliminar
+                        </button>
+                    </div>
 
                 </div>
             </div>
@@ -124,21 +178,36 @@ const formatDate = (dateString) => {
                         <div class="p-6 space-y-4">
 
                             <div v-for="cliente in riesgo.clientes" :key="cliente.id"
-                                class="flex justify-between items-center border-b pb-3 last:border-none">
-
-                                <div>
-
-                                    <Link :href="route('clientes.show', cliente.id)"
-                                        class="font-semibold text-gray-900 dark:text-white">
-                                        {{ cliente.nombre_razon_social }}
-                                    </Link>
-
-                                    <p class="text-xs text-gray-500">
-                                        {{ cliente.tipo_documento }} {{ cliente.numero_documento }}
-                                    </p>
-
+                                class="border-b pb-4 mb-4 last:border-none last:pb-0 last:mb-0">
+                                
+                                <div class="flex justify-between items-center mb-3">
+                                    <div>
+                                        <Link :href="route('clientes.show', cliente.id)"
+                                            class="font-semibold text-gray-900 dark:text-white hover:text-blue-600 transition-colors">
+                                            {{ cliente.nombre_razon_social }}
+                                        </Link>
+                                        <p class="text-xs text-gray-500">
+                                            {{ cliente.tipo_documento }} {{ cliente.numero_documento }}
+                                        </p>
+                                    </div>
                                 </div>
 
+                                <!-- Credenciales ANNA del Cliente -->
+                                <div v-if="cliente.anna_credentials && cliente.anna_credentials.length > 0" class="mt-2 space-y-2">
+                                    <div v-for="cred in cliente.anna_credentials" :key="cred.id" class="bg-blue-50 dark:bg-blue-900/10 p-2 rounded border border-blue-100 dark:border-blue-900/30 flex justify-between items-center gap-4">
+                                        <div class="flex items-center gap-2">
+                                            <svg class="h-3 w-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                                            </svg>
+                                            <span class="text-[10px] font-bold text-blue-700 dark:text-blue-300 uppercase">ANNA:</span>
+                                            <span class="text-xs font-mono text-gray-700 dark:text-gray-200">{{ cred.usuario }}</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-[10px] font-bold text-gray-400 uppercase">Pass:</span>
+                                            <span class="text-xs font-mono text-gray-700 dark:text-gray-200">{{ cred.password }}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -200,4 +269,17 @@ const formatDate = (dateString) => {
         </div>
 
     </AuthenticatedLayout>
+
+    <ConfirmationModal
+        :show="confirmation.show"
+        :title="confirmation.title"
+        :message="confirmation.message"
+        :type="confirmation.type"
+        :confirm-label="confirmation.confirmLabel"
+        @close="confirmation.show = false"
+        @confirm="() => {
+            confirmation.show = false;
+            if (confirmation.callback) confirmation.callback();
+        }"
+    />
 </template>
