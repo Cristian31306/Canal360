@@ -44,9 +44,9 @@ const serviceCategories = computed(() => [
 <template>
 
     <Head>
-        <title>Canal Asesores - Seguros & Protección Inteligente en Colombia</title>
-        <meta name="description" content="Protege lo que más quieres con Canal Asesores. Expertos en seguros de autos, vida, hogar, salud y empresariales en Colombia. Consultoría personalizada y respaldo garantizado." />
-        <meta name="keywords" content="seguros colombia, agencia de seguros, seguros de autos, seguros de vida, soat, seguros de hogar, protección financiera, canal asesores" />
+        <title>{{ settings.landing_meta_title || 'Canal Asesores | Agencia de Seguros y Protección Integral' }}</title>
+        <meta name="description" :content="settings.landing_meta_description || 'Expertos en seguros de autos, vida, hogar y salud en Colombia. Protegemos lo que más quieres con asesoría personalizada y respaldo garantizado.'" />
+        <meta name="keywords" content="agencia de seguros, seguros colombia, canal asesores, seguros de vida, seguros de autos, soat, protección hogar" />
         
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
@@ -109,13 +109,13 @@ const serviceCategories = computed(() => [
                                     class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                             </span>
-                            Protección y Confianza
+                            Respaldo y Seguridad
                         </div>
                         <h1 class="text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.1] mb-8">
-                            {{ settings.landing_hero_title }}
+                            {{ settings.landing_hero_title || 'Seguridad Integral para lo que más Valoras' }}
                         </h1>
                         <p class="text-xl text-slate-600 mb-10 leading-relaxed max-w-xl">
-                            {{ settings.landing_hero_description }}
+                            {{ settings.landing_hero_description || 'Protegemos tu familia, tu empresa y tu futuro con el respaldo de las mejores aseguradoras de Colombia. Asesoría experta y acompañamiento real en cada paso.' }}
                         </p>
                         <div class="flex flex-col sm:flex-row gap-4">
                             <a :href="'https://wa.me/' + settings.landing_whatsapp_number" target="_blank"
@@ -141,7 +141,7 @@ const serviceCategories = computed(() => [
                             </div>
                             <div
                                 class="mt-4 text-xs text-slate-400 font-bold uppercase tracking-widest text-center md:text-left">
-                                Aliados Estratégicos que respaldan tu seguridad
+                                {{ settings.landing_allies_text || 'Aliados Estratégicos que respaldan tu seguridad' }}
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,9 @@ const serviceCategories = computed(() => [
                             class="absolute -inset-4 bg-gradient-to-tr from-blue-100 to-indigo-100 rounded-[2.5rem] blur-2xl opacity-40 group-hover:opacity-60 transition duration-1000">
                         </div>
                         <div class="relative rounded-[2rem] overflow-hidden shadow-2xl border border-white/50">
-                            <img :src="settings.landing_hero_image" alt="Asesoría integral en seguros y protección - Canal Asesores"
+                            <!-- Imagen editable desde el admin -->
+                            <img :src="settings.landing_hero_image || '/storage/brain/happy_family_secure_home_insurance_1773670797147.png'" 
+                                :alt="settings.landing_hero_title"
                                 class="w-full h-auto object-cover transform transition duration-1000 group-hover:scale-105" />
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
 
@@ -168,8 +170,8 @@ const serviceCategories = computed(() => [
                                         </svg>
                                     </div>
                                     <div>
-                                        <div class="text-white font-bold">Respaldo Garantizado</div>
-                                        <div class="text-white/80 text-xs">Monitoreo de vigencia en tiempo real</div>
+                                        <div class="text-white font-bold">Asesoría Profesional</div>
+                                        <div class="text-white/80 text-xs">{{ settings.landing_trust_badge || 'Expertos en riesgos a tu servicio' }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -197,9 +199,17 @@ const serviceCategories = computed(() => [
                                 <path :d="category.icon" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">{{ settings['landing_service_cat_' + (index +
-1) + '_title'] }}</h3>
-                        <p class="text-slate-500 text-xs mb-4 leading-relaxed line-clamp-2">Protección personalizada basada en las mejores coberturas del mercado nacional.</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">{{ settings['landing_service_cat_' + (index + 1) + '_title'] }}</h3>
+                        <p class="text-slate-500 text-xs mb-4 leading-relaxed">
+                            {{ 
+                                settings['landing_service_cat_' + (index + 1) + '_description'] || (
+                                    index === 0 ? "Protección integral para tu familia, salud y patrimonio con el respaldo de las mejores aseguradoras." :
+                                    index === 1 ? "Asegura lo que más valoras: tu hogar y tus bienes, con coberturas contra todo riesgo." :
+                                    index === 2 ? "Soluciones de movilidad inteligente para tu vehículo con asistencia inmediata en vía 24/7." :
+                                    "Brindamos solidez y confianza para proteger la continuidad de tu empresa y tus empleados."
+                                )
+                            }}
+                        </p>
                         <ul class="space-y-3">
                             <li v-for="item in category.items" :key="item"
                                 class="flex items-center gap-2 text-slate-500 text-sm font-medium">
@@ -222,15 +232,25 @@ const serviceCategories = computed(() => [
 
                     <div class="grid lg:grid-cols-2 gap-16 items-center relative z-10">
                         <div>
-                             <h2 class="text-3xl lg:text-5xl font-bold text-white mb-8 leading-tight tracking-tight">
-                                {{ settings.landing_tech_title }}
+                            <h2 class="text-3xl lg:text-5xl font-bold text-white mb-8 leading-tight tracking-tight">
+                                {{ settings.landing_tech_title || 'Experiencia Humana con Eficiencia Digital' }}
                             </h2>
-                            <p class="text-slate-400 text-lg mb-10 leading-relaxed">
-                                {{ settings.landing_tech_description }}
+                             <p class="text-slate-400 text-lg mb-10 leading-relaxed">
+                                {{ settings.landing_tech_description || 'En Canal Asesores combinamos décadas de experiencia en seguros con herramientas modernas para que gestionar tus pólizas sea tan sencillo como un clic.' }}
                             </p>
 
+                            <div class="flex flex-wrap gap-4 mb-12">
+                                <a :href="'https://wa.me/' + settings.landing_whatsapp_number" target="_blank"
+                                    class="px-8 py-4 bg-white text-slate-900 text-lg font-bold rounded-2xl hover:bg-slate-100 transition-all flex items-center gap-2 group">
+                                    {{ settings.landing_cta_text || 'Cotizar Ahora' }}
+                                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+
                             <ul class="space-y-6">
-                                <li v-for="item in (settings.landing_tech_features || '').split(',')" :key="item"
+                                <li v-for="item in (settings.landing_tech_features || 'Asesoría personalizada 24/7,Respaldo en reclamaciones,Cotizaciones multiaseguradora,Claridad total en coberturas').split(',')" :key="item"
                                     class="flex items-center gap-4 text-white font-medium">
                                     <div
                                         class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
@@ -271,7 +291,7 @@ const serviceCategories = computed(() => [
                             <!-- Floating Badge -->
                             <div
                                 class="absolute -top-6 -right-6 bg-blue-600 text-white p-6 rounded-3xl shadow-xl shadow-blue-500/30 font-bold rotate-12">
-                                100% Digital
+                                Asesoría Experta
                             </div>
                         </div>
                     </div>
@@ -289,8 +309,7 @@ const serviceCategories = computed(() => [
                                     class="text-blue-600"> Asesores</span></span>
                         </div>
                         <p class="text-slate-500 text-sm leading-relaxed">
-                            Líderes en gestión tecnológica de riesgos y seguros en la región. Seguridad real para
-                            tiempos modernos.
+                            {{ settings.landing_footer_description || 'Expertos en asesoría de riesgos y protección de patrimonio. Seguridad real para tiempos modernos.' }}
                         </p>
                     </div>
                     <div>
