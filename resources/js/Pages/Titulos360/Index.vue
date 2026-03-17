@@ -21,9 +21,26 @@ const advancedFilters = ref({
     inicio_hasta: props.filters?.inicio_hasta || '',
     fin_desde: props.filters?.fin_desde || '',
     fin_hasta: props.filters?.fin_hasta || '',
+    mes_inicio: props.filters?.mes_inicio || '',
+    mes_fin: props.filters?.mes_fin || '',
     sort: props.filters?.sort || 'created_at',
     direction: props.filters?.direction || 'desc',
 });
+
+const meses = [
+    { id: 1, nombre: 'Enero' },
+    { id: 2, nombre: 'Febrero' },
+    { id: 3, nombre: 'Marzo' },
+    { id: 4, nombre: 'Abril' },
+    { id: 5, nombre: 'Mayo' },
+    { id: 6, nombre: 'Junio' },
+    { id: 7, nombre: 'Julio' },
+    { id: 8, nombre: 'Agosto' },
+    { id: 9, nombre: 'Septiembre' },
+    { id: 10, nombre: 'Octubre' },
+    { id: 11, nombre: 'Noviembre' },
+    { id: 12, nombre: 'Diciembre' },
+];
 
 const handleSearch = () => {
     router.get(
@@ -55,6 +72,8 @@ const clearFilters = () => {
         inicio_hasta: '',
         fin_desde: '',
         fin_hasta: '',
+        mes_inicio: '',
+        mes_fin: '',
         sort: 'created_at',
         direction: 'desc',
     };
@@ -148,6 +167,24 @@ const deleteTitulo = (id) => {
                                 <option value="">Todos</option>
                                 <option value="si">Solo Clientes Canal</option>
                                 <option value="no">Solo Externos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Filtros por Mes -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100 dark:border-gray-700 border-dashed">
+                        <div>
+                            <label class="block text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2">Filtrar por Mes de Inicio</label>
+                            <select v-model="advancedFilters.mes_inicio" @change="handleSearch" class="w-full bg-gray-50 dark:bg-gray-900 border-0 rounded-xl text-sm focus:ring-amber-500 dark:text-white">
+                                <option value="">Todos los meses</option>
+                                <option v-for="mes in meses" :key="mes.id" :id="mes.id" :value="mes.id">{{ mes.nombre }}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2">Filtrar por Mes de Fin</label>
+                            <select v-model="advancedFilters.mes_fin" @change="handleSearch" class="w-full bg-gray-50 dark:bg-gray-900 border-0 rounded-xl text-sm focus:ring-amber-500 dark:text-white">
+                                <option value="">Todos los meses</option>
+                                <option v-for="mes in meses" :key="mes.id" :id="mes.id" :value="mes.id">{{ mes.nombre }}</option>
                             </select>
                         </div>
                     </div>

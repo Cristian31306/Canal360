@@ -55,6 +55,14 @@ class Titulo360Controller extends Controller
             $query->whereDate('fecha_fin', '<=', $request->fin_hasta);
         }
 
+        // Filtros por Mes (Sin importar año ni día)
+        if ($request->filled('mes_inicio')) {
+            $query->whereMonth('fecha_inicio', $request->mes_inicio);
+        }
+        if ($request->filled('mes_fin')) {
+            $query->whereMonth('fecha_fin', $request->mes_fin);
+        }
+
         // Ordenamiento
         $sortColumn = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
@@ -71,7 +79,7 @@ class Titulo360Controller extends Controller
 
         return Inertia::render('Titulos360/Index', [
             'titulos' => $titulos,
-            'filters' => $request->all(['search', 'aseguradora_id', 'cliente_canal', 'inicio_desde', 'inicio_hasta', 'fin_desde', 'fin_hasta', 'sort', 'direction']),
+            'filters' => $request->all(['search', 'aseguradora_id', 'cliente_canal', 'inicio_desde', 'inicio_hasta', 'fin_desde', 'fin_hasta', 'mes_inicio', 'mes_fin', 'sort', 'direction']),
             'aseguradoras' => Aseguradora::orderBy('nombre')->get(['id', 'nombre']),
         ]);
     }
