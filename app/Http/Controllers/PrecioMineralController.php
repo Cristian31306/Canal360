@@ -14,6 +14,12 @@ class PrecioMineralController extends Controller
     use AuditoriaHelper;
     public function index(Request $request)
     {
+        $query = PrecioMineral::query();
+
+        if ($request->has('anio') && $request->anio) {
+            $query->where('anio', $request->anio);
+        }
+
         $precios = $query->orderBy('anio', 'desc')
                         ->orderBy('mes', 'desc')
                         ->paginate(10)
