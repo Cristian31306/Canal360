@@ -89,9 +89,10 @@ const handleImageUpload = (e, index) => {
                                             
                                             <!-- Image Upload -->
                                             <div v-if="setting.type === 'image'" class="space-y-4">
-                                                <div v-if="typeof setting.value === 'string' || setting.preview" class="space-y-2">
-                                                    <div class="w-48 h-28 rounded-lg overflow-hidden border border-gray-200 shadow-sm bg-gray-100">
-                                                        <img :src="setting.preview || setting.value" class="w-full h-full object-cover">
+                                                <div v-if="(typeof setting.value === 'string' && setting.value) || setting.preview" class="space-y-2">
+                                                    <div class="w-48 h-28 rounded-lg overflow-hidden border border-gray-200 shadow-sm bg-gray-100 relative items-center justify-center flex">
+                                                        <img v-if="setting.preview || (setting.value && setting.value.length > 10)" :src="setting.preview || setting.value" class="w-full h-full object-cover absolute inset-0">
+                                                        <span v-else class="text-xs text-gray-400 font-medium">Sin imagen guardada</span>
                                                     </div>
                                                     <p class="text-[10px] text-blue-500 font-bold uppercase tracking-wider">
                                                         Recomendado: 1920x1080px (o relación 16:9) • Máx 2MB
