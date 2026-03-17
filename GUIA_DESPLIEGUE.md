@@ -150,6 +150,25 @@ El proceso utiliza lógica de actualización (*Upsert*), lo que evita duplicados
 
 ---
 
+### 🔄 Sincronización Automática de Base de Datos (Local a VPS)
+
+Dado que en local se usa **SQLite** y en producción **MySQL**, no se puede exportar e importar la base de datos de forma directa. Para solucionar esto y evitar errores de "*Packet too large*" en el servidor al subir el Excel, se ha creado el script automático **`sync_db.ps1`**.
+
+Este script lee tu base de datos local completa, la transforma a formato universal (`JSON`), la envía al VPS por SSH y la inserta lotificada en MySQL.
+
+**Procedimiento:**
+1. Asegúrate de tener tu base de datos local (SQLite) con los datos y estructura correcta.
+2. Abre una terminal normal de **PowerShell** en tu entorno local (ej. la terminal de VS Code) en la raíz del proyecto.
+3. Ejecuta el siguiente comando:
+
+```powershell
+.\sync_db.ps1
+```
+
+> ⚠️ **Advertencia:** Este script truncará (vaciará) las tablas en la base de datos del servidor VPS y las sobrescribirá con el estado exacto de tu base de datos local. Úsalo con precaución.
+
+---
+
 ## 💡 Recomendaciones
 
 * **Gestión de memoria en el VPS:**
