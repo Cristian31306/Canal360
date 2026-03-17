@@ -64,6 +64,8 @@ const deleteRecord = () => {
         router.delete(route('riesgos.destroy', props.riesgo.id));
     }
 };
+
+const goBack = () => window.history.back();
 </script>
 
 <template>
@@ -72,11 +74,11 @@ const deleteRecord = () => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center gap-4 w-full">
-                <Link :href="route('riesgos.index')" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors flex-shrink-0">
+                <button @click="goBack" type="button" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors flex-shrink-0">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
-                </Link>
+                </button>
                 <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center w-full gap-4">
                     <h2 class="text-2xl font-bold leading-tight text-gray-900 border-l-4 border-amber-500 pl-3 dark:text-gray-100 flex items-center gap-3 overflow-hidden">
                         <span class="truncate">Editar Riesgo: {{ props.riesgo.identificador || 'Sin ID' }}</span>
@@ -92,11 +94,11 @@ const deleteRecord = () => {
             </div>
         </template>
 
-        <div class="max-w-4xl mx-auto py-8">
-            <form @submit.prevent="submit" class="space-y-8">
+        <div class="max-w-4xl mx-auto py-4">
+            <form @submit.prevent="submit" class="space-y-6">
                 <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl dark:bg-gray-800 dark:ring-gray-700 overflow-visible">
-                    <div class="px-6 py-8 sm:p-10">
-                        <div class="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-6">
+                    <div class="px-4 py-4 sm:p-6">
+                        <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-6">
                             
                             <!-- Buscador de Clientes (Múltiples) -->
                             <div class="sm:col-span-6 space-y-5">
@@ -226,8 +228,8 @@ const deleteRecord = () => {
                     </div>
 
                     <!-- Footer / Actions -->
-                    <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-6 py-6 sm:px-10 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-xl">
-                        <Link :href="route('riesgos.index')" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300 hover:text-gray-700 transition-colors">Cancelar</Link>
+                    <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-xl">
+                        <button type="button" @click="goBack" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300 hover:text-gray-700 transition-colors">Cancelar</button>
                         <button 
                             type="submit" 
                             :disabled="form.processing || form.cliente_ids.length === 0" 

@@ -57,6 +57,8 @@ const formatDate = (dateString) => {
     if (isNaN(date.getTime())) return '-';
     return new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
 };
+
+const goBack = () => window.history.back();
 </script>
 
 <template>
@@ -68,11 +70,11 @@ const formatDate = (dateString) => {
         <template #header>
             <div class="flex items-center gap-4 w-full">
 
-                <Link :href="route('riesgos.index')" class="text-gray-500 hover:text-gray-700">
+                <button @click="goBack" type="button" class="text-gray-500 hover:text-gray-700 transition-colors">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
-                </Link>
+                </button>
 
                 <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center w-full gap-4">
 
@@ -98,7 +100,7 @@ const formatDate = (dateString) => {
             </div>
         </template>
 
-        <div class="max-w-6xl mx-auto py-6 space-y-6">
+        <div class="max-w-6xl mx-auto py-4 space-y-4">
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -108,7 +110,7 @@ const formatDate = (dateString) => {
 
                     <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl dark:bg-gray-800 overflow-hidden">
 
-                        <div class="p-6 text-center">
+                        <div class="p-4 text-center">
 
                             <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100">
                                 {{ riesgo.identificador || 'Sin identificador' }}
@@ -125,7 +127,7 @@ const formatDate = (dateString) => {
 
                         </div>
 
-                        <div class="border-t border-gray-100 p-6 text-sm">
+                        <div class="border-t border-gray-100 p-4 text-sm">
 
                             <div class="flex justify-between py-2">
                                 <span class="text-gray-500">Actualizado</span>
@@ -141,7 +143,7 @@ const formatDate = (dateString) => {
 
                     <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl dark:bg-gray-800 overflow-hidden">
 
-                        <div class="p-6">
+                        <div class="p-4">
 
                             <h3 class="text-base font-semibold mb-4 text-gray-900 dark:text-white">
                                 Descripción
@@ -167,7 +169,7 @@ const formatDate = (dateString) => {
 
                     <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl dark:bg-gray-800 overflow-hidden">
 
-                        <div class="px-6 py-5 border-b border-gray-100 dark:border-gray-700">
+                        <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
 
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                                 Clientes Asociados
@@ -175,7 +177,7 @@ const formatDate = (dateString) => {
 
                         </div>
 
-                        <div class="p-6 space-y-4">
+                        <div class="p-4 space-y-4">
 
                             <div v-for="cliente in riesgo.clientes" :key="cliente.id"
                                 class="border-b pb-4 mb-4 last:border-none last:pb-0 last:mb-0">
@@ -219,7 +221,7 @@ const formatDate = (dateString) => {
 
                     <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl dark:bg-gray-800 overflow-hidden">
 
-                        <div class="px-6 py-5 border-b border-gray-100 dark:border-gray-700">
+                        <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
 
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                                 Pólizas Asociadas
@@ -227,7 +229,7 @@ const formatDate = (dateString) => {
 
                         </div>
 
-                        <div class="p-6 space-y-4">
+                        <div class="p-4 space-y-4">
 
                             <div v-if="riesgo.polizas?.length" v-for="poliza in riesgo.polizas" :key="poliza.id"
                                 class="flex justify-between items-center border-b pb-3 last:border-none">
@@ -254,7 +256,7 @@ const formatDate = (dateString) => {
 
                             </div>
 
-                            <div v-else class="text-center text-sm text-gray-400 py-6">
+                            <div v-else class="text-center text-sm text-gray-400 py-4">
                                 No hay pólizas asociadas
                             </div>
 

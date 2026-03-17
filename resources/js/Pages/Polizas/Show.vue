@@ -70,6 +70,8 @@ const getStatusClass = (estado) => {
     };
     return classes[estado] || 'bg-gray-50 text-gray-700 ring-gray-600/20';
 };
+
+const goBack = () => window.history.back();
 </script>
 
 <template>
@@ -79,12 +81,12 @@ const getStatusClass = (estado) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center gap-4 w-full">
-                <Link :href="route('polizas.index')"
+                <button @click="goBack" type="button"
                     class="text-gray-500 hover:text-gray-700 transition-colors flex-shrink-0">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
-                </Link>
+                </button>
                 <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center w-full gap-4">
                     <h2
                         class="text-2xl font-black text-gray-900 border-l-4 border-emerald-600 pl-3 dark:text-gray-100 uppercase tracking-tighter">
@@ -113,7 +115,7 @@ const getStatusClass = (estado) => {
             </div>
         </template>
 
-        <div class="max-w-6xl mx-auto py-10 px-4 sm:px-6 lg:px-8 space-y-8">
+        <div class="max-w-6xl mx-auto py-4 px-4 sm:px-6 lg:px-8 space-y-4">
 
             <!-- GRID DE STATUS RAPIDO -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">

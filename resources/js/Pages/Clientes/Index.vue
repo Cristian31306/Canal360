@@ -94,11 +94,11 @@ const deleteCliente = (id) => {
             </div>
         </template>
 
-        <div class="space-y-6">
+        <div class="space-y-4">
             <!-- Table Card -->
             <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl dark:bg-gray-800 dark:ring-gray-700">
                 <!-- Toolbar -->
-                <div class="border-b border-gray-200 px-4 py-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 dark:border-gray-700">
+                <div class="border-b border-gray-200 px-4 py-3 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 dark:border-gray-700">
                     <div class="w-full sm:w-auto flex-1 max-w-lg">
                         <form @submit.prevent="handleSearch" class="flex gap-2 w-full">
                             <div class="relative rounded-md shadow-sm flex-1">

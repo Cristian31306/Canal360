@@ -29,6 +29,8 @@ const submit = () => {
 const getMesNombre = (mesId) => {
     return props.meses.find(m => m.id === mesId)?.nombre || '';
 };
+
+const goBack = () => window.history.back();
 </script>
 
 <template>
@@ -37,21 +39,21 @@ const getMesNombre = (mesId) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center gap-4">
-                <Link :href="route('minerales.index')" class="text-gray-500 hover:text-gray-700 transition-colors">
+                <button @click="goBack" type="button" class="text-gray-500 hover:text-gray-700 transition-colors">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
-                </Link>
+                </button>
                 <h2 class="text-2xl font-bold leading-tight text-gray-900 border-l-4 border-amber-600 pl-3 dark:text-gray-100 uppercase">
                     Editar Registro: {{ getMesNombre(precio.mes) }} {{ precio.anio }}
                 </h2>
             </div>
         </template>
 
-        <div class="py-12">
+        <div class="py-4">
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 shadow-xl shadow-amber-500/5 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700">
-                    <form @submit.prevent="submit" class="p-8 space-y-8">
+                    <form @submit.prevent="submit" class="p-4 space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <InputLabel for="mes" value="Mes del Registro" class="uppercase text-[10px] font-black tracking-widest text-gray-400 mb-2" />
@@ -101,7 +103,7 @@ const getMesNombre = (mesId) => {
                         </div>
 
                         <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-50 dark:border-gray-700 border-dashed">
-                            <SecondaryButton @click="router.get(route('minerales.index'))" type="button" class="rounded-xl px-6">
+                            <SecondaryButton @click="goBack" type="button" class="rounded-xl px-6">
                                 Cancelar
                             </SecondaryButton>
                             <PrimaryButton :disabled="form.processing" class="rounded-xl px-8 bg-amber-600 hover:bg-amber-500 shadow-lg shadow-amber-500/20 uppercase tracking-widest text-xs font-bold">

@@ -57,6 +57,8 @@ const formatDate = (dateString) => {
     if (isNaN(date.getTime())) return '-';
     return new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
 };
+
+const goBack = () => window.history.back();
 </script>
 
 <template>
@@ -65,11 +67,11 @@ const formatDate = (dateString) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center gap-4 w-full">
-                <Link :href="route('clientes.index')" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors flex-shrink-0">
+                <button @click="goBack" type="button" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors flex-shrink-0">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
-                </Link>
+                </button>
                 <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center w-full gap-4">
                     <h2 class="text-2xl font-bold leading-tight text-gray-900 border-l-4 border-blue-600 pl-3 dark:text-gray-100 flex items-center gap-3 overflow-hidden">
                         <span class="truncate">{{ cliente.nombre_razon_social }}</span>
@@ -97,13 +99,13 @@ const formatDate = (dateString) => {
             </div>
         </template>
 
-        <div class="max-w-6xl mx-auto py-6 space-y-6">
+        <div class="max-w-6xl mx-auto py-4 space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
                 <!-- Columna Izquierda: Tarjeta Principal -->
-                <div class="md:col-span-1 space-y-6">
+                <div class="md:col-span-1 space-y-4">
                     <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl dark:bg-gray-800 dark:ring-gray-700 overflow-hidden">
-                        <div class="p-6">
+                        <div class="p-4">
                             <h3 class="text-xl font-bold text-center text-gray-900 dark:text-gray-100 mt-2">{{ cliente.nombre_razon_social }}</h3>
                             <p class="text-center text-gray-500 text-sm mt-1 dark:text-gray-400">{{ cliente.tipo_documento }} {{ cliente.numero_documento }}</p>
                             
@@ -149,7 +151,7 @@ const formatDate = (dateString) => {
                 </div>
 
                 <!-- Columna Derecha: Pestañas y Detalles Extendidos -->
-                <div class="md:col-span-2 space-y-6">
+                <div class="md:col-span-2 space-y-4">
 
                     <!-- Representante Legal (Si Aplica) -->
                     <div v-if="cliente.tipo_persona === 'juridica'" class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl dark:bg-gray-800 dark:ring-gray-700 overflow-hidden border-t-4 border-amber-500">
@@ -250,7 +252,7 @@ const formatDate = (dateString) => {
                     </div>
 
                     <!-- Gestión de Riesgos y Pólizas Protegidas -->
-                    <div class="space-y-6">
+                    <div class="space-y-4">
                         <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest pl-1">Auditoría de Riesgos y Pólizas</h3>
                         
                         <div v-if="cliente.riesgos && cliente.riesgos.length > 0" class="space-y-4">

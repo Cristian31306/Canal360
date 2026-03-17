@@ -43,6 +43,8 @@ const formatDateLong = (dateString) => {
         minute: '2-digit'
     });
 };
+
+const goBack = () => window.history.back();
 </script>
 
 <template>
@@ -51,11 +53,11 @@ const formatDateLong = (dateString) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center gap-4">
-                <Link :href="route('titulos-360.index')" class="text-gray-500 hover:text-gray-700 transition-colors">
+                <button @click="goBack" type="button" class="text-gray-500 hover:text-gray-700 transition-colors">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
-                </Link>
+                </button>
                 <div class="flex flex-col">
                     <h2 class="text-2xl font-bold leading-tight text-gray-900 border-l-4 border-amber-600 pl-3 dark:text-gray-100 uppercase">
                         Editar Título <span class="text-amber-600">{{ titulo.titulo }}</span>
@@ -67,12 +69,12 @@ const formatDateLong = (dateString) => {
             </div>
         </template>
 
-        <div class="py-12">
+        <div class="py-4">
             <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 shadow-xl shadow-amber-500/5 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700">
-                    <form @submit.prevent="submit" class="p-8 space-y-8">
+                    <form @submit.prevent="submit" class="p-4 space-y-4">
                         <!-- Sección 1: Datos Básicos -->
-                        <div class="space-y-6">
+                        <div class="space-y-4">
                             <h3 class="text-xs font-black text-amber-600 uppercase tracking-widest border-b border-amber-100 pb-2">Información Principal</h3>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
@@ -96,7 +98,7 @@ const formatDateLong = (dateString) => {
                         </div>
 
                         <!-- Sección 2: Ubicación y Etapa -->
-                        <div class="space-y-6">
+                        <div class="space-y-4">
                             <h3 class="text-xs font-black text-amber-600 uppercase tracking-widest border-b border-amber-100 pb-2">Ubicación y Estado</h3>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
@@ -115,7 +117,7 @@ const formatDateLong = (dateString) => {
                         </div>
 
                         <!-- Sección 3: Aseguradora y Valores -->
-                        <div class="space-y-6">
+                        <div class="space-y-4">
                             <h3 class="text-xs font-black text-amber-600 uppercase tracking-widest border-b border-amber-100 pb-2">Seguros y Vigencia</h3>
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                                 <div class="md:col-span-2">
@@ -149,7 +151,7 @@ const formatDateLong = (dateString) => {
                         </div>
 
                         <!-- Sección 4: Contacto y Otros -->
-                        <div class="space-y-6">
+                        <div class="space-y-4">
                             <h3 class="text-xs font-black text-amber-600 uppercase tracking-widest border-b border-amber-100 pb-2">Contacto y Observaciones</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
@@ -167,8 +169,8 @@ const formatDateLong = (dateString) => {
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-end gap-4 pt-8 border-t border-gray-50 dark:border-gray-700 border-dashed">
-                            <SecondaryButton @click="router.get(route('titulos-360.index'))" type="button" class="rounded-xl px-8 uppercase text-xs font-bold tracking-widest">
+                        <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-50 dark:border-gray-700 border-dashed">
+                            <SecondaryButton @click="goBack" type="button" class="rounded-xl px-8 uppercase text-xs font-bold tracking-widest">
                                 Cancelar
                             </SecondaryButton>
                             <PrimaryButton :disabled="form.processing" class="rounded-xl px-12 bg-amber-600 hover:bg-amber-500 shadow-xl shadow-amber-500/20 uppercase text-xs font-bold tracking-widest">

@@ -23,6 +23,8 @@ const form = useForm({
 const submit = () => {
     form.put(route('portales.update', props.portal.id));
 };
+
+const goBack = () => window.history.back();
 </script>
 
 <template>
@@ -31,18 +33,18 @@ const submit = () => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center gap-4">
-                <Link :href="route('portales.index')" class="text-gray-500 hover:text-gray-700 transition-colors">
+                <button @click="goBack" type="button" class="text-gray-500 hover:text-gray-700 transition-colors">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
-                </Link>
+                </button>
                 <h2 class="text-2xl font-bold leading-tight text-gray-900 border-l-4 border-indigo-600 pl-3 dark:text-gray-100 uppercase">
                     Editar Portal: {{ portal.nombre }}
                 </h2>
             </div>
         </template>
 
-        <div class="py-12">
+        <div class="py-4">
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 shadow-xl shadow-indigo-500/5 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700">
                     <form @submit.prevent="submit" class="p-8 space-y-8">
@@ -91,9 +93,9 @@ const submit = () => {
                         </div>
 
                         <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-50 dark:border-gray-700 border-dashed">
-                            <SecondaryButton @click="router.get(route('portales.index'))" type="button" class="rounded-xl px-6">
+                            <button type="button" @click="goBack" class="rounded-xl px-6 py-2 text-sm font-semibold text-gray-700 bg-white ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors">
                                 Cancelar
-                            </SecondaryButton>
+                            </button>
                             <PrimaryButton :disabled="form.processing" class="rounded-xl px-8 bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-500/20 uppercase tracking-widest text-xs font-bold">
                                 Actualizar Portal
                             </PrimaryButton>

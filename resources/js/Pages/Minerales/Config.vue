@@ -69,22 +69,22 @@ const deleteMineral = (mineral) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center gap-4">
-                <Link :href="route('minerales.index')" class="text-gray-500 hover:text-gray-700 transition-colors">
+                <button @click="window.history.back()" type="button" class="text-gray-500 hover:text-gray-700 transition-colors">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
-                </Link>
+                </button>
                 <h2 class="text-2xl font-bold leading-tight text-gray-900 border-l-4 border-amber-600 pl-3 dark:text-gray-100 uppercase">
                     Configuración <span class="text-amber-600">de</span> Minerales
                 </h2>
             </div>
         </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
+        <div class="py-4">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <!-- Agregar Nuevo -->
                 <div class="bg-white dark:bg-gray-800 shadow-xl shadow-amber-500/5 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700">
-                    <div class="p-8">
+                    <div class="p-6">
                         <h3 class="text-xs font-black text-amber-600 uppercase tracking-widest mb-6">Agregar Nuevo Mineral</h3>
                         <form @submit.prevent="submit" class="flex items-end gap-6">
                             <div class="flex-1">
