@@ -121,89 +121,87 @@ const serviceCategories = computed(() => [
         </nav>
 
         <!-- Hero Section - Sophistication 2026 -->
-        <section id="inicio" class="relative pt-24 sm:pt-32 pb-16 sm:pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <section id="inicio" class="relative pt-20 sm:pt-32 pb-12 sm:pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
             <!-- Background Elements -->
             <div
-                class="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[400px] h-[400px] sm:w-[800px] sm:h-[800px] bg-blue-50 rounded-full blur-3xl opacity-60">
+                class="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[300px] h-[300px] sm:w-[800px] sm:h-[800px] bg-blue-50 rounded-full blur-3xl opacity-60">
             </div>
             <div
-                class="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] bg-indigo-50 rounded-full blur-3xl opacity-60">
+                class="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[250px] h-[250px] sm:w-[600px] sm:h-[600px] bg-indigo-50 rounded-full blur-3xl opacity-60">
             </div>
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-                    <div class="text-left animate-fade-in-up mt-4 sm:mt-0">
+                <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                    <div class="text-left animate-fade-in-up mt-2 sm:mt-0">
                         <div
-                            class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-[10px] sm:text-xs font-bold tracking-wider uppercase mb-5 sm:mb-6 border border-blue-100">
-                            <span class="relative flex h-2 w-2">
+                            class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full text-[9px] sm:text-xs font-bold tracking-wider uppercase mb-4 border border-blue-100">
+                            <span class="relative flex h-1.5 w-1.5">
                                 <span
                                     class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
                             </span>
                             Respaldo y Seguridad
                         </div>
-                        <h1 class="text-3xl sm:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.15] sm:leading-[1.1] mb-5 sm:mb-8">
+                        <h1 class="text-[1.75rem] leading-tight sm:text-5xl lg:text-7xl font-extrabold text-slate-900 sm:leading-[1.1] mb-3 sm:mb-8">
                             {{ settings.landing_hero_title || 'Seguridad Integral para lo que más Valoras' }}
                         </h1>
-                        <p class="text-base sm:text-xl text-slate-600 mb-6 sm:mb-10 leading-relaxed max-w-xl">
-                            {{ settings.landing_hero_description || 'Protegemos tu familia, tu empresa y tu futuro con el respaldo de las mejores aseguradoras de Colombia. Asesoría experta y acompañamiento real en cada paso.' }}
+                        <p class="text-[0.9rem] sm:text-xl text-slate-600 mb-5 sm:mb-10 leading-snug sm:leading-relaxed max-w-xl">
+                            {{ settings.landing_hero_description || 'Protegemos tu familia, tu empresa y tu futuro con el respaldo de las mejores aseguradoras de Colombia. Asesoría experta en cada paso.' }}
                         </p>
-                        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+                        <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-4 w-full sm:w-auto">
                             <a :href="'https://wa.me/' + settings.landing_whatsapp_number" target="_blank"
-                                class="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 bg-blue-600 text-white text-base sm:text-lg font-bold rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl shadow-blue-200 hover:bg-blue-500 hover:-translate-y-1 transition-all text-center">
+                                class="w-full sm:w-auto px-5 py-2.5 sm:px-8 sm:py-4 bg-blue-600 text-white text-[15px] sm:text-lg font-bold rounded-xl sm:rounded-2xl shadow-md sm:shadow-xl shadow-blue-200 hover:bg-blue-500 hover:-translate-y-1 transition-all text-center">
                                 {{ settings.landing_cta_text }}
                             </a>
                             <a href="#servicios"
-                                class="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 bg-white text-slate-900 text-base sm:text-lg font-bold rounded-xl sm:rounded-2xl border border-slate-200 hover:bg-slate-50 transition-all text-center flex items-center justify-center">
+                                class="w-full sm:w-auto px-5 py-2.5 sm:px-8 sm:py-4 bg-white text-slate-900 text-[15px] sm:text-lg font-bold rounded-xl sm:rounded-2xl border border-slate-200 hover:bg-slate-50 transition-all text-center flex items-center justify-center">
                                 Explorar Servicios
                             </a>
                         </div>
 
-                        <div class="mt-8 sm:mt-12 overflow-hidden relative group">
-                            <div class="flex items-center gap-6 sm:gap-12 animate-scroll hover:pause">
+                        <div class="mt-6 sm:mt-12 overflow-hidden relative group">
+                            <div class="flex items-center gap-4 sm:gap-12 animate-scroll hover:pause">
                                 <!-- Render logos multiple times for infinite effect -->
-                                <div v-for="n in 3" :key="n" class="flex items-center gap-6 sm:gap-12 flex-shrink-0">
+                                <div v-for="n in 3" :key="n" class="flex items-center gap-4 sm:gap-12 flex-shrink-0">
                                     <div v-for="aseguradora in aseguradoras" :key="aseguradora.id + '-' + n"
-                                        class="flex items-center justify-center w-14 h-14 sm:w-24 sm:h-24 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 transform hover:scale-110">
+                                        class="flex items-center justify-center w-10 h-10 sm:w-24 sm:h-24 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 transform hover:scale-110">
                                         <img :src="'/storage/' + aseguradora.logo" :alt="'Aseguradora aliada ' + aseguradora.nombre + ' en Canal Asesores'"
-                                            class="max-w-full max-h-full object-contain p-1 sm:p-2" />
+                                            class="max-w-full max-h-full object-contain p-0.5 sm:p-2" />
                                     </div>
                                 </div>
                             </div>
                             <div
-                                class="mt-3 sm:mt-4 text-[9px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest text-center md:text-left">
+                                class="mt-3 text-[8.5px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest text-center md:text-left">
                                 {{ settings.landing_allies_text || 'Aliados Estratégicos que respaldan tu seguridad' }}
                             </div>
                         </div>
                     </div>
 
                     <!-- Hero Image / Visual -->
-                    <div class="relative animate-fade-in group mt-10 lg:mt-0 px-2 sm:px-0">
+                    <div class="relative animate-fade-in group mt-6 lg:mt-0 px-2 sm:px-0">
                         <div
                             class="absolute -inset-4 bg-gradient-to-tr from-blue-100 to-indigo-100 rounded-[2.5rem] blur-xl sm:blur-2xl opacity-40 group-hover:opacity-60 transition duration-1000 hidden sm:block">
                         </div>
-                        <div class="relative rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl sm:shadow-2xl border border-white/50 aspect-square sm:aspect-auto">
+                        <div class="relative rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-lg sm:shadow-2xl border border-white/50 h-56 sm:h-auto sm:aspect-auto">
                             <!-- Imagen editable desde el admin -->
                             <img :src="settings.landing_hero_image || '/storage/brain/happy_family_secure_home_insurance_1773670797147.png'" 
                                 :alt="settings.landing_hero_title"
                                 class="w-full h-full object-cover transform transition duration-1000 group-hover:scale-105" />
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 sm:from-slate-900/40 to-transparent"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 sm:from-slate-900/40 to-transparent"></div>
 
                             <!-- Floating Card -->
                             <div
-                                class="absolute bottom-3 left-3 right-3 sm:bottom-8 sm:left-8 sm:right-auto sm:w-auto bg-white/10 backdrop-blur-md sm:backdrop-blur-xl border border-white/20 p-3 sm:p-6 rounded-xl sm:rounded-2xl">
-                                <div class="flex items-center gap-2 sm:gap-4">
-                                    <div class="w-8 h-8 sm:w-12 sm:h-12 bg-white/20 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div class="text-white font-bold text-xs sm:text-base">Asesoría Profesional</div>
-                                        <div class="text-white/80 text-[9px] sm:text-xs line-clamp-1">{{ settings.landing_trust_badge || 'Expertos en riesgos a tu servicio' }}</div>
-                                    </div>
+                                class="absolute bottom-2 left-2 right-2 sm:bottom-8 sm:left-8 sm:right-auto sm:w-auto bg-white/10 backdrop-blur-md sm:backdrop-blur-xl border border-white/20 p-2.5 sm:p-6 rounded-xl sm:rounded-2xl flex items-center gap-2.5 sm:gap-4">
+                                <div class="w-8 h-8 sm:w-12 sm:h-12 bg-white/20 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="text-white font-bold text-[11px] sm:text-base leading-tight">Asesoría Profesional</div>
+                                    <div class="text-white/80 text-[8.5px] sm:text-xs line-clamp-1 mt-0.5">{{ settings.landing_trust_badge || 'Expertos en riesgos a tu servicio' }}</div>
                                 </div>
                             </div>
                         </div>
