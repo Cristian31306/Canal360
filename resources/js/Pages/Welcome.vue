@@ -160,9 +160,13 @@ const serviceCategories = computed(() => [
                         </div>
 
                         <div class="mt-6 sm:mt-12 overflow-hidden relative group">
-                            <div class="flex items-center gap-4 sm:gap-12 animate-scroll hover:pause">
-                                <!-- Render logos multiple times for infinite effect -->
-                                <div v-for="n in 3" :key="n" class="flex items-center gap-4 sm:gap-12 flex-shrink-0">
+                            <!-- Degradados para efecto de desvanecimiento a los lados -->
+                            <div class="absolute inset-y-0 left-0 w-8 sm:w-16 bg-gradient-to-r from-white to-transparent z-10"></div>
+                            <div class="absolute inset-y-0 right-0 w-8 sm:w-16 bg-gradient-to-l from-white to-transparent z-10"></div>
+
+                            <div class="flex items-center gap-4 sm:gap-12 animate-scroll w-max hover:pause">
+                                <!-- Duplicar solo 2 veces para un cálculo exacto del 50% de traslación -->
+                                <div v-for="n in 2" :key="n" class="flex items-center gap-4 sm:gap-12 flex-shrink-0">
                                     <div v-for="aseguradora in aseguradoras" :key="aseguradora.id + '-' + n"
                                         class="flex items-center justify-center w-10 h-10 sm:w-24 sm:h-24 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 transform hover:scale-110">
                                         <img :src="'/storage/' + aseguradora.logo" :alt="'Aseguradora aliada ' + aseguradora.nombre + ' en Canal Asesores'"
@@ -171,7 +175,7 @@ const serviceCategories = computed(() => [
                                 </div>
                             </div>
                             <div
-                                class="mt-3 text-[8.5px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest text-center md:text-left">
+                                class="mt-3 text-[8.5px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest text-center md:text-left relative z-10">
                                 {{ settings.landing_allies_text || 'Aliados Estratégicos que respaldan tu seguridad' }}
                             </div>
                         </div>
