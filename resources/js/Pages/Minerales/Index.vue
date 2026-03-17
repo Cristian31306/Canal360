@@ -7,6 +7,7 @@ import ConfirmationModal from '@/Components/ConfirmationModal.vue';
 
 const props = defineProps({
     precios: Object,
+    minerales: Array,
     filters: Object,
 });
 
@@ -93,15 +94,27 @@ const formatPercent = (val) => {
                         Registro <span class="text-amber-600">de</span> Minerales
                     </h2>
                 </div>
-                <Link
-                    :href="route('minerales.create')"
-                    class="inline-flex items-center rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-bold text-white shadow-xl shadow-amber-500/20 hover:bg-amber-500 hover:-translate-y-0.5 transition-all outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
-                >
-                    <svg class="-ml-1 mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                    </svg>
-                    Nuevo Registro
-                </Link>
+                <div class="flex items-center gap-3">
+                    <Link
+                        :href="route('cat-minerales.index')"
+                        class="inline-flex items-center rounded-xl bg-slate-800 px-4 py-2.5 text-sm font-bold text-white shadow-xl hover:bg-slate-700 transition-all outline-none"
+                    >
+                        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Configuración
+                    </Link>
+                    <Link
+                        :href="route('minerales.create')"
+                        class="inline-flex items-center rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-bold text-white shadow-xl shadow-amber-500/20 hover:bg-amber-500 hover:-translate-y-0.5 transition-all outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+                    >
+                        <svg class="-ml-1 mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                        </svg>
+                        Nuevo Registro
+                    </Link>
+                </div>
             </div>
         </template>
 
@@ -123,9 +136,9 @@ const formatPercent = (val) => {
                             <thead>
                                 <tr class="bg-gray-50/50 dark:bg-gray-900/50">
                                     <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Periodo</th>
-                                    <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Oro</th>
-                                    <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Plata</th>
-                                    <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Platino</th>
+                                    <th v-for="mineral in minerales" :key="mineral.id" class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">
+                                        {{ mineral.nombre }}
+                                    </th>
                                     <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest text-right">Acciones</th>
                                 </tr>
                             </thead>
@@ -138,50 +151,17 @@ const formatPercent = (val) => {
                                         </div>
                                     </td>
                                     
-                                    <!-- ORO -->
-                                    <td class="px-6 py-6 border-l border-gray-50/50 dark:border-gray-700/50">
+                                    <td v-for="mineral in minerales" :key="mineral.id" class="px-6 py-6 border-l border-gray-50/50 dark:border-gray-700/50">
                                         <div class="flex flex-col">
-                                            <span class="text-base font-black text-gray-900 dark:text-white">{{ formatCurrency(precio.oro) }}</span>
+                                            <span class="text-base font-black text-gray-900 dark:text-white">{{ formatCurrency(precio[mineral.slug]) }}</span>
                                             <div class="flex items-center gap-2 mt-1">
-                                                <span v-if="precio.variaciones.oro.porcentaje !== 0" 
-                                                    :class="[precio.variaciones.oro.porcentaje > 0 ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-red-600 bg-red-50 dark:bg-red-900/20', 'text-[10px] font-black px-1.5 py-0.5 rounded flex items-center gap-0.5']">
-                                                    <svg v-if="precio.variaciones.oro.porcentaje > 0" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"/></svg>
+                                                <span v-if="precio.variaciones[mineral.slug]?.porcentaje !== 0" 
+                                                    :class="[precio.variaciones[mineral.slug]?.porcentaje > 0 ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-red-600 bg-red-50 dark:bg-red-900/20', 'text-[10px] font-black px-1.5 py-0.5 rounded flex items-center gap-0.5']">
+                                                    <svg v-if="precio.variaciones[mineral.slug]?.porcentaje > 0" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"/></svg>
                                                     <svg v-else class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/></svg>
-                                                    {{ formatPercent(precio.variaciones.oro.porcentaje) }}
+                                                    {{ formatPercent(precio.variaciones[mineral.slug]?.porcentaje) }}
                                                 </span>
-                                                <span class="text-[10px] text-gray-400 font-medium">{{ precio.variaciones.oro.porcentaje !== 0 ? formatCurrency(Math.abs(precio.variaciones.oro.diferencia)) : '-' }}</span>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <!-- PLATA -->
-                                    <td class="px-6 py-6 border-l border-gray-50/50 dark:border-gray-700/50">
-                                        <div class="flex flex-col">
-                                            <span class="text-base font-black text-gray-900 dark:text-white">{{ formatCurrency(precio.plata) }}</span>
-                                            <div class="flex items-center gap-2 mt-1">
-                                                <span v-if="precio.variaciones.plata.porcentaje !== 0" 
-                                                    :class="[precio.variaciones.plata.porcentaje > 0 ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-red-600 bg-red-50 dark:bg-red-900/20', 'text-[10px] font-black px-1.5 py-0.5 rounded flex items-center gap-0.5']">
-                                                    <svg v-if="precio.variaciones.plata.porcentaje > 0" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"/></svg>
-                                                    <svg v-else class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/></svg>
-                                                    {{ formatPercent(precio.variaciones.plata.porcentaje) }}
-                                                </span>
-                                                <span class="text-[10px] text-gray-400 font-medium">{{ precio.variaciones.plata.porcentaje !== 0 ? formatCurrency(Math.abs(precio.variaciones.plata.diferencia)) : '-' }}</span>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <!-- PLATINO -->
-                                    <td class="px-6 py-6 border-l border-gray-50/50 dark:border-gray-700/50">
-                                        <div class="flex flex-col">
-                                            <span class="text-base font-black text-gray-900 dark:text-white">{{ formatCurrency(precio.platino) }}</span>
-                                            <div class="flex items-center gap-2 mt-1">
-                                                <span v-if="precio.variaciones.platino.porcentaje !== 0" 
-                                                    :class="[precio.variaciones.platino.porcentaje > 0 ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-red-600 bg-red-50 dark:bg-red-900/20', 'text-[10px] font-black px-1.5 py-0.5 rounded flex items-center gap-0.5']">
-                                                    <svg v-if="precio.variaciones.platino.porcentaje > 0" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"/></svg>
-                                                    <svg v-else class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/></svg>
-                                                    {{ formatPercent(precio.variaciones.platino.porcentaje) }}
-                                                </span>
-                                                <span class="text-[10px] text-gray-400 font-medium">{{ precio.variaciones.platino.porcentaje !== 0 ? formatCurrency(Math.abs(precio.variaciones.platino.diferencia)) : '-' }}</span>
+                                                <span class="text-[10px] text-gray-400 font-medium">{{ precio.variaciones[mineral.slug]?.porcentaje !== 0 ? formatCurrency(Math.abs(precio.variaciones[mineral.slug]?.diferencia)) : '-' }}</span>
                                             </div>
                                         </div>
                                     </td>

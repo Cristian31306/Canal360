@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -8,15 +8,17 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 
 const props = defineProps({
     meses: Array,
-    anio_actual: Number
+    anio_actual: Number,
+    minerales: Array,
 });
 
 const form = useForm({
     mes: new Date().getMonth() + 1,
     anio: props.anio_actual,
-    oro: '',
-    plata: '',
-    platino: '',
+    precios: props.minerales.reduce((acc, m) => {
+        acc[m.id] = '';
+        return acc;
+    }, {}),
 });
 
 const submit = () => {
@@ -64,22 +66,31 @@ const submit = () => {
                             </div>
 
                             <div class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div class="p-6 bg-amber-50 dark:bg-amber-900/10 rounded-2xl border border-amber-100 dark:border-amber-900/20">
-                                    <InputLabel for="oro" value="Precio Oro (COP)" class="uppercase text-[10px] font-black tracking-widest text-amber-600 mb-2" />
-                                    <TextInput id="oro" v-model="form.oro" type="number" step="0.01" class="mt-1 block w-full rounded-xl border-amber-200 focus:ring-amber-500 font-bold" placeholder="0.00" required />
-                                    <div v-if="form.errors.oro" class="mt-2 text-xs font-bold text-red-600 uppercase">{{ form.errors.oro }}</div>
-                                </div>
-
-                                <div class="p-6 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700">
-                                    <InputLabel for="plata" value="Precio Plata (COP)" class="uppercase text-[10px] font-black tracking-widest text-slate-500 mb-2" />
-                                    <TextInput id="plata" v-model="form.plata" type="number" step="0.01" class="mt-1 block w-full rounded-xl border-slate-200 focus:ring-slate-500 font-bold" placeholder="0.00" required />
-                                    <div v-if="form.errors.plata" class="mt-2 text-xs font-bold text-red-600 uppercase">{{ form.errors.plata }}</div>
-                                </div>
-
-                                <div class="p-6 bg-indigo-50 dark:bg-indigo-900/10 rounded-2xl border border-indigo-100 dark:border-indigo-900/20">
-                                    <InputLabel for="platino" value="Precio Platino (COP)" class="uppercase text-[10px] font-black tracking-widest text-indigo-600 mb-2" />
-                                    <TextInput id="platino" v-model="form.platino" type="number" step="0.01" class="mt-1 block w-full rounded-xl border-indigo-200 focus:ring-indigo-500 font-bold" placeholder="0.00" required />
-                                    <div v-if="form.errors.platino" class="mt-2 text-xs font-bold text-red-600 uppercase">{{ form.errors.platino }}</div>
+                                <div v-for="mineral in minerales" :key="mineral.id" 
+                                    :class="[
+                                        mineral.slug === 'oro' ? 'bg-amber-50 dark:bg-amber-900/10 border-amber-100 dark:border-amber-900/20' : 
+                                        mineral.slug === 'plata' ? 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700' :
+                                        mineral.slug === 'platino' ? 'bg-indigo-50 dark:bg-indigo-900/10 border-indigo-100 dark:border-indigo-900/20' :
+                                        'bg-gray-50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700',
+                                        'p-6 rounded-2xl border'
+                                    ]">
+                                    <InputLabel :for="mineral.slug" :value="`Precio ${mineral.nombre} (COP)`" 
+                                        :class="[
+                                            mineral.slug === 'oro' ? 'text-amber-600' : 
+                                            mineral.slug === 'plata' ? 'text-slate-500' :
+                                            mineral.slug === 'platino' ? 'text-indigo-600' :
+                                            'text-gray-600',
+                                            'uppercase text-[10px] font-black tracking-widest mb-2'
+                                        ]" />
+                                    <TextInput :id="mineral.slug" v-model="form.precios[mineral.id]" type="number" step="0.01" 
+                                        :class="[
+                                            mineral.slug === 'oro' ? 'border-amber-200' : 
+                                            mineral.slug === 'plata' ? 'border-slate-200' :
+                                            mineral.slug === 'platino' ? 'border-indigo-200' :
+                                            'border-gray-200',
+                                            'mt-1 block w-full rounded-xl focus:ring-amber-500 font-bold'
+                                        ]" placeholder="0.00" required />
+                                    <div v-if="form.errors[`precios.${mineral.id}`]" class="mt-2 text-xs font-bold text-red-600 uppercase">{{ form.errors[`precios.${mineral.id}`] }}</div>
                                 </div>
                             </div>
                         </div>

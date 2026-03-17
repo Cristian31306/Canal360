@@ -11,10 +11,24 @@ class PrecioMineral extends Model
     protected $fillable = [
         'mes',
         'anio',
-        'oro',
-        'plata',
-        'platino',
     ];
+
+    public function valores()
+    {
+        return $this->hasMany(PrecioMineralValor::class);
+    }
+
+    /**
+     * Obtiene el valor de un mineral específico por su slug
+     */
+    public function getValor($slug)
+    {
+        $valor = $this->valores()->whereHas('mineral', function($q) use ($slug) {
+            $q->where('slug', $slug);
+        })->first();
+
+        return $valor ? $valor->precio : 0;
+    }
 
     /**
      * Obtiene el registro del mes anterior
@@ -35,31 +49,33 @@ class PrecioMineral extends Model
     }
 
     /**
-     * Calcula la variación porcentual con respecto al mes anterior
+     * Calcula la variación porcentual con respecto al mes anterior por slug
      */
-    public function calcularVariacion($mineral)
+    public function calcularVariacion($slug)
     {
         $anterior = $this->mesAnterior();
+        $valorActual = $this->getValor($slug);
         
-        if (!$anterior || $anterior->$mineral == 0) {
+        if (!$anterior || ($valorAnterior = $anterior->getValor($slug)) == 0) {
             return 0;
         }
 
-        $diferencia = $this->$mineral - $anterior->$mineral;
-        return ($diferencia / $anterior->$mineral) * 100;
+        $diferencia = $valorActual - $valorAnterior;
+        return ($diferencia / $valorAnterior) * 100;
     }
 
     /**
-     * Calcula la diferencia en pesos con respecto al mes anterior
+     * Calcula la diferencia en pesos con respecto al mes anterior por slug
      */
-    public function calcularDiferencia($mineral)
+    public function calcularDiferencia($slug)
     {
         $anterior = $this->mesAnterior();
+        $valorActual = $this->getValor($slug);
         
         if (!$anterior) {
             return 0;
         }
 
-        return $this->$mineral - $anterior->$mineral;
+        return $valorActual - $anterior->getValor($slug);
     }
 }

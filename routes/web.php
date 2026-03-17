@@ -70,6 +70,8 @@ Route::middleware('auth')->group(function () {
     // Módulos Nuevos: Portales y Minerales
     Route::resource('portales', App\Http\Controllers\PortalAgenciaController::class)->middleware('can.access:portales');
     Route::resource('minerales', App\Http\Controllers\PrecioMineralController::class)->names('minerales')->middleware('can.access:minerales');
+    Route::resource('cat-minerales', App\Http\Controllers\CatMineralController::class)->names('cat-minerales')->middleware('can.access:minerales');
+    Route::resource('titulos-360', App\Http\Controllers\Titulo360Controller::class)->names('titulos-360');
 
     // Administración de Auditoría
     Route::get('/admin/auditoria', [App\Http\Controllers\Admin\AuditoriaController::class, 'index'])
