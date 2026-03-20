@@ -3,59 +3,59 @@
 /**
  * Script de Actualización y Despliegue Canal360
  * Este script automatiza todos los pasos necesarios para que el VPS esté al día.
+ * Uso: php actualizar.php
  */
 
-echo "\n🚀 --- INICIANDO ACTUALIZACIÓN CANAL360 ---\n";
-
-/**
- * Ejecuta un comando y muestra el progreso de forma elegante
- */
-function ejecutar($comando, $descripcion) {
-    echo "\n🔹 [$descripcion]...\n";
-    echo "> $comando\n";
-    
-    $output = [];
-    $resultCode = 0;
-    exec($comando, $output, $resultCode);
-    
-    foreach ($output as $line) {
-        echo "  $line\n";
-    }
-    
-    if ($resultCode === 0) {
-        echo "✅ Completado con éxito.\n";
-        return true;
-    } else {
-        echo "❌ Error al ejecutar: $comando\n";
-        return false;
-    }
+function ejecutar($comando) {
+    echo "\n\033[32m[EJECUTANDO]\033[0m: $comando\n";
+    passthru($comando . ' 2>&1');
 }
 
-// 1. Sincronizar Código con Git (Sugerido pero requiere estar en un repo)
-ejecutar('git pull origin main', 'Bajando últimos cambios de Git');
+echo "\n\033[34m====================================================\033[0m\n";
+echo "\033[34m    INICIANDO ACTUALIZACIÓN - CANAL360              \033[0m\n";
+echo "\033[34m====================================================\033[0m\n";
 
-// 2. Comandos Vitales de Laravel
-$pasos = [
-    ['cmd' => 'composer install --no-dev --optimize-autoloader', 'desc' => 'Instalando dependencias de PHP (Composer)'],
-    ['cmd' => 'php artisan key:generate --force', 'desc' => 'Generando llave de seguridad'],
-    ['cmd' => 'php artisan migrate --force', 'desc' => 'Actualizando tablas de base de datos'],
-    ['cmd' => 'php artisan db:seed --class=LandingPageAgenciaSeeder --force', 'desc' => 'Sincronizando textos comerciales de la Agencia de Seguros'],
-    ['cmd' => 'php artisan storage:link', 'desc' => 'Activando enlace de fotos/archivos'],
-    ['cmd' => 'php artisan cache:clear', 'desc' => 'Limpiando caché de la aplicación'],
-    ['cmd' => 'php artisan view:clear', 'desc' => 'Limpiando caché de vistas'],
-    ['cmd' => 'php artisan config:cache', 'desc' => 'Optimizando configuración'],
-    ['cmd' => 'php artisan route:cache', 'desc' => 'Optimizando rutas'],
-    ['cmd' => 'php artisan view:cache', 'desc' => 'Optimizando vistas'],
-    ['cmd' => 'php artisan optimize', 'desc' => 'Optimización general de Laravel'],
-];
+// 1. Entrar en modo mantenimiento
+echo "\n\033[33mEntrando en modo mantenimiento...\033[0m\n";
+ejecutar('php artisan down');
 
-foreach ($pasos as $paso) {
-    ejecutar($paso['cmd'], $paso['desc']);
-}
+// 2. Sincronizar Código con Git
+echo "\n\033[33mObteniendo últimos cambios de Git...\033[0m\n";
+ejecutar('git pull origin main');
 
-// 3. Comandos de Frontend (Si es necesario compilar en el VPS)
-// echo "\n⚙️ ¿Deseas compilar el frontend? (Solo si tienes Node.js en el VPS)\n";
-// ejecutar('npm install && npm run build', 'Compilando activos (Vite/Vue)');
+// 3. Instalando dependencias de PHP (Composer)
+echo "\n\033[33mInstalando dependencias de PHP (Composer)...\033[0m\n";
+ejecutar('composer install --no-dev --optimize-autoloader');
 
-echo "\n✨ --- ¡TODO LISTO! EL SISTEMA HA SIDO ACTUALIZADO --- ✨\n";
-echo "Recuerda revisar que el .env tenga los datos correctos.\n\n";
+// 4. Actualizando tablas de base de datos
+echo "\n\033[33mEjecutando migraciones de base de datos...\033[0m\n";
+ejecutar('php artisan migrate --force');
+
+// 5. Sincronizando textos comerciales (Seeders específicos)
+echo "\n\033[33mSincronizando textos comerciales y configuraciones...\033[0m\n";
+ejecutar('php artisan db:seed --class=LandingPageAgenciaSeeder --force');
+ejecutar('php artisan db:seed --class=SettingSeeder --force');
+
+// 6. Activando enlace de fotos/archivos
+echo "\n\033[33mVerificando enlace simbólico de storage...\033[0m\n";
+ejecutar('php artisan storage:link');
+
+// 7. Compilando activos (Frontend) - Solo si Node.js está disponible
+// echo "\n\033[33mInstalando dependencias de JS y compilando assets...\033[0m\n";
+// ejecutar('npm install && npm run build');
+
+// 8. Limpieza y Optimización de Caché
+echo "\n\033[33mOptimizando caché y rendimiento de Laravel...\033[0m\n";
+ejecutar('php artisan optimize:clear');
+ejecutar('php artisan config:cache');
+ejecutar('php artisan route:cache');
+ejecutar('php artisan view:cache');
+
+// 9. Salir de mantenimiento
+echo "\n\033[33mSaliendo del modo mantenimiento...\033[0m\n";
+ejecutar('php artisan up');
+
+echo "\n\033[34m====================================================\033[0m\n";
+echo "\033[32m       ¡ACTUALIZACIÓN COMPLETADA CON ÉXITO!        \033[0m\n";
+echo "\033[34m====================================================\033[0m\n\n";
+echo "Recuerda revisar que el archivo .env tenga los datos correctos.\n\n";
