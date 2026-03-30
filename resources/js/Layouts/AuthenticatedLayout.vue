@@ -140,8 +140,8 @@ const toggleGroup = (groupId) => {
                 class="h-16 flex items-center justify-center border-b border-slate-800 bg-slate-950 px-4 transition-all duration-300">
                 <Link :href="route('dashboard')" class="flex items-center h-full w-full px-4"
                     :class="{ 'justify-center px-0': isSidebarCollapsed }">
-                    <span v-show="!isSidebarCollapsed" class="font-black text-2xl tracking-tighter text-white truncate">Canal<span class="text-blue-500"> Asesores</span></span>
-                    <span v-show="isSidebarCollapsed" class="font-black text-2xl text-blue-500">C<span class="text-white">A</span></span>
+                    <span v-show="!isSidebarCollapsed" class="font-black text-2xl tracking-tighter text-white truncate">Canal<span class="text-blue-500">360</span></span>
+                    <span v-show="isSidebarCollapsed" class="font-black text-2xl text-blue-500">C<span class="text-white">3</span></span>
                 </Link>
             </div>
 
@@ -228,7 +228,7 @@ const toggleGroup = (groupId) => {
                                 d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <span class="text-xl font-black tracking-tighter text-slate-900 dark:text-white">Canal<span class="text-blue-600"> Asesores</span></span>
+                    <span class="text-xl font-black tracking-tighter text-slate-900 dark:text-white">Canal<span class="text-blue-600">360</span></span>
                 </div>
 
                 <!-- Header Title slot (desktop) -->
