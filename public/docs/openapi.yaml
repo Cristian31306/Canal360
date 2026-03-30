@@ -1,0 +1,2620 @@
+openapi: 3.0.3
+info:
+  title: 'Canal360 API Documentation'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+tags:
+  -
+    name: Endpoints
+    description: ''
+paths:
+  /up:
+    get:
+      summary: ''
+      operationId: getUp
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\n    <title>Canal360</title>\n\n    <!-- Fonts -->\n    <link rel=\"preconnect\" href=\"https://fonts.bunny.net\">\n    <link href=\"https://fonts.bunny.net/css?family=figtree:400,600&display=swap\" rel=\"stylesheet\" />\n\n    <!-- Styles -->\n    <script src=\"https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4\"></script>\n\n    <style type=\"text/tailwindcss\">\n        @theme {\n            --font-sans: 'Figtree', 'ui-sans-serif', 'system-ui', 'sans-serif', \"Apple Color Emoji\", \"Segoe UI Emoji\";\n        }\n    </style>\n</head>\n<body class=\"antialiased\">\n<div class=\"relative flex justify-center items-center min-h-screen bg-gray-100 selection:bg-red-500 selection:text-white\">\n    <div class=\"w-full sm:w-3/4 xl:w-1/2 mx-auto p-6\">\n        <div class=\"px-6 py-4 bg-white from-gray-700/50 via-transparent rounded-lg shadow-2xl shadow-gray-500/20 flex items-center focus:outline focus:outline-2 focus:outline-red-500\">\n            <div class=\"relative flex h-3 w-3 group \">\n                <span class=\"animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 group-[.status-down]:bg-red-600 opacity-75\"></span>\n                <span class=\"relative inline-flex rounded-full h-3 w-3 bg-green-400 group-[.status-down]:bg-red-600\"></span>\n            </div>\n\n            <div class=\"ml-6\">\n                <h2 class=\"text-xl font-semibold text-gray-900\">Application up</h2>\n\n                <p class=\"mt-2 text-gray-500 dark:text-gray-400 text-sm leading-relaxed\">\n                    HTTP request received.\n\n                                            Response rendered in 1588ms.\n                                    </p>\n            </div>\n        </div>\n    </div>\n</div>\n</body>\n</html>\n"
+      tags:
+        - Endpoints
+      security: []
+  /:
+    get:
+      summary: ''
+      operationId: get
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "<!DOCTYPE html>\n<html lang=\"es\">\n    <head>\n        <meta charset=\"utf-8\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\n        <title inertia>Canal360</title>\n\n        <!-- Fonts -->\n        <link rel=\"preconnect\" href=\"https://fonts.bunny.net\">\n        <link href=\"https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap\" rel=\"stylesheet\" />\n\n        <!-- Scripts -->\n        <script type=\"text/javascript\">const Ziggy={\"url\":\"http:\\/\\/localhost\",\"port\":null,\"defaults\":{},\"routes\":{\"sanctum.csrf-cookie\":{\"uri\":\"sanctum\\/csrf-cookie\",\"methods\":[\"GET\",\"HEAD\"]},\"dashboard\":{\"uri\":\"dashboard\",\"methods\":[\"GET\",\"HEAD\"]},\"profile.edit\":{\"uri\":\"profile\",\"methods\":[\"GET\",\"HEAD\"]},\"profile.update\":{\"uri\":\"profile\",\"methods\":[\"PATCH\"]},\"profile.destroy\":{\"uri\":\"profile\",\"methods\":[\"DELETE\"]},\"clientes.index\":{\"uri\":\"clientes\",\"methods\":[\"GET\",\"HEAD\"]},\"clientes.create\":{\"uri\":\"clientes\\/create\",\"methods\":[\"GET\",\"HEAD\"]},\"clientes.store\":{\"uri\":\"clientes\",\"methods\":[\"POST\"]},\"clientes.show\":{\"uri\":\"clientes\\/{cliente}\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"cliente\"]},\"clientes.edit\":{\"uri\":\"clientes\\/{cliente}\\/edit\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"cliente\"]},\"clientes.update\":{\"uri\":\"clientes\\/{cliente}\",\"methods\":[\"PUT\",\"PATCH\"],\"parameters\":[\"cliente\"]},\"clientes.destroy\":{\"uri\":\"clientes\\/{cliente}\",\"methods\":[\"DELETE\"],\"parameters\":[\"cliente\"]},\"aseguradoras.index\":{\"uri\":\"aseguradoras\",\"methods\":[\"GET\",\"HEAD\"]},\"aseguradoras.create\":{\"uri\":\"aseguradoras\\/create\",\"methods\":[\"GET\",\"HEAD\"]},\"aseguradoras.store\":{\"uri\":\"aseguradoras\",\"methods\":[\"POST\"]},\"aseguradoras.show\":{\"uri\":\"aseguradoras\\/{aseguradora}\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"aseguradora\"]},\"aseguradoras.edit\":{\"uri\":\"aseguradoras\\/{aseguradora}\\/edit\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"aseguradora\"]},\"aseguradoras.update\":{\"uri\":\"aseguradoras\\/{aseguradora}\",\"methods\":[\"PUT\",\"PATCH\"],\"parameters\":[\"aseguradora\"]},\"aseguradoras.destroy\":{\"uri\":\"aseguradoras\\/{aseguradora}\",\"methods\":[\"DELETE\"],\"parameters\":[\"aseguradora\"]},\"ramos.index\":{\"uri\":\"ramos\",\"methods\":[\"GET\",\"HEAD\"]},\"ramos.create\":{\"uri\":\"ramos\\/create\",\"methods\":[\"GET\",\"HEAD\"]},\"ramos.store\":{\"uri\":\"ramos\",\"methods\":[\"POST\"]},\"ramos.edit\":{\"uri\":\"ramos\\/{ramo}\\/edit\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"ramo\"]},\"ramos.update\":{\"uri\":\"ramos\\/{ramo}\",\"methods\":[\"PUT\",\"PATCH\"],\"parameters\":[\"ramo\"]},\"ramos.destroy\":{\"uri\":\"ramos\\/{ramo}\",\"methods\":[\"DELETE\"],\"parameters\":[\"ramo\"]},\"riesgos.index\":{\"uri\":\"riesgos\",\"methods\":[\"GET\",\"HEAD\"]},\"riesgos.create\":{\"uri\":\"riesgos\\/create\",\"methods\":[\"GET\",\"HEAD\"]},\"riesgos.store\":{\"uri\":\"riesgos\",\"methods\":[\"POST\"]},\"riesgos.show\":{\"uri\":\"riesgos\\/{riesgo}\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"riesgo\"]},\"riesgos.edit\":{\"uri\":\"riesgos\\/{riesgo}\\/edit\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"riesgo\"]},\"riesgos.update\":{\"uri\":\"riesgos\\/{riesgo}\",\"methods\":[\"PUT\",\"PATCH\"],\"parameters\":[\"riesgo\"]},\"riesgos.destroy\":{\"uri\":\"riesgos\\/{riesgo}\",\"methods\":[\"DELETE\"],\"parameters\":[\"riesgo\"]},\"polizas.export\":{\"uri\":\"polizas\\/export\",\"methods\":[\"GET\",\"HEAD\"]},\"polizas.index\":{\"uri\":\"polizas\",\"methods\":[\"GET\",\"HEAD\"]},\"polizas.create\":{\"uri\":\"polizas\\/create\",\"methods\":[\"GET\",\"HEAD\"]},\"polizas.store\":{\"uri\":\"polizas\",\"methods\":[\"POST\"]},\"polizas.show\":{\"uri\":\"polizas\\/{poliza}\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"poliza\"]},\"polizas.edit\":{\"uri\":\"polizas\\/{poliza}\\/edit\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"poliza\"]},\"polizas.update\":{\"uri\":\"polizas\\/{poliza}\",\"methods\":[\"PUT\",\"PATCH\"],\"parameters\":[\"poliza\"]},\"polizas.destroy\":{\"uri\":\"polizas\\/{poliza}\",\"methods\":[\"DELETE\"],\"parameters\":[\"poliza\"]},\"polizas.renewals\":{\"uri\":\"renovaciones\",\"methods\":[\"GET\",\"HEAD\"]},\"polizas.liquidate\":{\"uri\":\"polizas\\/{poliza}\\/liquidar\",\"methods\":[\"POST\"],\"parameters\":[\"poliza\"],\"bindings\":{\"poliza\":\"id\"}},\"polizas.send-to-insurance\":{\"uri\":\"polizas\\/{poliza}\\/enviar\",\"methods\":[\"POST\"],\"parameters\":[\"poliza\"],\"bindings\":{\"poliza\":\"id\"}},\"polizas.finalize-renewal\":{\"uri\":\"polizas\\/{poliza}\\/finalizar-renovacion\",\"methods\":[\"POST\"],\"parameters\":[\"poliza\"],\"bindings\":{\"poliza\":\"id\"}},\"polizas.cancel-renewal\":{\"uri\":\"polizas\\/{poliza}\\/cancelar\",\"methods\":[\"DELETE\"],\"parameters\":[\"poliza\"],\"bindings\":{\"poliza\":\"id\"}},\"cartera.export\":{\"uri\":\"cartera\\/export\",\"methods\":[\"GET\",\"HEAD\"]},\"cartera.index\":{\"uri\":\"cartera\",\"methods\":[\"GET\",\"HEAD\"]},\"cartera.show\":{\"uri\":\"cartera\\/{id}\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"id\"]},\"cartera.destroy\":{\"uri\":\"cartera\\/{id}\",\"methods\":[\"DELETE\"],\"parameters\":[\"id\"]},\"cartera.abonos.store\":{\"uri\":\"cartera\\/{id}\\/abonos\",\"methods\":[\"POST\"],\"parameters\":[\"id\"]},\"cartera.abonos.destroy\":{\"uri\":\"cartera\\/abonos\\/{id}\",\"methods\":[\"DELETE\"],\"parameters\":[\"id\"]},\"settings.landing.index\":{\"uri\":\"settings\\/landing\",\"methods\":[\"GET\",\"HEAD\"]},\"settings.landing.update\":{\"uri\":\"settings\\/landing\",\"methods\":[\"POST\"]},\"admin.users.index\":{\"uri\":\"admin\\/users\",\"methods\":[\"GET\",\"HEAD\"]},\"admin.users.store\":{\"uri\":\"admin\\/users\",\"methods\":[\"POST\"]},\"admin.users.update\":{\"uri\":\"admin\\/users\\/{user}\",\"methods\":[\"PUT\"],\"parameters\":[\"user\"],\"bindings\":{\"user\":\"id\"}},\"admin.users.password.reset\":{\"uri\":\"admin\\/users\\/{user}\\/password-reset\",\"methods\":[\"POST\"],\"parameters\":[\"user\"],\"bindings\":{\"user\":\"id\"}},\"portales.index\":{\"uri\":\"portales\",\"methods\":[\"GET\",\"HEAD\"]},\"portales.create\":{\"uri\":\"portales\\/create\",\"methods\":[\"GET\",\"HEAD\"]},\"portales.store\":{\"uri\":\"portales\",\"methods\":[\"POST\"]},\"portales.show\":{\"uri\":\"portales\\/{portale}\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"portale\"]},\"portales.edit\":{\"uri\":\"portales\\/{portale}\\/edit\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"portale\"]},\"portales.update\":{\"uri\":\"portales\\/{portale}\",\"methods\":[\"PUT\",\"PATCH\"],\"parameters\":[\"portale\"]},\"portales.destroy\":{\"uri\":\"portales\\/{portale}\",\"methods\":[\"DELETE\"],\"parameters\":[\"portale\"]},\"minerales.index\":{\"uri\":\"minerales\",\"methods\":[\"GET\",\"HEAD\"]},\"minerales.create\":{\"uri\":\"minerales\\/create\",\"methods\":[\"GET\",\"HEAD\"]},\"minerales.store\":{\"uri\":\"minerales\",\"methods\":[\"POST\"]},\"minerales.show\":{\"uri\":\"minerales\\/{minerale}\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"minerale\"]},\"minerales.edit\":{\"uri\":\"minerales\\/{minerale}\\/edit\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"minerale\"]},\"minerales.update\":{\"uri\":\"minerales\\/{minerale}\",\"methods\":[\"PUT\",\"PATCH\"],\"parameters\":[\"minerale\"]},\"minerales.destroy\":{\"uri\":\"minerales\\/{minerale}\",\"methods\":[\"DELETE\"],\"parameters\":[\"minerale\"]},\"cat-minerales.index\":{\"uri\":\"cat-minerales\",\"methods\":[\"GET\",\"HEAD\"]},\"cat-minerales.create\":{\"uri\":\"cat-minerales\\/create\",\"methods\":[\"GET\",\"HEAD\"]},\"cat-minerales.store\":{\"uri\":\"cat-minerales\",\"methods\":[\"POST\"]},\"cat-minerales.show\":{\"uri\":\"cat-minerales\\/{cat_minerale}\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"cat_minerale\"]},\"cat-minerales.edit\":{\"uri\":\"cat-minerales\\/{cat_minerale}\\/edit\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"cat_minerale\"]},\"cat-minerales.update\":{\"uri\":\"cat-minerales\\/{cat_minerale}\",\"methods\":[\"PUT\",\"PATCH\"],\"parameters\":[\"cat_minerale\"],\"bindings\":{\"cat_minerale\":\"id\"}},\"cat-minerales.destroy\":{\"uri\":\"cat-minerales\\/{cat_minerale}\",\"methods\":[\"DELETE\"],\"parameters\":[\"cat_minerale\"],\"bindings\":{\"cat_minerale\":\"id\"}},\"titulos-360.index\":{\"uri\":\"titulos-360\",\"methods\":[\"GET\",\"HEAD\"]},\"titulos-360.create\":{\"uri\":\"titulos-360\\/create\",\"methods\":[\"GET\",\"HEAD\"]},\"titulos-360.store\":{\"uri\":\"titulos-360\",\"methods\":[\"POST\"]},\"titulos-360.show\":{\"uri\":\"titulos-360\\/{titulos_360}\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"titulos_360\"]},\"titulos-360.edit\":{\"uri\":\"titulos-360\\/{titulos_360}\\/edit\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"titulos_360\"],\"bindings\":{\"titulos_360\":\"id\"}},\"titulos-360.update\":{\"uri\":\"titulos-360\\/{titulos_360}\",\"methods\":[\"PUT\",\"PATCH\"],\"parameters\":[\"titulos_360\"],\"bindings\":{\"titulos_360\":\"id\"}},\"titulos-360.destroy\":{\"uri\":\"titulos-360\\/{titulos_360}\",\"methods\":[\"DELETE\"],\"parameters\":[\"titulos_360\"],\"bindings\":{\"titulos_360\":\"id\"}},\"admin.auditoria.index\":{\"uri\":\"admin\\/auditoria\",\"methods\":[\"GET\",\"HEAD\"]},\"login\":{\"uri\":\"login\",\"methods\":[\"GET\",\"HEAD\"]},\"password.request\":{\"uri\":\"forgot-password\",\"methods\":[\"GET\",\"HEAD\"]},\"password.email\":{\"uri\":\"forgot-password\",\"methods\":[\"POST\"]},\"password.reset\":{\"uri\":\"reset-password\\/{token}\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"token\"]},\"password.store\":{\"uri\":\"reset-password\",\"methods\":[\"POST\"]},\"verification.notice\":{\"uri\":\"verify-email\",\"methods\":[\"GET\",\"HEAD\"]},\"verification.verify\":{\"uri\":\"verify-email\\/{id}\\/{hash}\",\"methods\":[\"GET\",\"HEAD\"],\"parameters\":[\"id\",\"hash\"]},\"verification.send\":{\"uri\":\"email\\/verification-notification\",\"methods\":[\"POST\"]},\"password.confirm\":{\"uri\":\"confirm-password\",\"methods\":[\"GET\",\"HEAD\"]},\"password.update\":{\"uri\":\"password\",\"methods\":[\"PUT\"]},\"logout\":{\"uri\":\"logout\",\"methods\":[\"POST\"]},\"storage.local\":{\"uri\":\"storage\\/{path}\",\"methods\":[\"GET\",\"HEAD\"],\"wheres\":{\"path\":\".*\"},\"parameters\":[\"path\"]},\"storage.local.upload\":{\"uri\":\"storage\\/{path}\",\"methods\":[\"PUT\"],\"wheres\":{\"path\":\".*\"},\"parameters\":[\"path\"]}}};!function(t,e){\"object\"==typeof exports&&\"undefined\"!=typeof module?module.exports=e():\"function\"==typeof define&&define.amd?define(e):(t||self).route=e()}(this,function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,\"value\"in r&&(r.writable=!0),Object.defineProperty(t,u(r.key),r)}}function e(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),Object.defineProperty(e,\"prototype\",{writable:!1}),e}function n(){return n=Object.assign?Object.assign.bind():function(t){for(var e=1;e<arguments.length;e++){var n=arguments[e];for(var r in n)({}).hasOwnProperty.call(n,r)&&(t[r]=n[r])}return t},n.apply(null,arguments)}function r(t){return r=Object.setPrototypeOf?Object.getPrototypeOf.bind():function(t){return t.__proto__||Object.getPrototypeOf(t)},r(t)}function o(){try{var t=!Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}))}catch(t){}return(o=function(){return!!t})()}function i(t,e){return i=Object.setPrototypeOf?Object.setPrototypeOf.bind():function(t,e){return t.__proto__=e,t},i(t,e)}function u(t){var e=function(t){if(\"object\"!=typeof t||!t)return t;var e=t[Symbol.toPrimitive];if(void 0!==e){var n=e.call(t,\"string\");if(\"object\"!=typeof n)return n;throw new TypeError(\"@@toPrimitive must return a primitive value.\")}return String(t)}(t);return\"symbol\"==typeof e?e:e+\"\"}function f(t){var e=\"function\"==typeof Map?new Map:void 0;return f=function(t){if(null===t||!function(t){try{return-1!==Function.toString.call(t).indexOf(\"[native code]\")}catch(e){return\"function\"==typeof t}}(t))return t;if(\"function\"!=typeof t)throw new TypeError(\"Super expression must either be null or a function\");if(void 0!==e){if(e.has(t))return e.get(t);e.set(t,n)}function n(){return function(t,e,n){if(o())return Reflect.construct.apply(null,arguments);var r=[null];r.push.apply(r,e);var u=new(t.bind.apply(t,r));return n&&i(u,n.prototype),u}(t,arguments,r(this).constructor)}return n.prototype=Object.create(t.prototype,{constructor:{value:n,enumerable:!1,writable:!0,configurable:!0}}),i(n,t)},f(t)}const c=String.prototype.replace,l=/%20/g,a={RFC1738:function(t){return c.call(t,l,\"+\")},RFC3986:function(t){return String(t)}};var s=\"RFC3986\";const p=Object.prototype.hasOwnProperty,y=Array.isArray,d=new WeakMap;var b=function(t,e){return d.set(t,e),t};function v(t){return d.has(t)}var h=function(t){return d.get(t)},m=function(t,e){d.set(t,e)};const g=function(){const t=[];for(let e=0;e<256;++e)t.push(\"%\"+((e<16?\"0\":\"\")+e.toString(16)).toUpperCase());return t}(),w=function(t,e){const n=e&&e.plainObjects?Object.create(null):{};for(let e=0;e<t.length;++e)void 0!==t[e]&&(n[e]=t[e]);return n},j=function t(e,n,r){if(!n)return e;if(\"object\"!=typeof n){if(y(e))e.push(n);else{if(!e||\"object\"!=typeof e)return[e,n];if(v(e)){var o=h(e)+1;e[o]=n,m(e,o)}else(r&&(r.plainObjects||r.allowPrototypes)||!p.call(Object.prototype,n))&&(e[n]=!0)}return e}if(!e||\"object\"!=typeof e){if(v(n)){for(var i=Object.keys(n),u=r&&r.plainObjects?{__proto__:null,0:e}:{0:e},f=0;f<i.length;f++)u[parseInt(i[f],10)+1]=n[i[f]];return b(u,h(n)+1)}return[e].concat(n)}let c=e;return y(e)&&!y(n)&&(c=w(e,r)),y(e)&&y(n)?(n.forEach(function(n,o){if(p.call(e,o)){const i=e[o];i&&\"object\"==typeof i&&n&&\"object\"==typeof n?e[o]=t(i,n,r):e.push(n)}else e[o]=n}),e):Object.keys(n).reduce(function(e,o){const i=n[o];return e[o]=p.call(e,o)?t(e[o],i,r):i,e},c)},O=1024,E=function(t,e,n,r){if(v(t)){var o=h(t)+1;return t[o]=e,m(t,o),t}var i=[].concat(t,e);return i.length>n?b(w(i,{plainObjects:r}),i.length-1):i},T=function(t,e){if(y(t)){const n=[];for(let r=0;r<t.length;r+=1)n.push(e(t[r]));return n}return e(t)},R=Object.prototype.hasOwnProperty,k={brackets:function(t){return t+\"[]\"},comma:\"comma\",indices:function(t,e){return t+\"[\"+e+\"]\"},repeat:function(t){return t}},S=Array.isArray,I=Array.prototype.push,A=function(t,e){I.apply(t,S(e)?e:[e])},D=Date.prototype.toISOString,$={addQueryPrefix:!1,allowDots:!1,allowEmptyArrays:!1,arrayFormat:\"indices\",charset:\"utf-8\",charsetSentinel:!1,delimiter:\"&\",encode:!0,encodeDotInKeys:!1,encoder:function(t,e,n,r,o){if(0===t.length)return t;let i=t;if(\"symbol\"==typeof t?i=Symbol.prototype.toString.call(t):\"string\"!=typeof t&&(i=String(t)),\"iso-8859-1\"===n)return escape(i).replace(/%u[0-9a-f]{4}/gi,function(t){return\"%26%23\"+parseInt(t.slice(2),16)+\"%3B\"});let u=\"\";for(let t=0;t<i.length;t+=O){const e=i.length>=O?i.slice(t,t+O):i,n=[];for(let t=0;t<e.length;++t){let r=e.charCodeAt(t);45===r||46===r||95===r||126===r||r>=48&&r<=57||r>=65&&r<=90||r>=97&&r<=122||\"RFC1738\"===o&&(40===r||41===r)?n[n.length]=e.charAt(t):r<128?n[n.length]=g[r]:r<2048?n[n.length]=g[192|r>>6]+g[128|63&r]:r<55296||r>=57344?n[n.length]=g[224|r>>12]+g[128|r>>6&63]+g[128|63&r]:(t+=1,r=65536+((1023&r)<<10|1023&e.charCodeAt(t)),n[n.length]=g[240|r>>18]+g[128|r>>12&63]+g[128|r>>6&63]+g[128|63&r])}u+=n.join(\"\")}return u},encodeValuesOnly:!1,format:s,formatter:a[s],indices:!1,serializeDate:function(t){return D.call(t)},skipNulls:!1,strictNullHandling:!1},N={},_=function(t,e,n,r,o,i,u,f,c,l,a,s,p,y,d,b,v,h){let m=t,g=h,w=0,j=!1;for(;void 0!==(g=g.get(N))&&!j;){const e=g.get(t);if(w+=1,void 0!==e){if(e===w)throw new RangeError(\"Cyclic object value\");j=!0}void 0===g.get(N)&&(w=0)}if(\"function\"==typeof l?m=l(e,m):m instanceof Date?m=p(m):\"comma\"===n&&S(m)&&(m=T(m,function(t){return t instanceof Date?p(t):t})),null===m){if(i)return c&&!b?c(e,$.encoder,v,\"key\",y):e;m=\"\"}if(\"string\"==typeof(O=m)||\"number\"==typeof O||\"boolean\"==typeof O||\"symbol\"==typeof O||\"bigint\"==typeof O||function(t){return!(!t||\"object\"!=typeof t||!(t.constructor&&t.constructor.isBuffer&&t.constructor.isBuffer(t)))}(m))return c?[d(b?e:c(e,$.encoder,v,\"key\",y))+\"=\"+d(c(m,$.encoder,v,\"value\",y))]:[d(e)+\"=\"+d(String(m))];var O;const E=[];if(void 0===m)return E;let R;if(\"comma\"===n&&S(m))b&&c&&(m=T(m,c)),R=[{value:m.length>0?m.join(\",\")||null:void 0}];else if(S(l))R=l;else{const t=Object.keys(m);R=a?t.sort(a):t}const k=f?e.replace(/\\./g,\"%2E\"):e,I=r&&S(m)&&1===m.length?k+\"[]\":k;if(o&&S(m)&&0===m.length)return I+\"[]\";for(let e=0;e<R.length;++e){const g=R[e],j=\"object\"==typeof g&&void 0!==g.value?g.value:m[g];if(u&&null===j)continue;const O=s&&f?g.replace(/\\./g,\"%2E\"):g,T=S(m)?\"function\"==typeof n?n(I,O):I:I+(s?\".\"+O:\"[\"+O+\"]\");h.set(t,w);const k=new WeakMap;k.set(N,h),A(E,_(j,T,n,r,o,i,u,f,\"comma\"===n&&b&&S(m)?null:c,l,a,s,p,y,d,b,v,k))}return E},x=Object.prototype.hasOwnProperty,C=Array.isArray,P={allowDots:!1,allowEmptyArrays:!1,allowPrototypes:!1,allowSparse:!1,arrayLimit:20,charset:\"utf-8\",charsetSentinel:!1,comma:!1,decodeDotInKeys:!1,decoder:function(t,e,n){const r=t.replace(/\\+/g,\" \");if(\"iso-8859-1\"===n)return r.replace(/%[0-9a-f]{2}/gi,unescape);try{return decodeURIComponent(r)}catch(t){return r}},delimiter:\"&\",depth:5,duplicates:\"combine\",ignoreQueryPrefix:!1,interpretNumericEntities:!1,parameterLimit:1e3,parseArrays:!0,plainObjects:!1,strictNullHandling:!1},F=function(t){return t.replace(/&#(\\d+);/g,function(t,e){return String.fromCharCode(parseInt(e,10))})},U=function(t,e){return t&&\"string\"==typeof t&&e.comma&&t.indexOf(\",\")>-1?t.split(\",\"):t},q=function(t,e,n,r){if(!t)return;const o=n.allowDots?t.replace(/\\.([^.[]+)/g,\"[$1]\"):t,i=/(\\[[^[\\]]*])/g;let u=n.depth>0&&/(\\[[^[\\]]*])/.exec(o);const f=u?o.slice(0,u.index):o,c=[];if(f){if(!n.plainObjects&&x.call(Object.prototype,f)&&!n.allowPrototypes)return;c.push(f)}let l=0;for(;n.depth>0&&null!==(u=i.exec(o))&&l<n.depth;){if(l+=1,!n.plainObjects&&x.call(Object.prototype,u[1].slice(1,-1))&&!n.allowPrototypes)return;c.push(u[1])}return u&&c.push(\"[\"+o.slice(u.index)+\"]\"),function(t,e,n,r){let o=r?e:U(e,n);for(let e=t.length-1;e>=0;--e){let r;const i=t[e];if(\"[]\"===i&&n.parseArrays)r=v(o)?o:n.allowEmptyArrays&&(\"\"===o||n.strictNullHandling&&null===o)?[]:E([],o,n.arrayLimit,n.plainObjects);else{r=n.plainObjects?Object.create(null):{};const t=\"[\"===i.charAt(0)&&\"]\"===i.charAt(i.length-1)?i.slice(1,-1):i,e=n.decodeDotInKeys?t.replace(/%2E/g,\".\"):t,u=parseInt(e,10);n.parseArrays||\"\"!==e?!isNaN(u)&&i!==e&&String(u)===e&&u>=0&&n.parseArrays&&u<=n.arrayLimit?(r=[],r[u]=o):\"__proto__\"!==e&&(r[e]=o):r={0:o}}o=r}return o}(c,e,n,r)};function K(t,e){const n=function(t){if(!t)return P;if(void 0!==t.allowEmptyArrays&&\"boolean\"!=typeof t.allowEmptyArrays)throw new TypeError(\"`allowEmptyArrays` option can only be `true` or `false`, when provided\");if(void 0!==t.decodeDotInKeys&&\"boolean\"!=typeof t.decodeDotInKeys)throw new TypeError(\"`decodeDotInKeys` option can only be `true` or `false`, when provided\");if(null!=t.decoder&&\"function\"!=typeof t.decoder)throw new TypeError(\"Decoder has to be a function.\");if(void 0!==t.charset&&\"utf-8\"!==t.charset&&\"iso-8859-1\"!==t.charset)throw new TypeError(\"The charset option must be either utf-8, iso-8859-1, or undefined\");const e=void 0===t.charset?P.charset:t.charset,n=void 0===t.duplicates?P.duplicates:t.duplicates;if(\"combine\"!==n&&\"first\"!==n&&\"last\"!==n)throw new TypeError(\"The duplicates option must be either combine, first, or last\");return{allowDots:void 0===t.allowDots?!0===t.decodeDotInKeys||P.allowDots:!!t.allowDots,allowEmptyArrays:\"boolean\"==typeof t.allowEmptyArrays?!!t.allowEmptyArrays:P.allowEmptyArrays,allowPrototypes:\"boolean\"==typeof t.allowPrototypes?t.allowPrototypes:P.allowPrototypes,allowSparse:\"boolean\"==typeof t.allowSparse?t.allowSparse:P.allowSparse,arrayLimit:\"number\"==typeof t.arrayLimit?t.arrayLimit:P.arrayLimit,charset:e,charsetSentinel:\"boolean\"==typeof t.charsetSentinel?t.charsetSentinel:P.charsetSentinel,comma:\"boolean\"==typeof t.comma?t.comma:P.comma,decodeDotInKeys:\"boolean\"==typeof t.decodeDotInKeys?t.decodeDotInKeys:P.decodeDotInKeys,decoder:\"function\"==typeof t.decoder?t.decoder:P.decoder,delimiter:\"string\"==typeof t.delimiter||(r=t.delimiter,\"[object RegExp]\"===Object.prototype.toString.call(r))?t.delimiter:P.delimiter,depth:\"number\"==typeof t.depth||!1===t.depth?+t.depth:P.depth,duplicates:n,ignoreQueryPrefix:!0===t.ignoreQueryPrefix,interpretNumericEntities:\"boolean\"==typeof t.interpretNumericEntities?t.interpretNumericEntities:P.interpretNumericEntities,parameterLimit:\"number\"==typeof t.parameterLimit?t.parameterLimit:P.parameterLimit,parseArrays:!1!==t.parseArrays,plainObjects:\"boolean\"==typeof t.plainObjects?t.plainObjects:P.plainObjects,strictNullHandling:\"boolean\"==typeof t.strictNullHandling?t.strictNullHandling:P.strictNullHandling};var r}(e);if(\"\"===t||null==t)return n.plainObjects?Object.create(null):{};const r=\"string\"==typeof t?function(t,e){const n={__proto__:null},r=(e.ignoreQueryPrefix?t.replace(/^\\?/,\"\"):t).split(e.delimiter,Infinity===e.parameterLimit?void 0:e.parameterLimit);let o,i=-1,u=e.charset;if(e.charsetSentinel)for(o=0;o<r.length;++o)0===r[o].indexOf(\"utf8=\")&&(\"utf8=%E2%9C%93\"===r[o]?u=\"utf-8\":\"utf8=%26%2310003%3B\"===r[o]&&(u=\"iso-8859-1\"),i=o,o=r.length);for(o=0;o<r.length;++o){if(o===i)continue;const t=r[o],f=t.indexOf(\"]=\"),c=-1===f?t.indexOf(\"=\"):f+1;let l,a;-1===c?(l=e.decoder(t,P.decoder,u,\"key\"),a=e.strictNullHandling?null:\"\"):(l=e.decoder(t.slice(0,c),P.decoder,u,\"key\"),a=T(U(t.slice(c+1),e),function(t){return e.decoder(t,P.decoder,u,\"value\")})),a&&e.interpretNumericEntities&&\"iso-8859-1\"===u&&(a=F(a)),t.indexOf(\"[]=\")>-1&&(a=C(a)?[a]:a);const s=x.call(n,l);s&&\"combine\"===e.duplicates?n[l]=E(n[l],a,e.arrayLimit,e.plainObjects):s&&\"last\"!==e.duplicates||(n[l]=a)}return n}(t,n):t;let o=n.plainObjects?Object.create(null):{};const i=Object.keys(r);for(let e=0;e<i.length;++e){const u=i[e],f=q(u,r[u],n,\"string\"==typeof t);o=j(o,f,n)}return!0===n.allowSparse?o:function(t){const e=[{obj:{o:t},prop:\"o\"}],n=[];for(let t=0;t<e.length;++t){const r=e[t],o=r.obj[r.prop],i=Object.keys(o);for(let t=0;t<i.length;++t){const r=i[t],u=o[r];\"object\"==typeof u&&null!==u&&-1===n.indexOf(u)&&(e.push({obj:o,prop:r}),n.push(u))}}return function(t){for(;t.length>1;){const e=t.pop(),n=e.obj[e.prop];if(y(n)){const t=[];for(let e=0;e<n.length;++e)void 0!==n[e]&&t.push(n[e]);e.obj[e.prop]=t}}}(e),t}(o)}var Z=/*#__PURE__*/function(){function t(t,e,n){var r,o;this.name=t,this.definition=e,this.bindings=null!=(r=e.bindings)?r:{},this.wheres=null!=(o=e.wheres)?o:{},this.config=n}var n=t.prototype;return n.matchesUrl=function(t){var e,n=this;if(!this.definition.methods.includes(\"GET\"))return!1;var r=this.template.replace(/[.*+$()[\\]]/g,\"\\\\$&\").replace(/(\\/?){([^}?]*)(\\??)}/g,function(t,e,r,o){var i,u=\"(?<\"+r+\">\"+((null==(i=n.wheres[r])?void 0:i.replace(/(^\\^)|(\\$$)/g,\"\"))||\"[^/?]+\")+\")\";return o?\"(\"+e+u+\")?\":\"\"+e+u}).replace(/^\\w+:\\/\\//,\"\"),o=t.replace(/^\\w+:\\/\\//,\"\").split(\"?\"),i=o[0],u=o[1],f=null!=(e=new RegExp(\"^\"+r+\"/?$\").exec(i))?e:new RegExp(\"^\"+r+\"/?$\").exec(decodeURI(i));if(f){for(var c in f.groups)f.groups[c]=\"string\"==typeof f.groups[c]?decodeURIComponent(f.groups[c]):f.groups[c];return{params:f.groups,query:K(u)}}return!1},n.compile=function(t){var e=this;return this.parameterSegments.length?this.template.replace(/{([^}?]+)(\\??)}/g,function(n,r,o){var i,u;if(!o&&[null,void 0].includes(t[r]))throw new Error(\"Ziggy error: '\"+r+\"' parameter is required for route '\"+e.name+\"'.\");if(e.wheres[r]&&!new RegExp(\"^\"+(o?\"(\"+e.wheres[r]+\")?\":e.wheres[r])+\"$\").test(null!=(u=t[r])?u:\"\"))throw new Error(\"Ziggy error: '\"+r+\"' parameter '\"+t[r]+\"' does not match required format '\"+e.wheres[r]+\"' for route '\"+e.name+\"'.\");return encodeURI(null!=(i=t[r])?i:\"\").replace(/%7C/g,\"|\").replace(/%25/g,\"%\").replace(/\\$/g,\"%24\")}).replace(this.config.absolute?/(\\.[^/]+?)(\\/\\/)/:/(^)(\\/\\/)/,\"$1/\").replace(/\\/+$/,\"\"):this.template},e(t,[{key:\"template\",get:function(){var t=(this.origin+\"/\"+this.definition.uri).replace(/\\/+$/,\"\");return\"\"===t?\"/\":t}},{key:\"origin\",get:function(){return this.config.absolute?this.definition.domain?\"\"+this.config.url.match(/^\\w+:\\/\\//)[0]+this.definition.domain+(this.config.port?\":\"+this.config.port:\"\"):this.config.url:\"\"}},{key:\"parameterSegments\",get:function(){var t,e;return null!=(t=null==(e=this.template.match(/{[^}?]+\\??}/g))?void 0:e.map(function(t){return{name:t.replace(/{|\\??}/g,\"\"),required:!/\\?}$/.test(t)}}))?t:[]}}])}(),B=/*#__PURE__*/function(t){function r(e,r,o,i){var u;if(void 0===o&&(o=!0),(u=t.call(this)||this).t=null!=i?i:\"undefined\"!=typeof Ziggy?Ziggy:null==globalThis?void 0:globalThis.Ziggy,!u.t&&\"undefined\"!=typeof document&&document.getElementById(\"ziggy-routes-json\")&&(globalThis.Ziggy=JSON.parse(document.getElementById(\"ziggy-routes-json\").textContent),u.t=globalThis.Ziggy),u.t=n({},u.t,{absolute:o}),e){if(!u.t.routes[e])throw new Error(\"Ziggy error: route '\"+e+\"' is not in the route list.\");u.i=new Z(e,u.t.routes[e],u.t),u.u=u.l(r)}return u}var o,u;u=t,(o=r).prototype=Object.create(u.prototype),o.prototype.constructor=o,i(o,u);var f=r.prototype;return f.toString=function(){var t=this,e=Object.keys(this.u).filter(function(e){return!t.i.parameterSegments.some(function(t){return t.name===e})}).filter(function(t){return\"_query\"!==t}).reduce(function(e,r){var o;return n({},e,((o={})[r]=t.u[r],o))},{});return this.i.compile(this.u)+function(t,e){let n=t;const r=function(t){if(!t)return $;if(void 0!==t.allowEmptyArrays&&\"boolean\"!=typeof t.allowEmptyArrays)throw new TypeError(\"`allowEmptyArrays` option can only be `true` or `false`, when provided\");if(void 0!==t.encodeDotInKeys&&\"boolean\"!=typeof t.encodeDotInKeys)throw new TypeError(\"`encodeDotInKeys` option can only be `true` or `false`, when provided\");if(null!=t.encoder&&\"function\"!=typeof t.encoder)throw new TypeError(\"Encoder has to be a function.\");const e=t.charset||$.charset;if(void 0!==t.charset&&\"utf-8\"!==t.charset&&\"iso-8859-1\"!==t.charset)throw new TypeError(\"The charset option must be either utf-8, iso-8859-1, or undefined\");let n=s;if(void 0!==t.format){if(!R.call(a,t.format))throw new TypeError(\"Unknown format option provided.\");n=t.format}const r=a[n];let o,i=$.filter;if((\"function\"==typeof t.filter||S(t.filter))&&(i=t.filter),o=t.arrayFormat in k?t.arrayFormat:\"indices\"in t?t.indices?\"indices\":\"repeat\":$.arrayFormat,\"commaRoundTrip\"in t&&\"boolean\"!=typeof t.commaRoundTrip)throw new TypeError(\"`commaRoundTrip` must be a boolean, or absent\");return{addQueryPrefix:\"boolean\"==typeof t.addQueryPrefix?t.addQueryPrefix:$.addQueryPrefix,allowDots:void 0===t.allowDots?!0===t.encodeDotInKeys||$.allowDots:!!t.allowDots,allowEmptyArrays:\"boolean\"==typeof t.allowEmptyArrays?!!t.allowEmptyArrays:$.allowEmptyArrays,arrayFormat:o,charset:e,charsetSentinel:\"boolean\"==typeof t.charsetSentinel?t.charsetSentinel:$.charsetSentinel,commaRoundTrip:t.commaRoundTrip,delimiter:void 0===t.delimiter?$.delimiter:t.delimiter,encode:\"boolean\"==typeof t.encode?t.encode:$.encode,encodeDotInKeys:\"boolean\"==typeof t.encodeDotInKeys?t.encodeDotInKeys:$.encodeDotInKeys,encoder:\"function\"==typeof t.encoder?t.encoder:$.encoder,encodeValuesOnly:\"boolean\"==typeof t.encodeValuesOnly?t.encodeValuesOnly:$.encodeValuesOnly,filter:i,format:n,formatter:r,serializeDate:\"function\"==typeof t.serializeDate?t.serializeDate:$.serializeDate,skipNulls:\"boolean\"==typeof t.skipNulls?t.skipNulls:$.skipNulls,sort:\"function\"==typeof t.sort?t.sort:null,strictNullHandling:\"boolean\"==typeof t.strictNullHandling?t.strictNullHandling:$.strictNullHandling}}(e);let o,i;\"function\"==typeof r.filter?(i=r.filter,n=i(\"\",n)):S(r.filter)&&(i=r.filter,o=i);const u=[];if(\"object\"!=typeof n||null===n)return\"\";const f=k[r.arrayFormat],c=\"comma\"===f&&r.commaRoundTrip;o||(o=Object.keys(n)),r.sort&&o.sort(r.sort);const l=new WeakMap;for(let t=0;t<o.length;++t){const e=o[t];r.skipNulls&&null===n[e]||A(u,_(n[e],e,f,c,r.allowEmptyArrays,r.strictNullHandling,r.skipNulls,r.encodeDotInKeys,r.encode?r.encoder:null,r.filter,r.sort,r.allowDots,r.serializeDate,r.format,r.formatter,r.encodeValuesOnly,r.charset,l))}const p=u.join(r.delimiter);let y=!0===r.addQueryPrefix?\"?\":\"\";return r.charsetSentinel&&(y+=\"iso-8859-1\"===r.charset?\"utf8=%26%2310003%3B&\":\"utf8=%E2%9C%93&\"),p.length>0?y+p:\"\"}(n({},e,this.u._query),{addQueryPrefix:!0,arrayFormat:\"indices\",encodeValuesOnly:!0,skipNulls:!0,encoder:function(t,e){return\"boolean\"==typeof t?Number(t):e(t)}})},f.p=function(t){var e=this;t?this.t.absolute&&t.startsWith(\"/\")&&(t=this.v().host+t):t=this.h();var r={},o=Object.entries(this.t.routes).find(function(n){return r=new Z(n[0],n[1],e.t).matchesUrl(t)})||[void 0,void 0];return n({name:o[0]},r,{route:o[1]})},f.h=function(){var t=this.v(),e=t.pathname,n=t.search;return(this.t.absolute?t.host+e:e.replace(this.t.url.replace(/^\\w*:\\/\\/[^/]+/,\"\"),\"\").replace(/^\\/+/,\"/\"))+n},f.current=function(t,e){var r=this.p(),o=r.name,i=r.params,u=r.query,f=r.route;if(!t)return o;var c=new RegExp(\"^\"+t.replace(/\\./g,\"\\\\.\").replace(/\\*/g,\".*\")+\"$\").test(o);if([null,void 0].includes(e)||!c)return c;var l=new Z(o,f,this.t);e=this.l(e,l);var a=n({},i,u);if(Object.values(e).every(function(t){return!t})&&!Object.values(a).some(function(t){return void 0!==t}))return!0;var s=function(t,e){return Object.entries(t).every(function(t){var n=t[0],r=t[1];return Array.isArray(r)&&Array.isArray(e[n])?r.every(function(t){return e[n].includes(t)||e[n].includes(decodeURIComponent(t))}):\"object\"==typeof r&&\"object\"==typeof e[n]&&null!==r&&null!==e[n]?s(r,e[n]):e[n]==r||e[n]==decodeURIComponent(r)})};return s(e,a)},f.v=function(){var t,e,n,r,o,i,u=\"undefined\"!=typeof window?window.location:{},f=u.host,c=u.pathname,l=u.search;return{host:null!=(t=null==(e=this.t.location)?void 0:e.host)?t:void 0===f?\"\":f,pathname:null!=(n=null==(r=this.t.location)?void 0:r.pathname)?n:void 0===c?\"\":c,search:null!=(o=null==(i=this.t.location)?void 0:i.search)?o:void 0===l?\"\":l}},f.has=function(t){return this.t.routes.hasOwnProperty(t)},f.l=function(t,e){var r=this;void 0===t&&(t={}),void 0===e&&(e=this.i),null!=t||(t={}),t=[\"string\",\"number\"].includes(typeof t)?[t]:t;var o=e.parameterSegments.filter(function(t){return!r.t.defaults[t.name]});if(Array.isArray(t))t=t.reduce(function(t,e,r){var i,u;return n({},t,o[r]?((i={})[o[r].name]=e,i):\"object\"==typeof e?e:((u={})[e]=\"\",u))},{});else if(1===o.length&&!t.hasOwnProperty(o[0].name)&&(t.hasOwnProperty(Object.values(e.bindings)[0])||t.hasOwnProperty(\"id\"))){var i;(i={})[o[0].name]=t,t=i}return n({},this.m(e),this.j(t,e))},f.m=function(t){var e=this;return t.parameterSegments.filter(function(t){return e.t.defaults[t.name]}).reduce(function(t,r,o){var i,u=r.name;return n({},t,((i={})[u]=e.t.defaults[u],i))},{})},f.j=function(t,e){var r=e.bindings,o=e.parameterSegments;return Object.entries(t).reduce(function(t,e){var i,u,f=e[0],c=e[1];if(!c||\"object\"!=typeof c||Array.isArray(c)||!o.some(function(t){return t.name===f}))return n({},t,((u={})[f]=c,u));var l=c.hasOwnProperty(r[f])?r[f]:c.hasOwnProperty(\"id\")?\"id\":void 0;if(void 0===l)throw new Error(\"Ziggy error: object passed as '\"+f+\"' parameter is missing route model binding key '\"+r[f]+\"'.\");return n({},t,((i={})[f]=c[l],i))},{})},f.valueOf=function(){return this.toString()},e(r,[{key:\"params\",get:function(){var t=this.p();return n({},t.params,t.query)}},{key:\"routeParams\",get:function(){return this.p().params}},{key:\"queryParams\",get:function(){return this.p().query}}])}(/*#__PURE__*/f(String));return function(t,e,n,r){var o=new B(t,e,n,r);return t?o.toString():o}});\n</script>        <link rel=\"preload\" as=\"style\" href=\"http://localhost/build/assets/app-CjXy_r_3.css\" /><link rel=\"preload\" as=\"style\" href=\"http://localhost/build/assets/Welcome-D3_7rbUe.css\" /><link rel=\"modulepreload\" as=\"script\" href=\"http://localhost/build/assets/app-CZhBk9LP.js\" /><link rel=\"modulepreload\" as=\"script\" href=\"http://localhost/build/assets/Welcome-BVsT4yYF.js\" /><link rel=\"modulepreload\" as=\"script\" href=\"http://localhost/build/assets/_plugin-vue_export-helper-DlAUqK2U.js\" /><link rel=\"stylesheet\" href=\"http://localhost/build/assets/app-CjXy_r_3.css\" /><link rel=\"stylesheet\" href=\"http://localhost/build/assets/Welcome-D3_7rbUe.css\" /><script type=\"module\" src=\"http://localhost/build/assets/app-CZhBk9LP.js\"></script><script type=\"module\" src=\"http://localhost/build/assets/Welcome-BVsT4yYF.js\"></script>\n<script>\n     window.addEventListener('load', () => window.setTimeout(() => {\n        const makeLink = (asset) => {\n            const link = document.createElement('link')\n\n            Object.keys(asset).forEach((attribute) => {\n                link.setAttribute(attribute, asset[attribute])\n            })\n\n            return link\n        }\n\n        const loadNext = (assets, count) => window.setTimeout(() => {\n            if (count > assets.length) {\n                count = assets.length\n\n                if (count === 0) {\n                    return\n                }\n            }\n\n            const fragment = new DocumentFragment\n\n            while (count > 0) {\n                const link = makeLink(assets.shift())\n                fragment.append(link)\n                count--\n\n                if (assets.length) {\n                    link.onload = () => loadNext(assets, 1)\n                    link.onerror = () => loadNext(assets, 1)\n                }\n            }\n\n            document.head.append(fragment)\n        })\n\n        loadNext(JSON.parse('[{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Index-1Jf3AQPk.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Users-BhkC6P1t.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/InputError-D-mf4gh4.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/PrimaryButton-yFuhHJW2.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Modal-BQ_9I6H-.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Checkbox-BYe_iYpw.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022style\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Users-CNBPXxuX.css\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Create-Di45V8Nm.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Edit-CsabZ37f.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Index-CQteHYlw.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/ConfirmationModal-Dq6ISKsX.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/DangerButton-DNIBFsuG.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Show-DIp0X0Qs.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/ConfirmPassword-PJA_PpXK.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/GuestLayout-CY6t72P_.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/ForgotPassword-do72eg97.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Login-Cymn_8db.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/ResetPassword-CmopdbWo.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/VerifyEmail-vPCOsdcT.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Index-BV3DbzDf.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Show-DCbwZgy3.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Create-FxFeYQWY.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Edit-Ze8C96Hn.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Index-B7uUlYEf.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Show-BIG8oOA2.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Dashboard-DN3HvJdU.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Error-BQO2BKyH.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Config-DX0zDN0C.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Create-_4zIONfh.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Edit-a-7Ddxkh.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Index-CcFkaGNS.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Create-T3D2O_F4.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/SearchableSelect-CGTTODkv.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Edit-bQpcWmGe.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Index-BeGD1Wda.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Index-Dz1M7QCd.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Show-C85IgIIQ.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Create-Cf1R6h_b.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Edit-c_f9tyz4.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Index-Bq2hBvNp.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Edit-oAMNYdza.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/DeleteUserForm-XwMYSgzl.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/UpdatePasswordForm-DnYcgLqs.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/UpdateProfileInformationForm-CY2Ecy40.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Create-CCM605e9.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Edit-Bu886tGw.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Index-DukGO7AP.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Create-UJ4_Me89.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Edit-BaCwMUg_.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Index-xJMzvwDd.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Show-DT1Mhr6_.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/LandingPage-Cm8fIgmw.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Create-CcAWjzIE.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Edit-DV0w0OKi.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Index-fVHAHaCn.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/AuthenticatedLayout-BMP_xy13.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022style\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/AuthenticatedLayout-BR1xslOS.css\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/Pagination-C20uedHC.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/InputLabel-DHsB2yfF.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022},{\\u0022rel\\u0022:\\u0022prefetch\\u0022,\\u0022as\\u0022:\\u0022script\\u0022,\\u0022href\\u0022:\\u0022http:\\\\\\/\\\\\\/localhost\\\\\\/build\\\\\\/assets\\\\\\/SecondaryButton-CBFDRzd1.js\\u0022,\\u0022fetchpriority\\u0022:\\u0022low\\u0022}]'), 3)\n    }))\n</script>            </head>\n    <body class=\"font-sans antialiased\">\n        <div id=\"app\" data-page=\"{&quot;component&quot;:&quot;Welcome&quot;,&quot;props&quot;:{&quot;errors&quot;:{},&quot;auth&quot;:{&quot;user&quot;:null},&quot;canLogin&quot;:true,&quot;canRegister&quot;:false,&quot;laravelVersion&quot;:&quot;12.54.1&quot;,&quot;phpVersion&quot;:&quot;8.4.0&quot;,&quot;settings&quot;:{&quot;landing_hero_title&quot;:&quot;Seguridad Integral para lo que m\\u00e1s Valoras&quot;,&quot;landing_hero_description&quot;:&quot;Protegemos tu familia, tu empresa y tu futuro con el respaldo de las mejores aseguradoras de Colombia. Asesor\\u00eda experta y acompa\\u00f1amiento real en cada paso.&quot;,&quot;landing_cta_text&quot;:&quot;Cotizar Ahora&quot;,&quot;landing_whatsapp_number&quot;:&quot;573176462367&quot;,&quot;contact_email&quot;:&quot;canalasesores1@gmail.com&quot;,&quot;landing_hero_image&quot;:&quot;\\/storage\\/landing\\/HkTiyFxFzeJsEOmFBdZpmYmDFjmCJoRdgAtj1NXW.png&quot;,&quot;landing_tech_title&quot;:&quot;Asociamos Experiencia Humana con Eficiencia Digital&quot;,&quot;landing_tech_description&quot;:&quot;En Canal Asesores combinamos d\\u00e9cadas de experiencia en seguros con herramientas modernas para que gestionar tus p\\u00f3lizas sea tan sencillo como un clic.&quot;,&quot;landing_tech_features&quot;:&quot;Asesor\\u00eda personalizada 24\\/7,Respaldo en reclamaciones,Cotizaciones multiaseguradora,Claridad total en coberturas&quot;,&quot;contact_person_1_name&quot;:&quot;Vilma Delgado&quot;,&quot;contact_person_1_phone&quot;:&quot;3176462367&quot;,&quot;contact_person_2_name&quot;:&quot;Juan David Canal&quot;,&quot;contact_person_2_phone&quot;:&quot;3134848500&quot;,&quot;landing_service_cat_1_title&quot;:&quot;Seguros para Personas&quot;,&quot;landing_service_cat_2_title&quot;:&quot;Seguros para el Hogar&quot;,&quot;landing_service_cat_3_title&quot;:&quot;Seguros de Movilidad&quot;,&quot;landing_service_cat_4_title&quot;:&quot;Seguros Empresariales&quot;,&quot;landing_service_cat_1_items&quot;:&quot;Salud,Vida,Accidentes Personales,Exequiales,Vida Deudor&quot;,&quot;landing_service_cat_2_items&quot;:&quot;Hogar,Arrendamiento,Copropiedades,Todo Riesgo&quot;,&quot;landing_service_cat_3_items&quot;:&quot;Autos,Autos Pesados,Transporte,Maquinaria&quot;,&quot;landing_service_cat_4_items&quot;:&quot;PYME,Cumplimiento,Manejo Global Comercial,RCE,Minera,Hidrocarburos,Emisiones&quot;,&quot;landing_meta_title&quot;:&quot;Canal Asesores | Agencia de Seguros y Protecci\\u00f3n Integral&quot;,&quot;landing_meta_description&quot;:&quot;Expertos en seguros de autos, vida, hogar y salud en Colombia. Protegemos lo que m\\u00e1s quieres con asesor\\u00eda personalizada y respaldo garantizado.&quot;,&quot;landing_allies_text&quot;:&quot;Aliados Estrat\\u00e9gicos que respaldan tu seguridad&quot;,&quot;landing_trust_badge&quot;:&quot;Expertos en riesgos a tu servicio&quot;,&quot;landing_footer_description&quot;:&quot;Expertos en asesor\\u00eda de riesgos y protecci\\u00f3n de patrimonio. Seguridad real para tiempos modernos.&quot;,&quot;landing_service_cat_1_description&quot;:&quot;Protecci\\u00f3n integral para tu familia, salud y patrimonio con el respaldo de las mejores aseguradoras.&quot;,&quot;landing_service_cat_2_description&quot;:&quot;Asegura lo que m\\u00e1s valoras: tu hogar y tus bienes, con coberturas contra todo riesgo.&quot;,&quot;landing_service_cat_3_description&quot;:&quot;Soluciones de movilidad inteligente para tu veh\\u00edculo con asistencia inmediata en v\\u00eda 24\\/7.&quot;,&quot;landing_service_cat_4_description&quot;:&quot;Brindamos solidez y confianza para proteger la continuidad de tu empresa y tus empleados.&quot;},&quot;aseguradoras&quot;:[{&quot;nombre&quot;:&quot;SEGUROS DEL ESTADO SA&quot;,&quot;logo&quot;:&quot;logos\\/CwgN5VgNbY3P0Tj6AFcDrRZnCM0ykhpulTp8pkx4.png&quot;,&quot;logo_url&quot;:&quot;http:\\/\\/localhost\\/storage\\/logos\\/CwgN5VgNbY3P0Tj6AFcDrRZnCM0ykhpulTp8pkx4.png&quot;},{&quot;nombre&quot;:&quot;ASEGURADORA SOLIDARIA DE COLOMBIA&quot;,&quot;logo&quot;:&quot;logos\\/0agsMG8d8fk6COGPNreLnjNO1g2B3HDk3BO3mhig.png&quot;,&quot;logo_url&quot;:&quot;http:\\/\\/localhost\\/storage\\/logos\\/0agsMG8d8fk6COGPNreLnjNO1g2B3HDk3BO3mhig.png&quot;}]},&quot;url&quot;:&quot;\\/&quot;,&quot;version&quot;:&quot;692f96e57e1633546fca0f8f8fb3b376&quot;,&quot;clearHistory&quot;:false,&quot;encryptHistory&quot;:false}\"></div>    </body>\n</html>\n"
+      tags:
+        - Endpoints
+      security: []
+  /dashboard:
+    get:
+      summary: ''
+      operationId: getDashboard
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /clientes:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tipo_persona:
+                  type: string
+                  description: ''
+                  example: natural
+                  enum:
+                    - natural
+                    - juridica
+                tipo_documento:
+                  type: string
+                  description: 'El campo value no debe tener más de 10 caracteres.'
+                  example: bngzmi
+                numero_documento:
+                  type: string
+                  description: 'El campo value no debe tener más de 50 caracteres.'
+                  example: 'y'
+                nombre_razon_social:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: v
+                telefono:
+                  type: string
+                  description: 'El campo value no debe tener más de 50 caracteres.'
+                  example: d
+                email:
+                  type: string
+                  description: 'El campo value debe ser una dirección de correo válida. El campo value no debe tener más de 255 caracteres.'
+                  example: jermaine.tillman@example.org
+                direccion:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: h
+                ciudad:
+                  type: string
+                  description: 'El campo value no debe tener más de 100 caracteres.'
+                  example: w
+                fecha_nacimiento:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                  nullable: true
+                fecha_contacto:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                  nullable: true
+                observaciones:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                rep_legal_nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: 'n'
+                  nullable: true
+                rep_legal_documento:
+                  type: string
+                  description: 'El campo value no debe tener más de 50 caracteres.'
+                  example: g
+                  nullable: true
+                rep_legal_telefono:
+                  type: string
+                  description: 'El campo value no debe tener más de 50 caracteres.'
+                  example: z
+                  nullable: true
+                rep_legal_email:
+                  type: string
+                  description: 'El campo value debe ser una dirección de correo válida. El campo value no debe tener más de 255 caracteres.'
+                  example: rempel.chadrick@example.org
+                  nullable: true
+              required:
+                - tipo_persona
+                - tipo_documento
+                - numero_documento
+                - nombre_razon_social
+                - telefono
+                - email
+                - direccion
+                - ciudad
+      security: []
+  /clientes/create:
+    get:
+      summary: 'Show the form for creating a new resource.'
+      operationId: showTheFormForCreatingANewResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/clientes/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tipo_persona:
+                  type: string
+                  description: ''
+                  example: natural
+                  enum:
+                    - natural
+                    - juridica
+                tipo_documento:
+                  type: string
+                  description: 'El campo value no debe tener más de 10 caracteres.'
+                  example: bngzmi
+                numero_documento:
+                  type: string
+                  description: 'El campo value no debe tener más de 50 caracteres.'
+                  example: 'y'
+                nombre_razon_social:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: v
+                telefono:
+                  type: string
+                  description: 'El campo value no debe tener más de 50 caracteres.'
+                  example: d
+                email:
+                  type: string
+                  description: 'El campo value debe ser una dirección de correo válida. El campo value no debe tener más de 255 caracteres.'
+                  example: jermaine.tillman@example.org
+                direccion:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: h
+                ciudad:
+                  type: string
+                  description: 'El campo value no debe tener más de 100 caracteres.'
+                  example: w
+                fecha_nacimiento:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                  nullable: true
+                fecha_contacto:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                  nullable: true
+                observaciones:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                rep_legal_nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: 'n'
+                  nullable: true
+                rep_legal_documento:
+                  type: string
+                  description: 'El campo value no debe tener más de 50 caracteres.'
+                  example: g
+                  nullable: true
+                rep_legal_telefono:
+                  type: string
+                  description: 'El campo value no debe tener más de 50 caracteres.'
+                  example: z
+                  nullable: true
+                rep_legal_email:
+                  type: string
+                  description: 'El campo value debe ser una dirección de correo válida. El campo value no debe tener más de 255 caracteres.'
+                  example: rempel.chadrick@example.org
+                  nullable: true
+              required:
+                - tipo_persona
+                - tipo_documento
+                - numero_documento
+                - nombre_razon_social
+                - telefono
+                - email
+                - direccion
+                - ciudad
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the cliente.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  '/clientes/{cliente}/edit':
+    get:
+      summary: 'Show the form for editing the specified resource.'
+      operationId: showTheFormForEditingTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: cliente
+        description: 'The cliente.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /aseguradoras:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: b
+                nit:
+                  type: string
+                  description: 'El campo value no debe tener más de 50 caracteres.'
+                  example: 'n'
+                contactos:
+                  type: array
+                  description: ''
+                  example: null
+                  items:
+                    type: object
+                    nullable: true
+                    properties:
+                      rol:
+                        type: string
+                        description: 'El campo value no debe tener más de 255 caracteres.'
+                        example: g
+                      nombre:
+                        type: string
+                        description: 'El campo value no debe tener más de 255 caracteres.'
+                        example: z
+                      telefono:
+                        type: string
+                        description: 'El campo value no debe tener más de 50 caracteres.'
+                        example: m
+                        nullable: true
+                      email:
+                        type: string
+                        description: 'El campo value debe ser una dirección de correo válida. El campo value no debe tener más de 255 caracteres.'
+                        example: gulgowski.asia@example.com
+                        nullable: true
+                    required:
+                      - rol
+                      - nombre
+                logo:
+                  type: string
+                  format: binary
+                  description: 'El campo value debe ser una imagen. El campo value no debe pesar más de 2048 kilobytes.'
+                  nullable: true
+              required:
+                - nombre
+                - nit
+      security: []
+  /aseguradoras/create:
+    get:
+      summary: 'Show the form for creating a new resource.'
+      operationId: showTheFormForCreatingANewResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/aseguradoras/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: b
+                nit:
+                  type: string
+                  description: 'El campo value no debe tener más de 50 caracteres.'
+                  example: 'n'
+                contactos:
+                  type: array
+                  description: ''
+                  example: null
+                  items:
+                    type: object
+                    nullable: true
+                    properties:
+                      id:
+                        type: integer
+                        description: 'The <code>id</code> of an existing record in the contacto_aseguradoras table.'
+                        example: 16
+                        nullable: true
+                      rol:
+                        type: string
+                        description: 'El campo value no debe tener más de 255 caracteres.'
+                        example: 'n'
+                      nombre:
+                        type: string
+                        description: 'El campo value no debe tener más de 255 caracteres.'
+                        example: g
+                      telefono:
+                        type: string
+                        description: 'El campo value no debe tener más de 50 caracteres.'
+                        example: z
+                        nullable: true
+                      email:
+                        type: string
+                        description: 'El campo value debe ser una dirección de correo válida. El campo value no debe tener más de 255 caracteres.'
+                        example: rempel.chadrick@example.org
+                        nullable: true
+                    required:
+                      - rol
+                      - nombre
+                logo:
+                  type: string
+                  format: binary
+                  description: 'El campo value debe ser una imagen. El campo value no debe pesar más de 2048 kilobytes.'
+                  nullable: true
+              required:
+                - nombre
+                - nit
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the aseguradora.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/aseguradoras/{aseguradora}/edit':
+    get:
+      summary: 'Show the form for editing the specified resource.'
+      operationId: showTheFormForEditingTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: aseguradora
+        description: 'The aseguradora.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /ramos:
+    get:
+      summary: ''
+      operationId: getRamos
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postRamos
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: b
+              required:
+                - nombre
+      security: []
+  /ramos/create:
+    get:
+      summary: ''
+      operationId: getRamosCreate
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/ramos/{ramo}/edit':
+    get:
+      summary: ''
+      operationId: getRamosRamoEdit
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: ramo
+        description: 'The ramo.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  '/ramos/{id}':
+    put:
+      summary: ''
+      operationId: putRamosId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: ''
+                  example: null
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteRamosId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the ramo.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /riesgos:
+    get:
+      summary: ''
+      operationId: getRiesgos
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postRiesgos
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cliente_ids:
+                  type: array
+                  description: 'The <code>id</code> of an existing record in the clientes table.'
+                  example: null
+                  items:
+                    type: string
+                tipo_riesgo:
+                  type: string
+                  description: 'El campo value no debe tener más de 100 caracteres.'
+                  example: b
+                identificador:
+                  type: string
+                  description: 'El campo value no debe tener más de 150 caracteres.'
+                  example: 'n'
+                  nullable: true
+                descripcion:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                es_nad:
+                  type: boolean
+                  description: ''
+                  example: true
+                numero_nad:
+                  type: string
+                  description: 'This field is required when <code>es_nad</code> is <code>true</code>. El campo value no debe tener más de 100 caracteres.'
+                  example: 'n'
+                  nullable: true
+              required:
+                - tipo_riesgo
+      security: []
+  /riesgos/create:
+    get:
+      summary: ''
+      operationId: getRiesgosCreate
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/riesgos/{id}':
+    get:
+      summary: ''
+      operationId: getRiesgosId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putRiesgosId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cliente_ids:
+                  type: array
+                  description: 'The <code>id</code> of an existing record in the clientes table.'
+                  example: null
+                  items:
+                    type: string
+                tipo_riesgo:
+                  type: string
+                  description: 'El campo value no debe tener más de 100 caracteres.'
+                  example: b
+                identificador:
+                  type: string
+                  description: 'El campo value no debe tener más de 150 caracteres.'
+                  example: 'n'
+                  nullable: true
+                descripcion:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                es_nad:
+                  type: boolean
+                  description: ''
+                  example: false
+                numero_nad:
+                  type: string
+                  description: 'This field is required when <code>es_nad</code> is <code>true</code>. El campo value no debe tener más de 100 caracteres.'
+                  example: 'n'
+                  nullable: true
+              required:
+                - tipo_riesgo
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteRiesgosId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the riesgo.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  '/riesgos/{riesgo}/edit':
+    get:
+      summary: ''
+      operationId: getRiesgosRiesgoEdit
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: riesgo
+        description: 'The riesgo.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /polizas/export:
+    get:
+      summary: ''
+      operationId: getPolizasExport
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /polizas:
+    get:
+      summary: ''
+      operationId: getPolizas
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postPolizas
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                numero_poliza:
+                  type: string
+                  description: ''
+                  example: architecto
+                aseguradora_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the aseguradoras table.'
+                  example: architecto
+                ramo_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the ramos table.'
+                  example: architecto
+                riesgo_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the riesgos table.'
+                  example: architecto
+                expedicion_fecha:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                inicio_vigencia:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                fin_vigencia:
+                  type: string
+                  description: 'El campo value no es una fecha válida. El campo value debe ser una fecha posterior a <code>inicio_vigencia</code>.'
+                  example: '2052-04-16'
+                valor_asegurado:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 39
+                prima_antes_iva:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 84
+                iva:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 12
+                prima_total:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 77
+                tasa:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 8
+                  nullable: true
+                estado:
+                  type: string
+                  description: ''
+                  example: renovada
+                  enum:
+                    - vigente
+                    - vencida
+                    - renovada
+                    - cancelada
+                    - liquidada
+                    - en_proceso
+                liquidacion:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                poliza_anterior_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the polizas table.'
+                  example: null
+                  nullable: true
+                clientes:
+                  type: array
+                  description: 'El campo value debe tener al menos 1 elementos.'
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: 'The <code>id</code> of an existing record in the clientes table.'
+                        example: architecto
+                      rol:
+                        type: string
+                        description: ''
+                        example: beneficiario
+                        enum:
+                          - tomador
+                          - asegurado
+                          - beneficiario
+                    required:
+                      - id
+                      - rol
+              required:
+                - numero_poliza
+                - aseguradora_id
+                - ramo_id
+                - riesgo_id
+                - expedicion_fecha
+                - inicio_vigencia
+                - fin_vigencia
+                - valor_asegurado
+                - prima_antes_iva
+                - iva
+                - prima_total
+                - estado
+                - clientes
+      security: []
+  /polizas/create:
+    get:
+      summary: ''
+      operationId: getPolizasCreate
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/polizas/{id}':
+    get:
+      summary: ''
+      operationId: getPolizasId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putPolizasId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                numero_poliza:
+                  type: string
+                  description: ''
+                  example: null
+                aseguradora_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the aseguradoras table.'
+                  example: architecto
+                ramo_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the ramos table.'
+                  example: architecto
+                riesgo_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the riesgos table.'
+                  example: architecto
+                expedicion_fecha:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                inicio_vigencia:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                fin_vigencia:
+                  type: string
+                  description: 'El campo value no es una fecha válida. El campo value debe ser una fecha posterior a <code>inicio_vigencia</code>.'
+                  example: '2052-04-16'
+                valor_asegurado:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 39
+                prima_antes_iva:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 84
+                iva:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 12
+                prima_total:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 77
+                tasa:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 8
+                  nullable: true
+                estado:
+                  type: string
+                  description: ''
+                  example: renovada
+                  enum:
+                    - vigente
+                    - vencida
+                    - renovada
+                    - cancelada
+                    - liquidada
+                    - en_proceso
+                liquidacion:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                poliza_anterior_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the polizas table.'
+                  example: null
+                  nullable: true
+                clientes:
+                  type: array
+                  description: 'El campo value debe tener al menos 1 elementos.'
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: 'The <code>id</code> of an existing record in the clientes table.'
+                        example: architecto
+                      rol:
+                        type: string
+                        description: ''
+                        example: tomador
+                        enum:
+                          - tomador
+                          - asegurado
+                          - beneficiario
+                    required:
+                      - id
+                      - rol
+              required:
+                - aseguradora_id
+                - ramo_id
+                - riesgo_id
+                - expedicion_fecha
+                - inicio_vigencia
+                - fin_vigencia
+                - valor_asegurado
+                - prima_antes_iva
+                - iva
+                - prima_total
+                - estado
+                - clientes
+      security: []
+    delete:
+      summary: ''
+      operationId: deletePolizasId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the poliza.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/polizas/{poliza}/edit':
+    get:
+      summary: ''
+      operationId: getPolizasPolizaEdit
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: poliza
+        description: 'The poliza.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /renovaciones:
+    get:
+      summary: 'Vista de Renovaciones y Trámites'
+      operationId: vistaDeRenovacionesYTrmites
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/polizas/{poliza_id}/liquidar':
+    post:
+      summary: 'Iniciar liquidación (Clonar póliza)'
+      operationId: iniciarLiquidacinClonarPliza
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                liquidacion:
+                  type: string
+                  description: ''
+                  example: architecto
+              required:
+                - liquidacion
+      security: []
+    parameters:
+      -
+        in: path
+        name: poliza_id
+        description: 'The ID of the poliza.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/polizas/{poliza_id}/enviar':
+    post:
+      summary: 'Enviar a la aseguradora (En Proceso)'
+      operationId: enviarALaAseguradoraEnProceso
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: poliza_id
+        description: 'The ID of the poliza.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/polizas/{poliza_id}/finalizar-renovacion':
+    post:
+      summary: 'Finalizar Renovación (Vigente)'
+      operationId: finalizarRenovacinVigente
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                numero_poliza:
+                  type: string
+                  description: ''
+                  example: architecto
+                anexo:
+                  type: integer
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 39
+                expedicion_fecha:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                inicio_vigencia:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                fin_vigencia:
+                  type: string
+                  description: 'El campo value no es una fecha válida. El campo value debe ser una fecha posterior a <code>inicio_vigencia</code>.'
+                  example: '2052-04-16'
+                valor_asegurado:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 39
+                prima_antes_iva:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 84
+                iva:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 12
+                prima_total:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 77
+                tasa:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 8
+                  nullable: true
+              required:
+                - numero_poliza
+                - anexo
+                - expedicion_fecha
+                - inicio_vigencia
+                - fin_vigencia
+                - valor_asegurado
+                - prima_antes_iva
+                - iva
+                - prima_total
+      security: []
+    parameters:
+      -
+        in: path
+        name: poliza_id
+        description: 'The ID of the poliza.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/polizas/{poliza_id}/cancelar':
+    delete:
+      summary: 'Cancelar un trámite de renovación (Eliminar el registro clonado)'
+      operationId: cancelarUnTrmiteDeRenovacinEliminarElRegistroClonado
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: poliza_id
+        description: 'The ID of the poliza.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /cartera/export:
+    get:
+      summary: ''
+      operationId: getCarteraExport
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /cartera:
+    get:
+      summary: ''
+      operationId: getCartera
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/cartera/{id}':
+    get:
+      summary: ''
+      operationId: getCarteraId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteCarteraId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the cartera.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  '/cartera/{id}/abonos':
+    post:
+      summary: ''
+      operationId: postCarteraIdAbonos
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                monto:
+                  type: string
+                  description: ''
+                  example: null
+                fecha_pago:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                metodo_pago:
+                  type: string
+                  description: ''
+                  example: architecto
+                referencia:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: 'n'
+                  nullable: true
+                observaciones:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+              required:
+                - fecha_pago
+                - metodo_pago
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the cartera.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  '/cartera/abonos/{id}':
+    delete:
+      summary: ''
+      operationId: deleteCarteraAbonosId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the abono.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /settings/landing:
+    get:
+      summary: ''
+      operationId: getSettingsLanding
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postSettingsLanding
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /admin/users:
+    get:
+      summary: 'Display a listing of the users.'
+      operationId: displayAListingOfTheUsers
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created user in storage.'
+      operationId: storeANewlyCreatedUserInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: b
+                email:
+                  type: string
+                  description: ''
+                  example: null
+                password:
+                  type: string
+                  description: ''
+                  example: architecto
+                is_admin:
+                  type: boolean
+                  description: ''
+                  example: false
+                permisos:
+                  type: object
+                  description: ''
+                  example: null
+                  properties: {  }
+                  nullable: true
+              required:
+                - name
+                - password
+      security: []
+  '/admin/users/{id}':
+    put:
+      summary: 'Update the specified user in storage.'
+      operationId: updateTheSpecifiedUserInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: b
+                email:
+                  type: string
+                  description: ''
+                  example: null
+                is_admin:
+                  type: boolean
+                  description: ''
+                  example: true
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: true
+                permisos:
+                  type: object
+                  description: ''
+                  example: null
+                  properties: {  }
+                  nullable: true
+              required:
+                - name
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/admin/users/{user_id}/password-reset':
+    post:
+      summary: 'Send a password reset link to the given user.'
+      operationId: sendAPasswordResetLinkToTheGivenUser
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /portales:
+    get:
+      summary: ''
+      operationId: getPortales
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postPortales
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: b
+                usuario:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: 'n'
+                password:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: '|{+-0pBNvYgx'
+                aseguradora_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the aseguradoras table.'
+                  example: null
+                  nullable: true
+                link:
+                  type: string
+                  description: 'Must be a valid URL. El campo value no debe tener más de 255 caracteres.'
+                  example: w
+                  nullable: true
+                notas:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+              required:
+                - nombre
+                - usuario
+                - password
+      security: []
+  /portales/create:
+    get:
+      summary: ''
+      operationId: getPortalesCreate
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/portales/{portale}/edit':
+    get:
+      summary: ''
+      operationId: getPortalesPortaleEdit
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: portale
+        description: 'The portale.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  '/portales/{id}':
+    put:
+      summary: ''
+      operationId: putPortalesId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: b
+                usuario:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: 'n'
+                password:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: '|{+-0pBNvYgx'
+                aseguradora_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the aseguradoras table.'
+                  example: null
+                  nullable: true
+                link:
+                  type: string
+                  description: 'Must be a valid URL. El campo value no debe tener más de 255 caracteres.'
+                  example: w
+                  nullable: true
+                notas:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+              required:
+                - nombre
+                - usuario
+                - password
+      security: []
+    delete:
+      summary: ''
+      operationId: deletePortalesId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the portale.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /minerales:
+    get:
+      summary: ''
+      operationId: getMinerales
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postMinerales
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mes:
+                  type: integer
+                  description: 'El campo value debe estar entre 1 y 12.'
+                  example: 2
+                anio:
+                  type: integer
+                  description: 'El campo value debe ser al menos 2000.'
+                  example: 1494
+                precios:
+                  type: object
+                  description: ''
+                  example: []
+                  properties: {  }
+              required:
+                - mes
+                - anio
+                - precios
+      security: []
+  /minerales/create:
+    get:
+      summary: ''
+      operationId: getMineralesCreate
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/minerales/{minerale}/edit':
+    get:
+      summary: ''
+      operationId: getMineralesMineraleEdit
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: minerale
+        description: 'The minerale.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  '/minerales/{id}':
+    put:
+      summary: ''
+      operationId: putMineralesId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mes:
+                  type: integer
+                  description: 'El campo value debe estar entre 1 y 12.'
+                  example: 2
+                anio:
+                  type: integer
+                  description: 'El campo value debe ser al menos 2000.'
+                  example: 1494
+                precios:
+                  type: object
+                  description: ''
+                  example: []
+                  properties: {  }
+              required:
+                - mes
+                - anio
+                - precios
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteMineralesId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the minerale.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /cat-minerales:
+    get:
+      summary: ''
+      operationId: getCatMinerales
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postCatMinerales
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: b
+                activo:
+                  type: boolean
+                  description: ''
+                  example: false
+              required:
+                - nombre
+                - activo
+      security: []
+  '/cat-minerales/{id}':
+    put:
+      summary: ''
+      operationId: putCatMineralesId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: ''
+                  example: null
+                activo:
+                  type: boolean
+                  description: ''
+                  example: false
+              required:
+                - activo
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteCatMineralesId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the cat minerale.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /titulos-360:
+    get:
+      summary: ''
+      operationId: getTitulos360
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postTitulos360
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                par:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: b
+                  nullable: true
+                titulo:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: 'n'
+                nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: g
+                minerales:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                departamento:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: 'n'
+                  nullable: true
+                municipio:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: g
+                  nullable: true
+                etapa:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: z
+                  nullable: true
+                fecha_inicio:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                  nullable: true
+                fecha_fin:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                  nullable: true
+                aseguradora_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the aseguradoras table.'
+                  example: null
+                  nullable: true
+                aseguradora_nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: m
+                  nullable: true
+                valor_asegurado:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 8
+                  nullable: true
+                correo:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                celular:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                asesores:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+              required:
+                - titulo
+                - nombre
+      security: []
+  /titulos-360/create:
+    get:
+      summary: ''
+      operationId: getTitulos360Create
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/titulos-360/{titulos_360}/edit':
+    get:
+      summary: ''
+      operationId: getTitulos360Titulos_360Edit
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: titulos_360
+        description: ''
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/titulos-360/{id}':
+    put:
+      summary: ''
+      operationId: putTitulos360Id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                par:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: b
+                  nullable: true
+                titulo:
+                  type: string
+                  description: ''
+                  example: null
+                nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: 'n'
+                minerales:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                departamento:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: 'n'
+                  nullable: true
+                municipio:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: g
+                  nullable: true
+                etapa:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: z
+                  nullable: true
+                fecha_inicio:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                  nullable: true
+                fecha_fin:
+                  type: string
+                  description: 'El campo value no es una fecha válida.'
+                  example: '2026-03-24T20:05:00'
+                  nullable: true
+                aseguradora_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the aseguradoras table.'
+                  example: null
+                  nullable: true
+                aseguradora_nombre:
+                  type: string
+                  description: 'El campo value no debe tener más de 255 caracteres.'
+                  example: m
+                  nullable: true
+                valor_asegurado:
+                  type: number
+                  description: 'El campo value debe ser al menos 0.'
+                  example: 8
+                  nullable: true
+                correo:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                celular:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                asesores:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+              required:
+                - nombre
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteTitulos360Id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the titulos 360.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /admin/auditoria:
+    get:
+      summary: 'Display a listing of the audit logs.'
+      operationId: displayAListingOfTheAuditLogs
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /confirm-password:
+    post:
+      summary: "Confirm the user's password."
+      operationId: confirmTheUsersPassword
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  '/storage/{path}':
+    get:
+      summary: ''
+      operationId: getStoragePath
+      description: ''
+      parameters: []
+      responses:
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: ''
+                properties:
+                  message:
+                    type: string
+                    example: ''
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putStoragePath
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: path
+        description: ''
+        example: '|{+-0p'
+        required: true
+        schema:
+          type: string
