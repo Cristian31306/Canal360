@@ -77,6 +77,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/auditoria', [App\Http\Controllers\Admin\AuditoriaController::class, 'index'])
         ->middleware('can.access:auditoria')
         ->name('admin.auditoria.index');
+
+    // Módulo Especial: Examen Sistemas Distribuidos
+    Route::get('/sistemas-distribuidos', [App\Http\Controllers\RemoteMonitorController::class, 'index'])->name('remote.monitor');
+    Route::post('/sistemas-distribuidos/simular', [App\Http\Controllers\RemoteMonitorController::class, 'simulate'])->name('remote.simulate');
 });
+
 
 require __DIR__.'/auth.php';
