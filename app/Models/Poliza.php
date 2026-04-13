@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Poliza extends Model
+class Poliza extends Model implements \Serializable
 {
     use \Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -63,4 +63,30 @@ class Poliza extends Model
     {
         return $this->hasOne(Poliza::class, 'poliza_anterior_id');
     }
+
+    /**
+     * Métodos para la interfaz Serializable
+     */
+    public function serialize(): string
+    {
+        return serialize($this->__serialize());
+    }
+
+    public function unserialize(string $data): void
+    {
+        $this->__unserialize(unserialize($data));
+    }
+
+    public function __serialize(): array
+    {
+        return $this->toArray();
+    }
+
+    public function __unserialize(array $data): void
+    {
+        foreach ($data as $key => $value) {
+            $this->$key = $value;
+        }
+    }
 }
+

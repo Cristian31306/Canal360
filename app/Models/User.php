@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPasswordNotification;
 
-class User extends Authenticatable
+class User extends Authenticatable implements \Serializable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
@@ -63,5 +63,30 @@ class User extends Authenticatable
             'is_active' => 'boolean',
             'permisos' => 'array',
         ];
+    }
+
+    /**
+     * Métodos para la interfaz Serializable
+     */
+    public function serialize(): string
+    {
+        return serialize($this->__serialize());
+    }
+
+    public function unserialize(string $data): void
+    {
+        $this->__unserialize(unserialize($data));
+    }
+
+    public function __serialize(): array
+    {
+        return $this->toArray();
+    }
+
+    public function __unserialize(array $data): void
+    {
+        foreach ($data as $key => $value) {
+            $this->$key = $value;
+        }
     }
 }
