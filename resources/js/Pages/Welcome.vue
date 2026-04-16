@@ -310,9 +310,14 @@ const toggleFaq = (index) => {
         <meta name="description"
             :content="settings.landing_meta_description || 'Seguros de vida, auto, hogar y salud con asesoría profesional en Colombia. Protección que puedes confiar.'" />
         <meta name="keywords" content="seguros colombia, seguros de vida, seguros auto, seguros hogar" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link
             href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
-            rel="stylesheet" />
+            rel="preload" as="style" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet" media="print" onload="this.media='all'" />
     </Head>
 
     <div class="min-h-screen bg-white text-slate-900 font-sans overflow-x-hidden relative">
@@ -460,7 +465,7 @@ const toggleFaq = (index) => {
                         <div v-for="aliado in aliados" :key="aliado.name" class="flex-shrink-0 group/logo">
                             <img :src="aliado.logo" :alt="aliado.name" :title="aliado.name"
                                 class="h-16 lg:h-24 w-auto object-contain transition-all duration-500 hover:scale-110"
-                                loading="lazy" decoding="async" width="150" height="80"
+                                loading="lazy" decoding="async" width="224" height="112"
                                 @error="$event.target.src = 'https://via.placeholder.com/200x80?text=' + aliado.name">
                         </div>
                     </div>
@@ -469,7 +474,7 @@ const toggleFaq = (index) => {
                         <div v-for="aliado in aliados" :key="aliado.name + '_clone'" class="flex-shrink-0 group/logo">
                             <img :src="aliado.logo" :alt="aliado.name" :title="aliado.name"
                                 class="h-16 lg:h-24 w-auto object-contain transition-all duration-500 hover:scale-110"
-                                loading="lazy" decoding="async" width="150" height="80"
+                                loading="lazy" decoding="async" width="224" height="112"
                                 @error="$event.target.src = 'https://via.placeholder.com/200x80?text=' + aliado.name">
                         </div>
                     </div>
@@ -682,7 +687,7 @@ const toggleFaq = (index) => {
                     <div class="flex justify-center gap-2 mt-12">
                         <button v-for="i in (maxIndex + 1)" :key="i" @click="currentProductIndex = i - 1"
                             :aria-label="'Ir al grupo de productos ' + i"
-                            class="relative w-3 h-3 rounded-full transition-all duration-300 group"
+                            class="relative w-3 h-3 rounded-full transition-transform duration-300 group"
                             :class="[currentProductIndex === i - 1 ? 'bg-blue-600 scale-x-[2.5]' : 'bg-slate-300 hover:bg-slate-400']">
                             <!-- Click area expansion -->
                             <span class="absolute inset-[-12px] rounded-full"></span>
