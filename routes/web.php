@@ -26,6 +26,10 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/politica-privacidad', function () {
+    return Inertia::render('PrivacyPolicy');
+})->name('privacy.policy');
+
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
