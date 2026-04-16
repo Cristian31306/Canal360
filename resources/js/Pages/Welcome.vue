@@ -682,8 +682,10 @@ const toggleFaq = (index) => {
                     <div class="flex justify-center gap-2 mt-12">
                         <button v-for="i in (maxIndex + 1)" :key="i" @click="currentProductIndex = i - 1"
                             :aria-label="'Ir al grupo de productos ' + i"
-                            class="w-2.5 h-2.5 rounded-full transition-all duration-300"
-                            :class="[currentProductIndex === i - 1 ? 'bg-blue-600 w-8' : 'bg-slate-200 hover:bg-slate-300']">
+                            class="relative w-3 h-3 rounded-full transition-all duration-300 group"
+                            :class="[currentProductIndex === i - 1 ? 'bg-blue-600 scale-x-[2.5]' : 'bg-slate-300 hover:bg-slate-400']">
+                            <!-- Click area expansion -->
+                            <span class="absolute inset-[-12px] rounded-full"></span>
                         </button>
                     </div>
                 </div>
@@ -785,7 +787,7 @@ const toggleFaq = (index) => {
                         </div>
                         <div class="mt-8 pt-8 border-t border-slate-200">
                             <div class="font-black text-slate-900">{{ testimonio.nombre }}</div>
-                            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">{{ testimonio.rol }}
+                            <div class="text-xs font-bold text-slate-600 uppercase tracking-widest">{{ testimonio.rol }}
                             </div>
                         </div>
                     </div>
@@ -834,7 +836,7 @@ const toggleFaq = (index) => {
                                             {{ miembro.especialidad }}
                                         </div>
                                     </div>
-                                    <div class="text-sm font-bold text-blue-500 uppercase tracking-widest leading-none">
+                                    <div class="text-sm font-bold text-blue-700 uppercase tracking-widest leading-none">
                                         {{
                                             miembro.rol }}</div>
                                     <p class="text-sm text-slate-500 leading-relaxed">{{ miembro.bio }}</p>
@@ -939,7 +941,7 @@ const toggleFaq = (index) => {
                     </div>
 
                     <div>
-                        <h4 class="font-bold mb-4">Links</h4>
+                        <h3 class="font-bold mb-4">Links</h3>
                         <ul class="space-y-2 text-slate-400 text-sm">
                             <li><a href="#inicio" class="hover:text-white transition">Inicio</a></li>
                             <li><a href="#productos" class="hover:text-white transition">Productos</a></li>
@@ -948,7 +950,7 @@ const toggleFaq = (index) => {
                     </div>
 
                     <div>
-                        <h4 class="font-bold mb-6 text-white">Contacto</h4>
+                        <h3 class="font-bold mb-6 text-white">Contacto</h3>
                         <div class="space-y-4 text-sm text-slate-400">
                             <!-- Email -->
                             <div class="flex items-center gap-3 hover:text-white transition-colors duration-300 group">
@@ -1008,6 +1010,7 @@ const toggleFaq = (index) => {
 
         <!-- WhatsApp Floating Button -->
         <a :href="'https://wa.me/' + settings.landing_whatsapp_number?.replace(/\s+/g, '')" target="_blank"
+            aria-label="Contactar por WhatsApp"
             class="fixed bottom-10 right-10 z-50 group flex flex-col items-end gap-3">
 
             <div class="relative">
@@ -1034,11 +1037,11 @@ const toggleFaq = (index) => {
 <style scoped>
 @keyframes marquee-continuous {
     0% {
-        transform: translateX(0);
+        transform: translate3d(0, 0, 0);
     }
 
     100% {
-        transform: translateX(-50%);
+        transform: translate3d(-50%, 0, 0);
     }
 }
 
