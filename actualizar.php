@@ -6,7 +6,8 @@
  * Uso: php actualizar.php
  */
 
-function ejecutar($comando) {
+function ejecutar($comando)
+{
     echo "\n\033[32m[EJECUTANDO]\033[0m: $comando\n";
     passthru($comando . ' 2>&1');
 }
@@ -41,8 +42,8 @@ echo "\n\033[33mVerificando enlace simbólico de storage...\033[0m\n";
 ejecutar('php artisan storage:link');
 
 // 7. Compilando activos (Frontend) - Solo si Node.js está disponible
-// echo "\n\033[33mInstalando dependencias de JS y compilando assets...\033[0m\n";
-// ejecutar('npm install && npm run build');
+echo "\n\033[33mInstalando dependencias de JS y compilando assets...\033[0m\n";
+ejecutar('npm install && npm run build');
 
 // 8. Limpieza y Optimización de Caché
 echo "\n\033[33mOptimizando caché y rendimiento de Laravel...\033[0m\n";
