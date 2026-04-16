@@ -284,16 +284,16 @@ const faqs = [
 ];
 
 const aliados = [
-    { name: 'Allianz', logo: '/images/aliados/allianz.png' },
-    { name: 'Berkley', logo: '/images/aliados/berkley.png' },
-    { name: 'Previsora', logo: '/images/aliados/previsora.png' },
-    { name: 'Seguros Bolívar', logo: '/images/aliados/bolivar.png' },
-    { name: 'Seguros del Estado', logo: '/images/aliados/estado.png' },
-    { name: 'Seguros Mundial', logo: '/images/aliados/mundial.png' },
-    { name: 'Global Seguros', logo: '/images/aliados/global.png' },
-    { name: 'Solidaria', logo: '/images/aliados/solidaria.png' },
-    { name: 'Sura', logo: '/images/aliados/sura.png' },
-    { name: 'HDI', logo: '/images/aliados/hdi.png' },
+    { name: 'Allianz', logo: '/images/aliados/allianz.webp' },
+    { name: 'Berkley', logo: '/images/aliados/berkley.webp' },
+    { name: 'Previsora', logo: '/images/aliados/previsora.webp' },
+    { name: 'Seguros Bolívar', logo: '/images/aliados/bolivar.webp' },
+    { name: 'Seguros del Estado', logo: '/images/aliados/estado.webp' },
+    { name: 'Seguros Mundial', logo: '/images/aliados/mundial.webp' },
+    { name: 'Global Seguros', logo: '/images/aliados/global.webp' },
+    { name: 'Solidaria', logo: '/images/aliados/solidaria.webp' },
+    { name: 'Sura', logo: '/images/aliados/sura.webp' },
+    { name: 'HDI', logo: '/images/aliados/hdi.webp' },
 ];
 
 const faqOpen = ref(null);
@@ -311,13 +311,13 @@ const toggleFaq = (index) => {
             :content="settings.landing_meta_description || 'Seguros de vida, auto, hogar y salud con asesoría profesional en Colombia. Protección que puedes confiar.'" />
         <meta name="keywords" content="seguros colombia, seguros de vida, seguros auto, seguros hogar" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
-            rel="preload" as="style" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
-            rel="stylesheet" media="print" onload="this.media='all'" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+                    rel="preload" as="style" />
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+                    rel="stylesheet" media="print" onload="this.media='all'" />
     </Head>
 
     <div class="min-h-screen bg-white text-slate-900 font-sans overflow-x-hidden relative">
@@ -788,7 +788,7 @@ const toggleFaq = (index) => {
                                 </svg>
                             </div>
                             <p class="text-lg font-medium text-slate-700 leading-relaxed italic">"{{ testimonio.texto
-                            }}"</p>
+                                }}"</p>
                         </div>
                         <div class="mt-8 pt-8 border-t border-slate-200">
                             <div class="font-black text-slate-900">{{ testimonio.nombre }}</div>
