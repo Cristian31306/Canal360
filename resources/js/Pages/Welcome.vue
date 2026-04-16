@@ -311,13 +311,13 @@ const toggleFaq = (index) => {
             :content="settings.landing_meta_description || 'Seguros de vida, auto, hogar y salud con asesoría profesional en Colombia. Protección que puedes confiar.'" />
         <meta name="keywords" content="seguros colombia, seguros de vida, seguros auto, seguros hogar" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
-                    rel="preload" as="style" />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
-                    rel="stylesheet" media="print" onload="this.media='all'" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+            rel="preload" as="style" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet" media="print" onload="this.media='all'" />
     </Head>
 
     <div class="min-h-screen bg-white text-slate-900 font-sans overflow-x-hidden relative">
