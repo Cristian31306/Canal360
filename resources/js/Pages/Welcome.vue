@@ -246,21 +246,21 @@ const equipo = [
         rol: 'Socio y Fundador',
         bio: 'Ingeniero Civil y especialista en gestión ambiental con más de 20 años de experiencia en el sector minero. Su conocimiento técnico es el puente vital entre las necesidades del gremio y las exigencias de las aseguradoras.',
         especialidad: 'Pólizas Mineroambientales',
-        image: '/images/landing/luciano.png'
+        image: '/images/landing/luciano.webp'
     },
     {
         nombre: 'Vilma Delgado',
         rol: 'Socia Fundadora y Gerente General',
         bio: `Ingeniero Civil con más de ${yearsVilma} años de trayectoria en el sector asegurador. Experta en pólizas de disposiciones legales y gestión estratégica de requerimientos ante aseguradoras.`,
         especialidad: 'Disposiciones Legales',
-        image: '/images/landing/vilma.png'
+        image: '/images/landing/vilma.webp'
     },
     {
         nombre: 'Juan David Canal',
         rol: 'Gerente Comercial',
         bio: 'Ingeniero Industrial y Magister en Finanzas. Enfocado en optimizar el valor para el cliente mediante negociaciones de alto nivel y beneficios exclusivos en procesos y pagos.',
         especialidad: 'Estrategia Financiera',
-        image: '/images/landing/juan_david.png'
+        image: '/images/landing/juan_david.webp'
     }
 ];
 
@@ -327,7 +327,8 @@ const toggleFaq = (index) => {
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="flex justify-between items-center h-20">
                     <div class="flex items-center gap-3">
-                        <span class="text-xl font-black tracking-tight">Canal<span class="text-blue-600">
+                        <span class="text-xl font-black tracking-tight text-slate-900 line-height-1">Canal<span
+                                class="text-blue-700">
                                 Asesores</span></span>
                     </div>
 
@@ -340,7 +341,8 @@ const toggleFaq = (index) => {
                             class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Nosotros</a>
                     </div>
 
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2"
+                        aria-label="Abrir menú de navegación" :aria-expanded="mobileMenuOpen">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16M4 18h16" />
@@ -378,7 +380,7 @@ const toggleFaq = (index) => {
                         <div class="space-y-6">
                             <h1 class="text-5xl lg:text-7xl font-black leading-[0.9] tracking-tighter"
                                 style="font-family: 'Playfair Display', serif;">
-                                ASEGURA TU HOGAR,<br><span class="text-blue-600">FAMILIA Y FUTURO.</span>
+                                ASEGURA TU HOGAR,<br><span class="text-blue-700">FAMILIA Y FUTURO.</span>
                             </h1>
                             <p class="text-lg text-slate-600 max-w-lg leading-relaxed font-medium mx-auto lg:mx-0">
                                 Protección integral en riesgos mineros, corporativos y familiares. Ofrecemos el respaldo
@@ -407,8 +409,9 @@ const toggleFaq = (index) => {
                     <div class="relative hidden lg:block">
                         <div
                             class="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl shadow-blue-900/10 border-8 border-white">
-                            <img src="/images/landing/hero_collage.png" alt="Canal360 Protección Integral"
-                                class="w-full object-cover">
+                            <img src="/images/landing/hero_collage.webp" alt="Canal360 Protección Integral"
+                                class="w-full object-cover" width="600" height="400" fetchpriority="high"
+                                decoding="async">
                         </div>
 
 
@@ -443,9 +446,9 @@ const toggleFaq = (index) => {
             <div class="max-w-7xl mx-auto px-6 lg:px-8 mb-8">
                 <div class="flex items-center gap-4">
                     <div class="h-[1px] flex-grow bg-slate-200"></div>
-                    <span
-                        class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] whitespace-nowrap">Nuestros
-                        Aliados Estratégicos</span>
+                    <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] whitespace-nowrap">
+                        Nuestros
+                        Aliados Estratégicos</h2>
                     <div class="h-[1px] flex-grow bg-slate-200"></div>
                 </div>
             </div>
@@ -457,6 +460,7 @@ const toggleFaq = (index) => {
                         <div v-for="aliado in aliados" :key="aliado.name" class="flex-shrink-0 group/logo">
                             <img :src="aliado.logo" :alt="aliado.name" :title="aliado.name"
                                 class="h-16 lg:h-24 w-auto object-contain transition-all duration-500 hover:scale-110"
+                                loading="lazy" decoding="async" width="150" height="80"
                                 @error="$event.target.src = 'https://via.placeholder.com/200x80?text=' + aliado.name">
                         </div>
                     </div>
@@ -465,6 +469,7 @@ const toggleFaq = (index) => {
                         <div v-for="aliado in aliados" :key="aliado.name + '_clone'" class="flex-shrink-0 group/logo">
                             <img :src="aliado.logo" :alt="aliado.name" :title="aliado.name"
                                 class="h-16 lg:h-24 w-auto object-contain transition-all duration-500 hover:scale-110"
+                                loading="lazy" decoding="async" width="150" height="80"
                                 @error="$event.target.src = 'https://via.placeholder.com/200x80?text=' + aliado.name">
                         </div>
                     </div>
@@ -483,6 +488,7 @@ const toggleFaq = (index) => {
             </div>
 
             <div class="max-w-6xl mx-auto relative z-10">
+                <h2 class="sr-only">Nuestros Valores Fundamentales</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div v-for="valor in valores" :key="valor.titulo"
                         class="space-y-4 p-6 rounded-2xl transition-all hover:bg-white/50 hover:shadow-sm">
@@ -541,7 +547,7 @@ const toggleFaq = (index) => {
                 <div class="relative group/carousel">
                     <!-- Controles de Navegación -->
                     <div class="absolute -left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-10">
-                        <button @click="prevProduct"
+                        <button @click="prevProduct" aria-label="Ver producto anterior"
                             class="w-10 h-10 lg:w-12 lg:h-12 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-600 hover:text-white transition-all hover:scale-110 active:scale-95">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
@@ -551,7 +557,7 @@ const toggleFaq = (index) => {
                     </div>
 
                     <div class="absolute -right-4 lg:-right-12 top-1/2 -translate-y-1/2 z-10">
-                        <button @click="nextProduct"
+                        <button @click="nextProduct" aria-label="Ver producto siguiente"
                             class="w-10 h-10 lg:w-12 lg:h-12 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-600 hover:text-white transition-all hover:scale-110 active:scale-95">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
@@ -639,7 +645,7 @@ const toggleFaq = (index) => {
                                             </svg>
                                         </div>
                                         <div
-                                            class="text-xs font-black text-blue-600 uppercase tracking-widest bg-blue-50 px-4 py-1.5 rounded-full shadow-sm">
+                                            class="text-xs font-black text-blue-700 uppercase tracking-widest bg-blue-50 px-4 py-1.5 rounded-full shadow-sm">
                                             {{ producto.destaque }}
                                         </div>
                                     </div>
@@ -675,6 +681,7 @@ const toggleFaq = (index) => {
                     <!-- Indicadores (Dots) -->
                     <div class="flex justify-center gap-2 mt-12">
                         <button v-for="i in (maxIndex + 1)" :key="i" @click="currentProductIndex = i - 1"
+                            :aria-label="'Ir al grupo de productos ' + i"
                             class="w-2.5 h-2.5 rounded-full transition-all duration-300"
                             :class="[currentProductIndex === i - 1 ? 'bg-blue-600 w-8' : 'bg-slate-200 hover:bg-slate-300']">
                         </button>
@@ -794,7 +801,7 @@ const toggleFaq = (index) => {
                     <div class="lg:col-span-5 space-y-8">
                         <h2 class="text-5xl lg:text-6xl font-black leading-[0.9] tracking-tighter"
                             style="font-family: 'Playfair Display', serif;">
-                            Experiencia que<br><span class="text-blue-600">respalda.</span>
+                            Experiencia que<br><span class="text-blue-700">respalda.</span>
                         </h2>
                         <p class="text-xl text-slate-600 leading-relaxed font-medium">
                             Nuestra trayectoria nace en el corazón del sector minero-industrial colombiano,
@@ -813,7 +820,8 @@ const toggleFaq = (index) => {
                             <div class="flex flex-col md:flex-row gap-6 relative z-10">
                                 <div
                                     class="w-24 h-24 rounded-2xl bg-slate-900 flex-shrink-0 overflow-hidden shadow-lg group-hover:ring-4 group-hover:ring-blue-100 transition-all">
-                                    <img :src="miembro.image" :alt="miembro.nombre" class="w-full h-full object-cover">
+                                    <img :src="miembro.image" :alt="miembro.nombre" class="w-full h-full object-cover"
+                                        width="96" height="96" loading="lazy" decoding="async">
                                 </div>
                                 <div class="space-y-4">
                                     <div class="flex flex-wrap items-center gap-3">
@@ -859,13 +867,13 @@ const toggleFaq = (index) => {
                     <div v-for="(faq, idx) in faqs" :key="idx"
                         class="border border-slate-100 rounded-2xl overflow-hidden transition-all"
                         :class="[faqOpen === idx ? 'bg-slate-50 border-blue-100 ring-2 ring-blue-50' : 'bg-white']">
-                        <button @click="toggleFaq(idx)"
+                        <button @click="toggleFaq(idx)" :aria-expanded="faqOpen === idx"
                             class="w-full px-8 py-6 flex items-center justify-between text-left group">
                             <span
-                                class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{{
+                                class="text-lg font-bold text-slate-800 group-hover:text-blue-700 transition-colors">{{
                                     faq.pregunta }}</span>
                             <span class="text-2xl font-black transition-transform duration-300 transform"
-                                :class="[faqOpen === idx ? 'rotate-45 text-blue-600' : 'text-slate-300']">
+                                :class="[faqOpen === idx ? 'rotate-45 text-blue-700' : 'text-slate-300']">
                                 +
                             </span>
                         </button>
