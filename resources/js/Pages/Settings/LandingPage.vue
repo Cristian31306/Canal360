@@ -25,37 +25,6 @@ const submit = () => {
     });
 };
 
-const handleImageUpload = (e, index) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // 1. Validación de Formato
-    if (!file.type.startsWith('image/')) {
-        window.alert('¡Error! El archivo debe ser una imagen (JPG, PNG o WebP).');
-        e.target.value = '';
-        return;
-    }
-
-    // 2. Validación de Tamaño (Máximo 2MB)
-    if (file.size > 2 * 1024 * 1024) {
-        window.alert('¡Imagen muy pesada! El tamaño máximo permitido es de 2MB para mantener la velocidad del sitio.');
-        e.target.value = '';
-        return;
-    }
-
-    // 3. Procesamiento seguro con FileReader
-    form.settings[index].value = file;
-    try {
-        const reader = new window.FileReader();
-        reader.onload = (event) => {
-            form.settings[index].preview = event.target.result;
-        };
-        reader.readAsDataURL(file);
-    } catch (err) {
-        console.error('Error al cargar la imagen:', err);
-        window.alert('Hubo un error al procesar la previsualización, pero puedes intentar guardar el formulario.');
-    }
-};
 </script>
 
 <template>
@@ -74,96 +43,23 @@ const handleImageUpload = (e, index) => {
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <form @submit.prevent="submit" class="space-y-12">
                             
-                            <!-- Hero Settings -->
+                            <!-- SEO Settings -->
                             <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-2xl border border-gray-100 dark:border-gray-800">
                                 <h3 class="text-lg font-bold text-blue-600 mb-6 flex items-center gap-2">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    Sección Principal (Hero)
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Configuración SEO (Motores de búsqueda)
                                 </h3>
                                 <div class="grid gap-6">
                                     <template v-for="(setting, index) in form.settings" :key="setting.key">
-                                        <div v-if="setting.group === 'landing_hero' || setting.key === 'landing_cta_text' || setting.key === 'landing_whatsapp_number'" class="space-y-2">
+                                        <div v-if="setting.key === 'landing_meta_title' || setting.key === 'landing_meta_description'" class="space-y-2">
                                             <label :for="setting.key" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                                 {{ setting.label }}
                                             </label>
-                                            
-                                            <!-- Image Upload -->
-                                            <div v-if="setting.type === 'image'" class="space-y-4">
-                                                <div v-if="(typeof setting.value === 'string' && setting.value) || setting.preview" class="space-y-2">
-                                                    <div class="w-48 h-28 rounded-lg overflow-hidden border border-gray-200 shadow-sm bg-gray-100 relative items-center justify-center flex">
-                                                        <img v-if="setting.preview || (setting.value && setting.value.length > 10)" :src="setting.preview || setting.value" class="w-full h-full object-cover absolute inset-0">
-                                                        <span v-else class="text-xs text-gray-400 font-medium">Sin imagen guardada</span>
-                                                    </div>
-                                                    <p class="text-[10px] text-blue-500 font-bold uppercase tracking-wider">
-                                                        Recomendado: 1920x1080px (o relación 16:9) • Máx 2MB
-                                                    </p>
-                                                </div>
-                                                <input
-                                                    type="file"
-                                                    :id="setting.key"
-                                                    accept="image/*"
-                                                    @change="(e) => handleImageUpload(e, index)"
-                                                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                                                />
-                                            </div>
-
-                                            <textarea v-else-if="setting.type === 'textarea'"
+                                            <textarea v-if="setting.key === 'landing_meta_description'"
                                                 v-model="form.settings[index].value"
                                                 :id="setting.key"
-                                                rows="3"
+                                                rows="2"
                                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-700 placeholder-gray-400"
-                                            ></textarea>
-                                            
-                                            <input v-else-if="setting.type !== 'image'"
-                                                v-model="form.settings[index].value"
-                                                :id="setting.key"
-                                                :type="setting.type"
-                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-700"
-                                            />
-                                        </div>
-                                    </template>
-                                </div>
-                            </div>
-
-                            <!-- Services Titles & Items -->
-                            <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-2xl border border-gray-100 dark:border-gray-800">
-                                <h3 class="text-lg font-bold text-blue-600 mb-6 flex items-center gap-2">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    Nuestras Soluciones y Coberturas
-                                </h3>
-                                <div class="grid gap-8 md:grid-cols-2">
-                                    <div v-for="i in 4" :key="i" class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 space-y-4">
-                                        <template v-for="(setting, index) in form.settings" :key="setting.key">
-                                            <div v-if="setting.key === 'landing_service_cat_' + i + '_title'" class="space-y-2">
-                                                <label class="block text-xs font-bold uppercase tracking-wider text-blue-500">Título Grupo {{ i }}</label>
-                                                <input v-model="form.settings[index].value" type="text" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-700" />
-                                            </div>
-                                            <div v-if="setting.key === 'landing_service_cat_' + i + '_items'" class="space-y-2">
-                                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-500">Items (Sep. por comas)</label>
-                                                <textarea v-model="form.settings[index].value" rows="3" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-700"></textarea>
-                                            </div>
-                                        </template>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Technology Settings -->
-                            <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-2xl border border-gray-100 dark:border-gray-800">
-                                <h3 class="text-lg font-bold text-blue-600 mb-6 flex items-center gap-2">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    Gestión y Tecnología
-                                </h3>
-                                <div class="grid gap-6">
-                                    <template v-for="(setting, index) in form.settings" :key="setting.key">
-                                        <div v-if="setting.key.includes('landing_tech')" class="space-y-2">
-                                            <label :for="setting.key" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                                {{ setting.label }}
-                                            </label>
-                                            <textarea v-if="setting.type === 'textarea'"
-                                                v-model="form.settings[index].value"
-                                                :id="setting.key"
-                                                rows="3"
-                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-700"
                                             ></textarea>
                                             <input v-else
                                                 v-model="form.settings[index].value"
@@ -171,6 +67,54 @@ const handleImageUpload = (e, index) => {
                                                 type="text"
                                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-700"
                                             />
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- WhatsApp Settings -->
+                            <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-2xl border border-gray-100 dark:border-gray-800">
+                                <h3 class="text-lg font-bold text-blue-600 mb-6 flex items-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Canal de Venta (WhatsApp)
+                                </h3>
+                                <div class="grid gap-6">
+                                    <template v-for="(setting, index) in form.settings" :key="setting.key">
+                                        <div v-if="setting.key === 'landing_whatsapp_number'" class="space-y-2">
+                                            <label :for="setting.key" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                {{ setting.label }}
+                                            </label>
+                                            <input
+                                                v-model="form.settings[index].value"
+                                                :id="setting.key"
+                                                type="text"
+                                                placeholder="Ej: 573123456789"
+                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-700"
+                                            />
+                                            <p class="text-xs text-gray-500">Este número es el que se usará para los botones de "Cotizar Ahora" y el botón flotante.</p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Footer Settings -->
+                            <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-2xl border border-gray-100 dark:border-gray-800">
+                                <h3 class="text-lg font-bold text-blue-600 mb-6 flex items-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Pie de Página (Footer)
+                                </h3>
+                                <div class="grid gap-6">
+                                    <template v-for="(setting, index) in form.settings" :key="setting.key">
+                                        <div v-if="setting.key === 'landing_footer_description'" class="space-y-2">
+                                            <label :for="setting.key" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                {{ setting.label }}
+                                            </label>
+                                            <textarea
+                                                v-model="form.settings[index].value"
+                                                :id="setting.key"
+                                                rows="3"
+                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-700"
+                                            ></textarea>
                                         </div>
                                     </template>
                                 </div>
@@ -184,7 +128,7 @@ const handleImageUpload = (e, index) => {
                                 </h3>
                                 <div class="grid gap-6 md:grid-cols-2">
                                     <template v-for="(setting, index) in form.settings" :key="setting.key">
-                                        <div v-if="setting.key.includes('contact')" class="space-y-2">
+                                        <div v-if="setting.key === 'contact_email' || setting.key.includes('_phone')" class="space-y-2">
                                             <label :for="setting.key" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                                 {{ setting.label }}
                                             </label>
