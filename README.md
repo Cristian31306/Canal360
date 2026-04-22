@@ -57,4 +57,30 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# Canal360
+# Canal360 - Gestión de Seguros
+
+## 📊 Importación de Pólizas (Excel)
+
+Para realizar una migración exitosa de pólizas, el archivo Excel ubicado en `Documentación/polizas.xlsx` debe contener exactamente las siguientes **13 columnas** (el orden no es estrictamente obligatorio pero se recomienda seguirlo):
+
+1.  **Ramo**: Ramo al que pertenece la póliza (ej: Automóviles, Vida, Minera).
+2.  **Referencia**: Riesgo asociado (Placa, Dirección, etc.). Puede estar en blanco para Ramos de Emisiones.
+3.  **Cliente**: Nombre o Razón Social del cliente.
+4.  **ASEGURADORA**: Nombre de la compañía de seguros (Sura, Estado, Allianz, etc.).
+5.  **Numero Póliza**: Identificador único de la póliza.
+6.  **F Expedición**: Fecha en que se emitió el documento.
+7.  **Vigencia Desde**: Fecha de inicio de la cobertura.
+8.  **Vigencia Hasta**: Fecha de fin de la cobertura.
+9.  **Prima**: Valor neto antes de IVA.
+10. **Valor IVA Incluido**: Valor total a pagar por el cliente.
+11. **Valor Asegurado**: Monto total de la cobertura.
+12. **Tasa**: Porcentaje de tasa aplicado.
+13. **Abono**: Monto total pagado a la fecha (se registrará como abono en cartera).
+
+### Comando de Ejecución (VPS)
+Para limpiar la base de datos de seguros y realizar una carga limpia desde el Excel:
+```bash
+php artisan canal360:import-polizas --clear
+```
+
+---
