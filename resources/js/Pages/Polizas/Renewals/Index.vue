@@ -275,6 +275,8 @@ const getStatusBadge = (estado) => {
                                     </svg>
                                 </div>
                                 <input type="text" v-model="searchQuery"
+                                    id="search-input"
+                                    name="search"
                                     class="block w-full rounded-md border-0 py-2.5 pl-10 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-emerald-600 dark:bg-gray-900 dark:text-white dark:ring-gray-700 shadow-sm transition-all"
                                     placeholder="Buscar por póliza, cliente o aseguradora...">
                             </div>
@@ -304,24 +306,24 @@ const getStatusBadge = (estado) => {
                 <div v-show="showFilters" class="mt-4 p-6 bg-gray-50 dark:bg-gray-800/30 rounded-xl border border-gray-200 dark:border-gray-700">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div>
-                            <label class="block text-xs font-medium text-gray-500 mb-1">Aseguradora</label>
-                            <select v-model="advancedFilters.aseguradora_id" @change="handleSearch"
+                            <label for="filter-aseguradora" class="block text-xs font-medium text-gray-500 mb-1">Aseguradora</label>
+                            <select v-model="advancedFilters.aseguradora_id" id="filter-aseguradora" name="aseguradora_id" @change="handleSearch"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-emerald-600 sm:text-sm dark:bg-gray-700 dark:text-white dark:ring-gray-600">
                                 <option value="">Todas</option>
                                 <option v-for="aseg in aseguradoras" :key="aseg.id" :value="aseg.id">{{ aseg.nombre }}</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-gray-500 mb-1">Ramo</label>
-                            <select v-model="advancedFilters.ramo_id" @change="handleSearch"
+                            <label for="filter-ramo" class="block text-xs font-medium text-gray-500 mb-1">Ramo</label>
+                            <select v-model="advancedFilters.ramo_id" id="filter-ramo" name="ramo_id" @change="handleSearch"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-emerald-600 sm:text-sm dark:bg-gray-700 dark:text-white dark:ring-gray-600">
                                 <option value="">Todos</option>
                                 <option v-for="ramo in ramos" :key="ramo.id" :value="ramo.id">{{ ramo.nombre }}</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-gray-500 mb-1">Cliente</label>
-                            <select v-model="advancedFilters.cliente_id" @change="handleSearch"
+                            <label for="filter-cliente" class="block text-xs font-medium text-gray-500 mb-1">Cliente</label>
+                            <select v-model="advancedFilters.cliente_id" id="filter-cliente" name="cliente_id" @change="handleSearch"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-emerald-600 sm:text-sm dark:bg-gray-700 dark:text-white dark:ring-gray-600">
                                 <option value="">Todos</option>
                                 <option v-for="cli in clientes" :key="cli.id" :value="cli.id">{{ cli.nombre_razon_social }}</option>
