@@ -362,7 +362,7 @@ const getStatusBadge = (estado) => {
                                         <td class="px-6 py-4">
                                             <div class="flex flex-col">
                                                 <span class="text-sm font-medium text-gray-900 dark:text-white">
-                                                    {{ poliza.riesgo?.identificador || 'S/I' }}
+                                                    {{ poliza.riesgo?.identificador || '' }}
                                                 </span>
                                                 <span class="text-xs text-gray-500 dark:text-gray-400">
                                                     {{ poliza.numero_poliza }}
@@ -459,15 +459,18 @@ const getStatusBadge = (estado) => {
                             <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">No hay pólizas pendientes en esta sección.</p>
                         </div>
 
-                        <div v-if="polizas.data.length > 0 && polizas.links"
+                        <div v-if="polizas.data.length > 0"
                             class="border-t border-gray-200 px-6 py-4 flex items-center justify-between dark:border-gray-700">
                             <div class="flex-1 flex items-center justify-between">
                                 <div>
-                                    <p class="text-xs text-gray-700 dark:text-gray-300">
+                                    <p v-if="polizas.links" class="text-xs text-gray-700 dark:text-gray-300">
                                         Mostrando <span class="font-medium">{{ polizas.from }}</span> a <span class="font-medium">{{ polizas.to }}</span> de <span class="font-medium">{{ polizas.total }}</span> resultados
                                     </p>
+                                    <p v-else class="text-xs text-gray-700 dark:text-gray-300 uppercase font-black tracking-widest">
+                                        Total de registros: <span class="font-black text-emerald-600">{{ polizas.data.length }}</span>
+                                    </p>
                                 </div>
-                                <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                                <nav v-if="polizas.links" class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
                                     <Link v-for="(link, k) in polizas.links" :key="k" :href="link.url || '#'" :class="[
                                         link.active ? 'z-10 bg-emerald-600 text-white' : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:text-gray-300 dark:ring-gray-600',
                                         !link.url ? 'pointer-events-none opacity-50' : '',
