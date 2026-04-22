@@ -62,14 +62,15 @@ class ImportPolizasCommand extends Command
         
         if (is_numeric($value)) {
             try {
-                return Date::excelToDateTimeObject($value)->format('Y-m-d');
+                // Forzamos a que se interprete como el inicio del día para evitar saltos por zona horaria
+                return \Carbon\Carbon::instance(Date::excelToDateTimeObject($value))->startOfDay()->format('Y-m-d');
             } catch (\Exception $e) {
                 return $default ?? now()->format('Y-m-d');
             }
         }
 
         try {
-            return \Carbon\Carbon::parse($value)->format('Y-m-d');
+            return \Carbon\Carbon::parse($value)->startOfDay()->format('Y-m-d');
         } catch (\Exception $e) {
             return $default ?? now()->format('Y-m-d');
         }
