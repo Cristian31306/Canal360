@@ -90,14 +90,19 @@ class PolizaController extends Controller
 
         if ($tab === 'upcoming') {
             $query->whereIn('estado', ['vigente', 'vencida'])
-                  ->whereBetween('fin_vigencia', [now()->subDays(30), now()->addDays(91)])
                   ->whereDoesntHave('polizaSiguiente');
+            
+            // Solo aplicar rango de proximidad si NO se está filtrando por un año específico
+            if (!$request->filled('anio')) {
+                $query->whereBetween('fin_vigencia', [now()->subDays(30), now()->addDays(91)]);
+            }
         } elseif ($tab === 'liquidated') {
             $query->where('estado', 'liquidada');
         } elseif ($tab === 'processing') {
             $query->where('estado', 'en_proceso');
         } elseif ($tab === 'lost') {
-            $query->where('estado', 'vencida')
+            $query->whereIn('estado', ['vigente', 'vencida'])
+                  ->whereDoesntHave('polizaSiguiente')
                   ->where('fin_vigencia', '<', now()->subDays(30));
         }
 
