@@ -263,14 +263,17 @@ const goBack = () => window.history.back();
                                         <div class="h-10 w-10 bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 rounded-lg flex items-center justify-center font-black text-xs ring-1 ring-blue-200">
                                             R-{{ riesgo.id }}
                                         </div>
-                                        <div>
+                                        <div v-if="riesgo">
                                             <Link :href="route('riesgos.show', riesgo.id)" class="text-sm font-black text-gray-900 dark:text-white hover:text-blue-600 transition-colors">
                                                 {{ riesgo.tipo_riesgo }}
                                             </Link>
                                             <p class="text-[10px] font-bold text-gray-500 uppercase tracking-tighter">{{ riesgo.identificador || 'Sin ID' }}</p>
                                         </div>
+                                        <div v-else>
+                                            <span class="text-sm font-black text-gray-400 italic">Riesgo no definido</span>
+                                        </div>
                                     </div>
-                                    <Link :href="route('riesgos.show', riesgo.id)" class="text-xs font-black text-blue-600 uppercase tracking-widest hover:underline">Ver Detalle</Link>
+                                    <Link v-if="riesgo" :href="route('riesgos.show', riesgo.id)" class="text-xs font-black text-blue-600 uppercase tracking-widest hover:underline">Ver Detalle</Link>
                                 </div>
                                 
                                 <!-- Pólizas Vinculadas al Riesgo -->

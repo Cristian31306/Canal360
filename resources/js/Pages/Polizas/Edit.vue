@@ -33,7 +33,7 @@ const form = useForm({
 // --- MAPEADO PARA SEARCHABLE SELECTS ---
 const mappedRiesgos = computed(() => props.riesgos.map(r => ({
     ...r,
-    label_display: `${r.tipo_riesgo} (${r.identificador || 'S/I'})`
+    label_display: `${r.tipo_riesgo} (${r.identificador || ''})`
 })));
 
 const mappedClientes = computed(() => props.clientes.map(c => ({

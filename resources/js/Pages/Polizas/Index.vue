@@ -280,7 +280,7 @@ const deletePoliza = (id) => {
                                     <div class="flex items-center">
                                         <div class="min-w-0 flex-1">
                                             <div class="font-medium text-gray-900 dark:text-white break-words">
-                                                {{ poliza.riesgo?.identificador || 'S/I' }}
+                                                {{ poliza.riesgo?.identificador || '' }}
                                             </div>
                                             <div class="text-gray-500 dark:text-gray-400 text-xs mt-0.5 break-all">
                                                 {{ poliza.numero_poliza }}

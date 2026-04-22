@@ -176,14 +176,17 @@ const goBack = () => window.history.back();
                                 <dt class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Riesgo
                                     Cubierto
                                 </dt>
-                                <Link :href="route('riesgos.show', poliza.riesgo_id)"
+                                <Link v-if="poliza.riesgo" :href="route('riesgos.show', poliza.riesgo_id)"
                                     class="block p-3 bg-gray-50 dark:bg-gray-900/30 rounded-xl ring-1 ring-gray-100 dark:ring-gray-700 hover:ring-emerald-400 transition-all">
                                     <p class="text-xs font-black text-gray-900 dark:text-white uppercase">{{
                                         poliza.riesgo.tipo_riesgo }}</p>
                                     <p class="text-[10px] font-bold text-gray-400 mt-0.5 truncate">{{
                                         poliza.riesgo.identificador ||
-                                        'Sin ID' }}</p>
+                                        '' }}</p>
                                 </Link>
+                                <div v-else class="block p-3 bg-gray-50 dark:bg-gray-900/30 rounded-xl ring-1 ring-gray-100 dark:ring-gray-700 italic text-gray-400 text-xs">
+                                    Sin riesgo asociado (Ramo de Emisiones u Otros)
+                                </div>
                             </div>
                         </div>
                     </div>
