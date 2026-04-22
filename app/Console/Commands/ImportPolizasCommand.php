@@ -147,7 +147,7 @@ class ImportPolizasCommand extends Command
                             'email' => 'importado@canal360.com.co',
                             'telefono' => '0000000',
                             'tipo_documento' => 'NIT',
-                            'numero_documento' => 'IMP-' . mt_rand(100000, 999999)
+                            'numero_documento' => 'IMP-' . strtoupper(Str::random(12))
                         ]
                     );
                     $clienteId = $cliente->id;
@@ -163,7 +163,7 @@ class ImportPolizasCommand extends Command
                 } else {
                     $aseguradora = Aseguradora::firstOrCreate(
                         ['nombre' => $aseguradoraNombre],
-                        ['nit' => 'NIT-' . mt_rand(100000, 999999)]
+                        ['nit' => 'NIT-' . strtoupper(Str::random(10))]
                     );
                     $aseguradoraId = $aseguradora->id;
                     $this->cacheAseguradoras[$asegKey] = $aseguradoraId;
