@@ -199,7 +199,10 @@ class ImportPolizasCommand extends Command
                 }
 
                 $numeroPoliza = trim($rowData['numero poliza'] ?? '');
-                if (empty($numeroPoliza)) $numeroPoliza = 'IMP-' . Str::random(10);
+                if (empty($numeroPoliza)) {
+                    $bar->advance();
+                    continue;
+                }
 
                 // Procesamiento robusto de fechas
                 $expedicion = $this->parseDate($rowData['f expedicion'] ?? null);
