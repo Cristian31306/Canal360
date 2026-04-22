@@ -62,15 +62,21 @@ class ImportPolizasCommand extends Command
         
         if (is_numeric($value)) {
             try {
-                // Forzamos a que se interprete como el inicio del día para evitar saltos por zona horaria
-                return \Carbon\Carbon::instance(Date::excelToDateTimeObject($value))->startOfDay()->format('Y-m-d');
+                // Obtenemos el objeto DateTime puro de Excel
+                $dt = Date::excelToDateTimeObject($value);
+                // Retornamos el formato directo para evitar que Carbon aplique offsets de zona horaria
+                return $dt->format('Y-m-d');
             } catch (\Exception $e) {
                 return $default ?? now()->format('Y-m-d');
             }
         }
 
         try {
-            return \Carbon\Carbon::parse($value)->startOfDay()->format('Y-m-d');
+            // Si es un string y ya tiene formato YYYY-MM-DD, lo retornamos tal cual tras validarlo
+            if (preg_match('/^\d{4}-\d{2}-\d{2}$/', trim($value))) {
+                return trim($value);
+            }
+            return \Carbon\Carbon::parse($value)->format('Y-m-d');
         } catch (\Exception $e) {
             return $default ?? now()->format('Y-m-d');
         }
