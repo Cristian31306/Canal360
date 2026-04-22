@@ -141,7 +141,7 @@ class PolizaController extends Controller
 
         return Inertia::render('Polizas/Renewals/Index', [
             'polizas' => [
-                'data' => $query->latest()->get()
+                'data' => $query->orderBy('fin_vigencia', 'asc')->get()
             ],
             'filters' => $request->all(['tab', 'search', 'aseguradora_id', 'ramo_id', 'cliente_id', 'anio', 'fecha_tipo']),
             'aseguradoras' => Aseguradora::orderBy('nombre')->get(['id', 'nombre']),
