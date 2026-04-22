@@ -151,7 +151,7 @@ const deleteAseguradora = (id) => {
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
                             <tr v-for="aseguradora in aseguradoras.data" :key="aseguradora.id" class="hover:bg-gray-50 transition-colors dark:hover:bg-gray-700/50">
-                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                <td class="py-4 pl-4 pr-3 text-sm sm:pl-6">
                                     <div class="flex items-center">
                                         <div class="h-10 w-10 flex-shrink-0">
                                             <div v-if="aseguradora.logo_url" class="h-10 w-10 rounded-lg bg-white border border-gray-200 flex items-center justify-center p-0.5 overflow-hidden shadow-sm dark:border-gray-700">
@@ -161,18 +161,18 @@ const deleteAseguradora = (id) => {
                                                 {{ getInitials(aseguradora.nombre) }}
                                             </div>
                                         </div>
-                                        <div class="ml-4">
-                                            <div class="font-medium text-gray-900 dark:text-white">{{ aseguradora.nombre }}</div>
+                                        <div class="ml-4 min-w-0 flex-1">
+                                            <div class="font-medium text-gray-900 dark:text-white break-words">{{ aseguradora.nombre }}</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
                                     {{ aseguradora.nit }}
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                <td class="px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
                                     <div v-if="aseguradora.contactos && aseguradora.contactos.length > 0">
-                                        <div class="font-medium text-gray-900 dark:text-gray-300">{{ aseguradora.contactos[0].nombre }}</div>
-                                        <div class="text-xs">{{ aseguradora.contactos[0].rol }}</div>
+                                        <div class="font-medium text-gray-900 dark:text-gray-300 break-words">{{ aseguradora.contactos[0].nombre }}</div>
+                                        <div class="text-xs break-words">{{ aseguradora.contactos[0].rol }}</div>
                                     </div>
                                     <div v-else class="text-gray-400 italic">Sin contactos</div>
                                 </td>

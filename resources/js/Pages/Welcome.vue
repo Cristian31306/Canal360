@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 const props = defineProps({
@@ -59,17 +59,34 @@ const updateWidth = () => {
     windowWidth.value = window.innerWidth;
 };
 
+const goToPortal = (e) => {
+    // Si se presiona Alt + Clic, redirigir directo al portal
+    if (e.altKey) {
+        e.preventDefault();
+        router.visit(route('dashboard'));
+    }
+};
+
+const handleKeyDown = (e) => {
+    // Ctrl + Shift + P para ir al portal directamente
+    if (e.ctrlKey && e.shiftKey && e.key === 'P') {
+        router.visit(route('dashboard'));
+    }
+};
+
 onMounted(() => {
     updateWidth();
     window.addEventListener('resize', updateWidth);
     window.addEventListener('scroll', () => {
         scrolled.value = window.scrollY > 20;
     });
+    window.addEventListener('keydown', handleKeyDown);
     startAutoplay();
 });
 
 onUnmounted(() => {
     window.removeEventListener('resize', updateWidth);
+    window.removeEventListener('keydown', handleKeyDown);
     stopAutoplay();
 });
 
@@ -331,7 +348,7 @@ const toggleFaq = (index) => {
             class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="flex justify-between items-center h-20">
-                    <div class="flex items-center gap-3">
+                    <div @click="goToPortal" class="flex items-center gap-3 cursor-default group/logo" title="Canal Asesores (Alt+Click para Portal)">
                         <span class="text-xl font-black tracking-tight text-slate-900 line-height-1">Canal<span
                                 class="text-blue-700">
                                 Asesores</span></span>
@@ -342,8 +359,17 @@ const toggleFaq = (index) => {
                             class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Inicio</a>
                         <a href="#productos"
                             class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Productos</a>
-                        <a href="#nosotros"
-                            class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Nosotros</a>
+                        <div class="flex items-center gap-2">
+                            <a href="#nosotros"
+                                class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Nosotros</a>
+                            <a href="#footer" 
+                                class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-50 border border-slate-100 text-slate-400 hover:bg-blue-600 hover:text-white transition-all hover:scale-110 shadow-sm" 
+                                title="Ir al Portal (Final)">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7-7-7" />
+                                </svg>
+                            </a>
+                        </div>
                     </div>
 
                     <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2"
@@ -934,7 +960,7 @@ const toggleFaq = (index) => {
         </section>
 
         <!-- Footer minimalista -->
-        <footer class="bg-slate-900 text-white py-16 px-6 lg:px-8">
+        <footer id="footer" class="bg-slate-900 text-white py-16 px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
                     <div class="space-y-4">

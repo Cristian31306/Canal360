@@ -55,9 +55,11 @@ onMounted(() => {
 // --- AUTOMATIZACIÓN DE FECHAS ---
 watch(() => form.inicio_vigencia, (newVal) => {
     if (newVal) {
-        const date = new Date(newVal);
-        date.setFullYear(date.getFullYear() + 1);
-        form.fin_vigencia = date.toISOString().split('T')[0];
+        const start = new Date(newVal);
+        const end = new Date(start);
+        end.setFullYear(start.getFullYear() + 1);
+        end.setDate(end.getDate() - 1);
+        form.fin_vigencia = end.toISOString().split('T')[0];
     }
 });
 

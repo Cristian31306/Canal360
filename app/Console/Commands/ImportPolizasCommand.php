@@ -26,12 +26,16 @@ class ImportPolizasCommand extends Command
         'allianz' => 'Allianz Seguros S.A.',
         'bolivar' => 'Compañía de Seguros Bolívar S.A.',
         'estado' => 'Seguros del Estado S.A.',
+        'seg estado' => 'Seguros del Estado S.A.',
         'global' => 'Global Seguros de Vida S.A.',
         'hdi' => 'HDI Seguros Colombia S.A.',
         'mundial' => 'Compañía Mundial de Seguros S.A.',
         'previsora' => 'La Previsora S.A. Compañía de Seguros',
         'solidaria' => 'Aseguradora Solidaria de Colombia',
         'berkley' => 'Berkley International Seguros Colombia S.A.',
+        'axacolpatria' => 'AXA Colpatria Seguros S.A.',
+        'mapfre' => 'Mapfre Seguros Generales S.A.',
+        'liberty' => 'Liberty Seguros S.A.',
     ];
 
     private $cacheClientes = [];
@@ -42,6 +46,8 @@ class ImportPolizasCommand extends Command
     private function mapAseguradoraName($name)
     {
         $lowerName = strtolower(trim($name));
+        if (empty($lowerName)) return 'No Definida';
+
         foreach ($this->mapeoAseguradoras as $key => $officialName) {
             if (str_contains($lowerName, $key)) {
                 return $officialName;
@@ -50,10 +56,29 @@ class ImportPolizasCommand extends Command
         return trim($name);
     }
 
+    private function parseDate($value, $default = null)
+    {
+        if (empty($value)) return $default ?? now()->format('Y-m-d');
+        
+        if (is_numeric($value)) {
+            try {
+                return Date::excelToDateTimeObject($value)->format('Y-m-d');
+            } catch (\Exception $e) {
+                return $default ?? now()->format('Y-m-d');
+            }
+        }
+
+        try {
+            return \Carbon\Carbon::parse($value)->format('Y-m-d');
+        } catch (\Exception $e) {
+            return $default ?? now()->format('Y-m-d');
+        }
+    }
+
     public function handle()
     {
         if ($this->option('clear')) {
-            $this->warn('Limpiando datos previos de pólizas, carteras y riesgos...');
+            $this->warn('Limpiando datos previos de clientes, pólizas, carteras y riesgos...');
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             AbonoCartera::truncate();
             Cartera::truncate();
@@ -61,9 +86,9 @@ class ImportPolizasCommand extends Command
             Poliza::truncate();
             DB::table('cliente_riesgo')->truncate();
             Riesgo::truncate();
-            // No truncamos Clientes, Aseguradoras o Ramos para mantener la base de datos limpia pero funcional
+            Cliente::truncate();
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-            $this->info('Tablas de pólizas limpias.');
+            $this->info('Tablas de seguros limpias (Clientes, Pólizas, Riesgos, Carteras).');
         }
 
         $this->info('Iniciando lectura de Excel...');
@@ -83,7 +108,10 @@ class ImportPolizasCommand extends Command
 
             $cabeceras = [];
             for ($col = 1; $col <= $highestColumnIndex; ++$col) {
-                $cabeceras[$col] = strtolower(trim($worksheet->getCellByColumnAndRow($col, 1)->getValue() ?? ''));
+                // Limpiar cabeceras de acentos y espacios para un mapeo robusto
+                $val = strtolower(trim($worksheet->getCellByColumnAndRow($col, 1)->getValue() ?? ''));
+                $val = str_replace(['ó', 'é', 'í', 'á', 'ú'], ['o', 'e', 'i', 'a', 'u'], $val);
+                $cabeceras[$col] = $val;
             }
 
             $this->info("Archivo cargado. Procesando " . ($highestRow - 1) . " registros...");
@@ -116,10 +144,10 @@ class ImportPolizasCommand extends Command
                         ['nombre_razon_social' => $clienteNombre],
                         [
                             'tipo_persona' => 'juridica',
-                            'email' => $rowData['correo'] ?? 'importado@algorah.bond',
-                            'telefono' => $rowData['telefono'] ?? '0000000',
+                            'email' => 'importado@canal360.com.co',
+                            'telefono' => '0000000',
                             'tipo_documento' => 'NIT',
-                            'numero_documento' => 'IMP-' . mt_rand(100000, 999999) . '-' . mt_rand(1000, 9999)
+                            'numero_documento' => 'IMP-' . mt_rand(100000, 999999)
                         ]
                     );
                     $clienteId = $cliente->id;
@@ -127,7 +155,6 @@ class ImportPolizasCommand extends Command
                 }
 
                 $aseguradoraNombreRaw = trim($rowData['aseguradora'] ?? '');
-                if (empty($aseguradoraNombreRaw)) $aseguradoraNombreRaw = 'No Definida';
                 $aseguradoraNombre = $this->mapAseguradoraName($aseguradoraNombreRaw);
                 $asegKey = strtolower($aseguradoraNombre);
 
@@ -136,7 +163,7 @@ class ImportPolizasCommand extends Command
                 } else {
                     $aseguradora = Aseguradora::firstOrCreate(
                         ['nombre' => $aseguradoraNombre],
-                        ['nit' => 'IMP-' . mt_rand(100000, 999999)]
+                        ['nit' => 'NIT-' . mt_rand(100000, 999999)]
                     );
                     $aseguradoraId = $aseguradora->id;
                     $this->cacheAseguradoras[$asegKey] = $aseguradoraId;
@@ -161,29 +188,29 @@ class ImportPolizasCommand extends Command
                     if (isset($this->cacheRiesgos[$riesgoKey])) {
                         $riesgoId = $this->cacheRiesgos[$riesgoKey];
                     } else {
-                        $riesgo = Riesgo::firstOrCreate(['identificador' => $riesgoRef], ['tipo_riesgo' => 'Importado']);
+                        $riesgo = Riesgo::firstOrCreate(['identificador' => $riesgoRef], ['tipo_riesgo' => 'General']);
                         $riesgoId = $riesgo->id;
                         $this->cacheRiesgos[$riesgoKey] = $riesgoId;
-                        if (!$riesgo->clientes()->where('cliente_id', $clienteId)->exists()) {
-                            $riesgo->clientes()->attach($clienteId);
-                        }
+                    }
+                    // Vincular riesgo al cliente si no existe
+                    if (!$riesgo->clientes()->where('cliente_id', $clienteId)->exists()) {
+                        $riesgo->clientes()->attach($clienteId);
                     }
                 }
 
-                $numeroPoliza = trim($rowData['numero póliza'] ?? '');
-                if (empty($numeroPoliza)) $numeroPoliza = 'PENDIENTE-' . Str::random(8);
+                $numeroPoliza = trim($rowData['numero poliza'] ?? '');
+                if (empty($numeroPoliza)) $numeroPoliza = 'IMP-' . Str::random(10);
 
-                $f_exp = $rowData['f expedición'] ?? null;
-                $expedicion = is_numeric($f_exp) ? Date::excelToDateTimeObject($f_exp)->format('Y-m-d') : now()->format('Y-m-d');
-                $vig_desde = $rowData['vigencia desde'] ?? null;
-                $inicioVigencia = is_numeric($vig_desde) ? Date::excelToDateTimeObject($vig_desde)->format('Y-m-d') : now()->format('Y-m-d');
-                $vig_hasta = $rowData['vigencia hasta'] ?? null;
-                $finVigencia = is_numeric($vig_hasta) ? Date::excelToDateTimeObject($vig_hasta)->format('Y-m-d') : now()->addYear()->format('Y-m-d');
+                // Procesamiento robusto de fechas
+                $expedicion = $this->parseDate($rowData['f expedicion'] ?? null);
+                $inicioVigencia = $this->parseDate($rowData['vigencia desde'] ?? null);
+                $finVigencia = $this->parseDate($rowData['vigencia hasta'] ?? null, \Carbon\Carbon::parse($inicioVigencia)->addYear()->format('Y-m-d'));
 
                 $valAseg = is_numeric($rowData['valor asegurado'] ?? null) ? (float)$rowData['valor asegurado'] : 0;
                 $prima = is_numeric($rowData['prima'] ?? null) ? (float)$rowData['prima'] : 0;
                 $primaT = is_numeric($rowData['valor iva incluido'] ?? null) ? (float)$rowData['valor iva incluido'] : 0;
                 $tasa = is_numeric($rowData['tasa'] ?? null) ? (float)$rowData['tasa'] : 0;
+                $abono = is_numeric($rowData['abono'] ?? null) ? (float)$rowData['abono'] : 0;
 
                 try {
                     $poliza = Poliza::create([
@@ -202,39 +229,27 @@ class ImportPolizasCommand extends Command
                         'estado' => 'vigente'
                     ]);
 
-                    if ($clienteId) {
-                        $poliza->clientes()->attach($clienteId, ['rol' => 'tomador']);
-                    }
+                    // Vincular SIEMPRE al cliente, tenga o no tenga riesgo
+                    $poliza->clientes()->attach($clienteId, ['rol' => 'tomador']);
 
-                    $saldoPendiente = is_numeric($rowData['saldo pendiente'] ?? null) ? (float)$rowData['saldo pendiente'] : 0;
+                    // Crear cartera
                     $cartera = Cartera::create([
                         'poliza_id' => $poliza->id,
                         'valor_a_pagar' => $primaT,
                         'fecha_limite' => $inicioVigencia,
-                        'estado' => $saldoPendiente > 0 ? 'pendiente' : 'pagado'
+                        'estado' => $abono >= $primaT ? 'pagado' : 'pendiente'
                     ]);
 
-                    $pagosKeys = [
-                        ['monto' => 'pago 1', 'fecha' => 'f. 1 cuota'],
-                        ['monto' => 'pago 2', 'fecha' => 'f. 2 cuota'],
-                        ['monto' => 'pago 3', 'fecha' => 'f. 3 cuota'],
-                        ['monto' => 'pago 4', 'fecha' => 'f. 4 cuota'],
-                    ];
-
-                    foreach ($pagosKeys as $p) {
-                        $monto = is_numeric($rowData[$p['monto']] ?? null) ? (float)$rowData[$p['monto']] : 0;
-                        if ($monto > 0) {
-                            $f_pago = $rowData[$p['fecha']] ?? null;
-                            $fechaPago = is_numeric($f_pago) ? Date::excelToDateTimeObject($f_pago)->format('Y-m-d') : now()->format('Y-m-d');
-                            AbonoCartera::create([
-                                'cartera_id' => $cartera->id,
-                                'monto' => $monto,
-                                'fecha_pago' => $fechaPago,
-                                'metodo_pago' => 'Transferencia',
-                                'referencia' => 'Importado',
-                                'observaciones' => 'Abono Excel'
-                            ]);
-                        }
+                    // Registrar abono si existe
+                    if ($abono > 0) {
+                        AbonoCartera::create([
+                            'cartera_id' => $cartera->id,
+                            'monto' => $abono,
+                            'fecha_pago' => $expedicion,
+                            'metodo_pago' => 'Transferencia',
+                            'referencia' => 'Abono Importado Excel',
+                            'observaciones' => 'Migración Inicial'
+                        ]);
                     }
 
                 } catch (\Exception $ex) {

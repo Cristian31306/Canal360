@@ -151,10 +151,10 @@ const deleteCliente = (id) => {
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
                             <tr v-for="cliente in clientes.data" :key="cliente.id" class="hover:bg-gray-50 transition-colors dark:hover:bg-gray-700/50">
-                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                <td class="py-4 pl-4 pr-3 text-sm sm:pl-6">
                                     <div class="flex items-center">
-                                        <div>
-                                            <div class="font-medium text-gray-900 dark:text-white">{{ cliente.nombre_razon_social }}</div>
+                                        <div class="min-w-0 flex-1">
+                                            <div class="font-medium text-gray-900 dark:text-white break-words">{{ cliente.nombre_razon_social }}</div>
                                             <div class="text-gray-500 dark:text-gray-400 text-xs">{{ cliente.tipo_persona === 'juridica' ? 'Empresa / Persona Jurídica' : 'Persona Natural' }}</div>
                                         </div>
                                     </div>
@@ -162,8 +162,8 @@ const deleteCliente = (id) => {
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
                                     <span class="font-medium text-gray-700 dark:text-gray-300">{{ cliente.tipo_documento }}:</span> {{ cliente.numero_documento }}
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                    <div>{{ cliente.email || 'Sin correo' }}</div>
+                                <td class="px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                    <div class="break-all sm:break-words">{{ cliente.email || 'Sin correo' }}</div>
                                     <div class="text-xs">{{ cliente.telefono || 'Sin teléfono' }}</div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">

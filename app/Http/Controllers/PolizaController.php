@@ -69,7 +69,7 @@ class PolizaController extends Controller
             $query->whereYear($column, $request->anio);
         }
 
-        $polizas = $query->latest()->paginate(10)->withQueryString();
+        $polizas = $query->orderBy('expedicion_fecha', 'desc')->paginate(10)->withQueryString();
 
         return Inertia::render('Polizas/Index', [
             'polizas' => $polizas,

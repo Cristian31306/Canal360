@@ -3,6 +3,7 @@ import { ref, watch, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import ConfirmationModal from '@/Components/ConfirmationModal.vue';
+import SearchableSelect from '@/Components/SearchableSelect.vue';
 
 const props = defineProps({
     polizas: Object,
@@ -33,6 +34,8 @@ const handleSearch = () => {
         { preserveState: true, replace: true }
     );
 };
+
+
 
 const clearSearch = () => {
     searchQuery.value = '';
@@ -216,11 +219,14 @@ const deletePoliza = (id) => {
                         <!-- Cliente -->
                         <div>
                             <label class="block text-xs font-medium text-gray-500 mb-1">Cliente</label>
-                            <select v-model="advancedFilters.cliente_id" @change="handleSearch"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm dark:bg-gray-700 dark:text-white dark:ring-gray-600">
-                                <option value="">Todos</option>
-                                <option v-for="cli in clientes" :key="cli.id" :value="cli.id">{{ cli.nombre_razon_social }}</option>
-                            </select>
+                            <SearchableSelect 
+                                v-model="advancedFilters.cliente_id" 
+                                :options="clientes" 
+                                label-key="nombre_razon_social" 
+                                value-key="id"
+                                placeholder="Todos los clientes"
+                                @change="handleSearch"
+                            />
                         </div>
                         <!-- Año y Tipo Fecha -->
                         <div>
@@ -270,13 +276,13 @@ const deletePoliza = (id) => {
                         <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
                             <tr v-for="poliza in polizas.data" :key="poliza.id"
                                 class="hover:bg-gray-50 transition-colors dark:hover:bg-gray-700/50">
-                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                <td class="py-4 pl-4 pr-3 text-sm sm:pl-6">
                                     <div class="flex items-center">
-                                        <div>
-                                            <div class="font-medium text-gray-900 dark:text-white">
+                                        <div class="min-w-0 flex-1">
+                                            <div class="font-medium text-gray-900 dark:text-white break-words">
                                                 {{ poliza.riesgo?.identificador || 'S/I' }}
                                             </div>
-                                            <div class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">
+                                            <div class="text-gray-500 dark:text-gray-400 text-xs mt-0.5 break-all">
                                                 {{ poliza.numero_poliza }}
                                             </div>
                                         </div>
@@ -287,24 +293,23 @@ const deletePoliza = (id) => {
                                         <div v-for="cliente in poliza.clientes.slice(0, 2)" :key="cliente.id"
                                             class="flex items-center gap-2">
                                             <span
-                                                class="font-medium text-gray-800 dark:text-gray-200 truncate max-w-[150px]">{{
+                                                class="font-medium text-gray-800 dark:text-gray-200 break-words">{{
                                                     cliente.nombre_razon_social }}</span>
                                         </div>
-                                        <span v-if="poliza.clientes.length > 2"
-                                            class="text-xs font-medium text-emerald-600">+{{
-                                                poliza.clientes.length - 2 }} más</span>
                                     </div>
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                    <div class="font-medium text-gray-900 dark:text-gray-300">{{
+                                <td class="px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                    <div class="font-medium text-gray-900 dark:text-gray-300 break-words">{{
                                         poliza.aseguradora.nombre }}
                                     </div>
-                                    <div class="text-xs">{{ poliza.ramo.nombre }}</div>
+                                    <div class="text-xs break-words">{{ poliza.ramo.nombre }}</div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                    <div class="font-medium text-gray-700 dark:text-gray-300">{{
-                                        formatDate(poliza.inicio_vigencia) }}</div>
+                                    <div :class="{'text-red-600 font-bold': new Date(poliza.inicio_vigencia) > new Date(poliza.fin_vigencia)}" class="font-medium text-gray-700 dark:text-gray-300">
+                                        {{ formatDate(poliza.inicio_vigencia) }}
+                                    </div>
                                     <div class="text-xs text-gray-500">al {{ formatDate(poliza.fin_vigencia) }}</div>
+                                    <span v-if="new Date(poliza.inicio_vigencia) > new Date(poliza.fin_vigencia)" class="text-[10px] text-red-500 font-bold uppercase tracking-tighter">¡Fecha Irreal!</span>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
                                     <span class="font-medium text-gray-900 dark:text-white">{{
