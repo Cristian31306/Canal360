@@ -6,15 +6,16 @@ class PolicyValidationService {
      * Si el documento empieza con 999, simula un siniestro/rechazo.
      */
     public function validatePolicy($documento, $valorAsegurado) {
-        $res = new stdClass();
         if (str_starts_with($documento, '999')) {
-            $res->status = 'denied';
-            $res->message = 'Siniestro Activo Detectado: El cliente posee siniestros vigentes reportados en centrales de riesgo.';
-        } else {
-            $res->status = 'approved';
-            $res->message = 'Cliente sin siniestros vigentes. Emisión aprobada por el MVPS.';
+            return [
+                'status' => 'denied',
+                'message' => 'Siniestro Activo Detectado: El cliente posee siniestros vigentes reportados en centrales de riesgo.'
+            ];
         }
-        return $res;
+        return [
+            'status' => 'approved',
+            'message' => 'Cliente sin siniestros vigentes. Emisión aprobada por el MVPS.'
+        ];
     }
 }
 
