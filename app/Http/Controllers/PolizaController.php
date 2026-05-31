@@ -459,10 +459,11 @@ class PolizaController extends Controller
             ]);
 
             $response = $client->validatePolicy($documento, $valorAsegurado);
+            $res = (array) $response;
 
             return response()->json([
-                'status' => $response->status,
-                'message' => $response->message
+                'status' => $res['status'] ?? 'denied',
+                'message' => $res['message'] ?? ''
             ]);
 
         } catch (\SoapFault $e) {
