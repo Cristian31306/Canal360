@@ -444,12 +444,14 @@ class PolizaController extends Controller
         $documento = $cliente->numero_documento;
         $valorAsegurado = (float) $request->valor_asegurado;
 
-        // URL dinámica del WSDL del servidor SOAP local/VPS
-        $wsdl = url('/soap/server.php?wsdl');
+        // Ruta local del WSDL para evitar problemas de red/resolución DNS
+        $wsdlPath = public_path('soap/service.wsdl');
+        $location = url('/soap/server.php');
 
         try {
-            // Configurar el cliente SOAP con timeout corto para la demo de falla
-            $client = new \SoapClient($wsdl, [
+            // Configurar el cliente SOAP leyendo el WSDL localmente
+            $client = new \SoapClient($wsdlPath, [
+                'location' => $location,
                 'trace' => true,
                 'exceptions' => true,
                 'connection_timeout' => 3, // 3 segundos de timeout
@@ -464,16 +466,18 @@ class PolizaController extends Controller
             ]);
 
         } catch (\SoapFault $e) {
+            logger()->error('SOAP Fault: ' . $e->getMessage());
             // Capturar falla de red, apache caído o errores de conexión
             return response()->json([
                 'status' => 'offline',
                 'message' => 'Los servicios centrales de validación están fuera de línea y no se pueden emitir pólizas por seguridad.'
             ], 503);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            logger()->error('SOAP General Throwable: ' . $e->getMessage());
             return response()->json([
                 'status' => 'offline',
-                'message' => 'Los servicios centrales de validación están fuera de línea y no se pueden emitir pólizas por seguridad.'
-            ], 503);
+                'message' => 'Error de configuración del sistema central: ' . $e->getMessage()
+            ], 500);
         }
     }
 }
