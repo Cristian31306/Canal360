@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PolicyValidation"
+    targetNamespace="http://localhost/soap/server.php"
+    xmlns:tns="http://localhost/soap/server.php"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <message name="validatePolicyRequest">
+        <part name="documento" type="xsd:string"/>
+        <part name="valorAsegurado" type="xsd:float"/>
+    </message>
+
+    <message name="validatePolicyResponse">
+        <part name="status" type="xsd:string"/>
+        <part name="message" type="xsd:string"/>
+    </message>
+
+    <portType name="PolicyValidationPortType">
+        <operation name="validatePolicy">
+            <input message="tns:validatePolicyRequest"/>
+            <output message="tns:validatePolicyResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="PolicyValidationBinding" type="tns:PolicyValidationPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="validatePolicy">
+            <soap:operation soapAction="urn:PolicyValidation#validatePolicy"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:PolicyValidation" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:PolicyValidation" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="PolicyValidationService">
+        <port name="PolicyValidationPort" binding="tns:PolicyValidationBinding">
+            <soap:address location="http://localhost/soap/server.php"/>
+        </port>
+    </service>
+</definitions>

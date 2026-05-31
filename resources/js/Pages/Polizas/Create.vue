@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref, computed, watch } from 'vue';
 import SearchableSelect from '@/Components/SearchableSelect.vue';
+import axios from 'axios';
 
 const props = defineProps({
     aseguradoras: Array,
@@ -155,7 +156,41 @@ const removeCliente = (index) => {
     form.clientes.splice(index, 1);
 };
 
+const soapStatus = ref('idle'); // 'idle', 'loading', 'approved', 'denied', 'offline'
+const soapMessage = ref('');
+
+const cotizarSoap = async () => {
+    if (form.clientes.length === 0) {
+        alert('Por favor, vincule al menos un cliente en la sección Participantes Asociados para poder validar.');
+        return;
+    }
+    
+    soapStatus.value = 'loading';
+    soapMessage.value = '';
+    
+    try {
+        const response = await axios.post(route('polizas.cotizar'), {
+            cliente_id: form.clientes[0].id,
+            valor_asegurado: form.valor_asegurado
+        });
+        
+        soapStatus.value = response.data.status;
+        soapMessage.value = response.data.message;
+    } catch (error) {
+        soapStatus.value = 'offline';
+        if (error.response && error.response.data && error.response.data.message) {
+            soapMessage.value = error.response.data.message;
+        } else {
+            soapMessage.value = 'Los servicios centrales de validación están fuera de línea y no se pueden emitir pólizas por seguridad.';
+        }
+    }
+};
+
 const submit = () => {
+    if (soapStatus.value !== 'approved') {
+        alert('No se puede guardar la póliza: Se requiere aprobación del servicio de validación SOAP central.');
+        return;
+    }
     form.transform((data) => ({
         ...data,
         iva: 0,
@@ -388,13 +423,46 @@ const submit = () => {
                             </div>
                         </div>
 
+                        <!-- SOAP Validation Status Banner -->
+                        <div v-if="soapStatus !== 'idle'" class="mt-6 p-4 rounded-xl border transition-all duration-300" :class="{
+                            'bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-200': soapStatus === 'loading',
+                            'bg-emerald-50 border-emerald-200 text-emerald-800 dark:bg-emerald-900/20 dark:border-emerald-800 dark:text-emerald-200': soapStatus === 'approved',
+                            'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800 dark:text-red-200': soapStatus === 'denied',
+                            'bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-900/20 dark:border-amber-800 dark:text-amber-200': soapStatus === 'offline'
+                        }">
+                            <div class="flex items-start gap-3">
+                                <span class="text-xl">
+                                    <span v-if="soapStatus === 'loading'">⏳</span>
+                                    <span v-else-if="soapStatus === 'approved'">✅</span>
+                                    <span v-else-if="soapStatus === 'denied'">❌</span>
+                                    <span v-else-if="soapStatus === 'offline'">⚠️</span>
+                                </span>
+                                <div>
+                                    <h4 class="font-bold text-xs uppercase tracking-wider">
+                                        <span v-if="soapStatus === 'loading'">Validando con el Servidor Central...</span>
+                                        <span v-else-if="soapStatus === 'approved'">Validación Aprobada</span>
+                                        <span v-else-if="soapStatus === 'denied'">Emisión Denegada</span>
+                                        <span v-else-if="soapStatus === 'offline'">Servidor de Validación Fuera de Línea</span>
+                                    </h4>
+                                    <p class="text-sm mt-1 font-medium">{{ soapMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     
                     <!-- FOOTER ACTIONS -->
-                    <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-xl">
+                    <div class="flex items-center justify-end gap-x-4 border-t border-gray-900/10 px-4 py-4 sm:px-8 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-xl">
                         <button type="button" @click="window.history.back()" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300 hover:text-gray-700 transition-colors">Cancelar</button>
-                        <button type="submit" :disabled="form.processing" class="rounded-md bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 transition-all disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2">
-                            <span v-if="form.processing" class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status"></span>
+                        
+                        <!-- SOAP Quoting Button -->
+                        <button type="button" @click.prevent="cotizarSoap" :disabled="form.clientes.length === 0 || soapStatus === 'loading'" class="rounded-md bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                            <span v-if="soapStatus === 'loading'" class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em]" role="status"></span>
+                            ⚡ Cotizar (SOAP)
+                        </button>
+
+                        <button type="submit" :disabled="form.processing || soapStatus !== 'approved'" class="rounded-md bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                            <span v-if="form.processing" class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em]" role="status"></span>
                             Guardar Póliza
                         </button>
                     </div>

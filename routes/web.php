@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('ramos', App\Http\Controllers\RamoController::class)->except(['show'])->middleware('can.access:ramos');
     Route::resource('riesgos', App\Http\Controllers\RiesgoController::class)->middleware('can.access:riesgos');
     Route::get('/polizas/export', [App\Http\Controllers\PolizaController::class, 'export'])->name('polizas.export')->middleware('can.access:polizas');
+    Route::post('/polizas/cotizar', [App\Http\Controllers\PolizaController::class, 'validateSoap'])->name('polizas.cotizar')->middleware('can.access:polizas');
     Route::resource('polizas', App\Http\Controllers\PolizaController::class)->middleware('can.access:polizas');
     Route::get('/renovaciones', [App\Http\Controllers\PolizaController::class, 'renewals'])->name('polizas.renewals')->middleware('can.access:renovaciones');
     Route::post('/polizas/{poliza}/liquidar', [App\Http\Controllers\PolizaController::class, 'liquidate'])->name('polizas.liquidate')->middleware('can.access:renovaciones');

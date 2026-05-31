@@ -432,4 +432,48 @@ class PolizaController extends Controller
     {
         return Excel::download(new PolizasExport($request->all()), 'reporte_polizas_' . now()->format('Ymd_His') . '.xlsx');
     }
+
+    public function validateSoap(Request $request)
+    {
+        $request->validate([
+            'cliente_id' => 'required|exists:clientes,id',
+            'valor_asegurado' => 'required|numeric'
+        ]);
+
+        $cliente = Cliente::findOrFail($request->cliente_id);
+        $documento = $cliente->numero_documento;
+        $valorAsegurado = (float) $request->valor_asegurado;
+
+        // URL dinámica del WSDL del servidor SOAP local/VPS
+        $wsdl = url('/soap/server.php?wsdl');
+
+        try {
+            // Configurar el cliente SOAP con timeout corto para la demo de falla
+            $client = new \SoapClient($wsdl, [
+                'trace' => true,
+                'exceptions' => true,
+                'connection_timeout' => 3, // 3 segundos de timeout
+                'cache_wsdl' => WSDL_CACHE_NONE
+            ]);
+
+            $response = $client->validatePolicy($documento, $valorAsegurado);
+
+            return response()->json([
+                'status' => $response->status,
+                'message' => $response->message
+            ]);
+
+        } catch (\SoapFault $e) {
+            // Capturar falla de red, apache caído o errores de conexión
+            return response()->json([
+                'status' => 'offline',
+                'message' => 'Los servicios centrales de validación están fuera de línea y no se pueden emitir pólizas por seguridad.'
+            ], 503);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'offline',
+                'message' => 'Los servicios centrales de validación están fuera de línea y no se pueden emitir pólizas por seguridad.'
+            ], 503);
+        }
+    }
 }
