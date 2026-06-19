@@ -1,1 +1,0 @@
-<?php $log = file_get_contents('storage/logs/laravel.log'); preg_match_all('/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] local\.ERROR: Trait.*?not found.*?\{main\}/s', $log, $m); if (!empty($m[0])) { echo end($m[0]); }

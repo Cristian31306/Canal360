@@ -11,6 +11,7 @@ use App\Http\Controllers\LandingPageSettingsController;
 use App\Models\Setting;
 use App\Models\Aseguradora;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CotizadorController;
 
 Route::get('/', function () {
     $settings = Setting::where('group', 'like', 'landing_%')->get()->pluck('value', 'key');
@@ -77,6 +78,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('minerales', App\Http\Controllers\PrecioMineralController::class)->names('minerales')->middleware('can.access:minerales');
     Route::resource('cat-minerales', App\Http\Controllers\CatMineralController::class)->names('cat-minerales')->middleware('can.access:minerales');
     Route::resource('titulos-360', App\Http\Controllers\Titulo360Controller::class)->names('titulos-360');
+
+    // Cotizador de Seguros con IA
+    Route::get('/cotizador', [CotizadorController::class, 'index'])->name('cotizador.index');
 
     // Administración de Auditoría
     Route::get('/admin/auditoria', [App\Http\Controllers\Admin\AuditoriaController::class, 'index'])

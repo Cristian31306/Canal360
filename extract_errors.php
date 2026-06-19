@@ -1,1 +1,0 @@
-<?php $log = file_get_contents('/home/cristian/apps/Canal360/storage/logs/laravel.log'); preg_match_all('/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\].*?ERROR[^\r\n]*/', $log, $m); foreach(array_slice($m[0], -10) as $l) { echo $l . PHP_EOL; }
